@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "eslint-plugin-react": "^6.9.0",
-    "jest": "^18.1.0"
+    "jest": "^18.1.0",
+    "prettier": "^0.17.1"
   }
 }
