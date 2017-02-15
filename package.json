@@ -1,0 +1,27 @@
+{
+  "name": "find-fa-visualize",
+  "version": "0.1.0",
+  "description": "This is an online tool that enables users to explore and analyze national level data, and then share what they discover. This was designed around the needs of U.S. government analysts and also benefits a broad-range of stakeholders, including the U.S. public, civil society organizations, universities, foreign aid donors, Congress and partner country governments.",
+  "author": "Michael Ramos",
+  "main": "index.js",
+  "scripts": {
+    "test": "grunt test",
+    "build": "grunt build"
+  },
+  "dependencies": {
+    "adaro": "^0.1.10",
+    "construx": "^1.0.0",
+    "construx-copier": "^1.0.0",
+    "construx-dustjs-i18n": "^1.0.1",
+    "dustjs-helpers": "~1.6.3",
+    "dustjs-linkedin": "~2.6.3",
+    "engine-munger": "^0.2.9",
+    "eslint": "^1.10.3",
+    "express": "^4.12.2",
+    "kraken-js": "^2.0.0"
+  },
+  "devDependencies": {
+    "eslint-plugin-react": "^6.9.0",
+    "jest": "^18.1.0"
+  }
+}
