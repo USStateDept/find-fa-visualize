@@ -1,0 +1,21 @@
+{
+  "name": "new-find",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "node-sass": "^4.5.0",
+    "react-scripts": "0.8.5"
+  },
+  "dependencies": {
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2"
+  },
+  "scripts": {
+    "start": "npm run watch-css & react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "build-css": "node-sass src/sass/index.scss src/styles/index.css",
+    "watch-css": "npm run build-css && node-sass src/sass/index.scss src/styles/index.css -w",
+    "eject": "react-scripts eject"
+  }
+}
