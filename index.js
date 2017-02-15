@@ -1,8 +1,8 @@
 "use strict";
-var express = require("express");
-var kraken = require("kraken-js");
 
-var options, app;
+import express from "express";
+import kraken from "kraken-js";
+let options, app;
 
 /*
  * Create and configure application. Also exports application instance for use by tests.
@@ -10,17 +10,34 @@ var options, app;
  */
 options = {
   onconfig: function(config, next) {
-    /*
-         * Add any additional config setup or overrides here. `config` is an initialized
-         * `confit` (https://github.com/krakenjs/confit/) configuration object.
-         */
-    next(null, config);
+    // Add any additional config setup or overrides here. `config` is an initialized
+
+    // start, sync the database with models
+    // call next to continue setting up middleware
+    var model = require("./models");
+    model.init(config.get("database"));
+    model
+      .getModel()
+      .sequelize.sync()
+      .then(() => {
+        console.log("API ===> 💾  Database Synced -- Success");
+        // Make sure to call next to move on
+        next(null, config);
+      })
+      .catch(err => {
+        console.log("API ===> 🆘 💾  Database Setup Error: " + err.message);
+      });
   }
 };
 
 app = module.exports = express();
 app.use(kraken(options));
 app.on("start", function() {
-  console.log("Application ready to serve requests.");
-  console.log("Environment: %s", app.kraken.get("env:env"));
+  let env = app.kraken.get("env:env") || "development";
+  if (env === "production") {
+    console.log("API ===> 🌐  Using Production Environment");
+  } else {
+    console.log("API ===> 🚧  Using Development Environment");
+  }
+  console.log("API ===> ✅  API Server is ready to serve requests.");
 });

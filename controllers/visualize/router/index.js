@@ -11,7 +11,7 @@ const Region = model.Region;
 /**
  * @REPORT localhost/visualize/data
  */
-let reportData = function(req, res) {
+let reportData = (req, res) => {
   let data;
   // check for multiple requests in one
   // (many charts that could be drawn on same page)
@@ -25,9 +25,6 @@ let reportData = function(req, res) {
     .then(resultSet => {
       /** Client Response **/
       res.send(resultSet);
-
-      /** Async hooks **/
-      apiLogging(req, res);
     })
     .catch(error => {
       console.log(error);
@@ -37,7 +34,7 @@ let reportData = function(req, res) {
 /**
  * @REPORT localhost/visualize/averages
  */
-let reportAverages = function(req, res) {
+let reportAverages = (req, res) => {
   let countries = req.body.countries;
   getAverageWeights(countries)
     .then(weights => {
@@ -48,18 +45,18 @@ let reportAverages = function(req, res) {
     });
 };
 
-let getIndicatorData = toGet => {
+let getIndicatorData = dataWantedSetup => {
   return new Promise(async (resolve, reject) => {
     let responseSet = [];
     try {
-      for (let setup of toGet) {
+      for (let setup of dataWantedSetup) {
         let queriedSet = await queryIndicatorData(setup);
         responseSet.push(queriedSet);
       }
+      return resolve(responseSet);
     } catch (e) {
-      reject(e);
+      return reject(e);
     }
-    resolve(responseSet);
   });
 };
 
@@ -193,11 +190,11 @@ function dataSetFormation(ctyArr, regArr) {
   );
 }
 
-let nestedAvailibiltyCheck = toGet => {
+let nestedAvailibiltyCheck = dataWantedSetup => {
   return new Promise(async (resolve, reject) => {
     var responseSet = [];
     try {
-      for (let setup of toGet) {
+      for (let setup of dataWantedSetup) {
         var queriedSet = await performAvailibiltyCheck(setup);
         responseSet.push(queriedSet);
       }
