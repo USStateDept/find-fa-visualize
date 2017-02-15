@@ -8,9 +8,6 @@ const Data = model.Data;
 const RegionData = model.Region_Data;
 const Region = model.Region;
 
-/**
- * @REPORT localhost/visualize/data
- */
 let reportData = (req, res) => {
   let data;
   // check for multiple requests in one
@@ -31,9 +28,6 @@ let reportData = (req, res) => {
     });
 };
 
-/**
- * @REPORT localhost/visualize/averages
- */
 let reportAverages = (req, res) => {
   let countries = req.body.countries;
   getAverageWeights(countries)
