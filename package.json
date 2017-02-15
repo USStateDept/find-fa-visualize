@@ -24,6 +24,7 @@
     "engine-munger": "^0.2.9",
     "eslint": "^1.10.3",
     "express": "^4.12.2",
+    "immutable": "^3.8.1",
     "kraken-js": "^2.0.0",
     "pg": "^6.1.2",
     "sequelize": "^3.30.2"
