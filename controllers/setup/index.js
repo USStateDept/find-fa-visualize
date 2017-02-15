@@ -9,7 +9,7 @@ import routerFunctions from "./router/";
 
 module.exports = router => {
   /**
-   *  @route /setup/indicators
+   *  /setup/indicators
    *
    *  @GET
    *  Gets all indicator data and information
@@ -17,7 +17,7 @@ module.exports = router => {
   router.route("/indicators").get(routerFunctions.getIndicators);
 
   /**
-   *  @route /setup/setupForBuildMenu
+   *  /setup/setupForBuildMenu
    *  
    *  @GET
    *  Gets compiled setup of category-nested indicators and countries & regions
@@ -25,7 +25,7 @@ module.exports = router => {
   router.route("/setupForBuildMenu").get(routerFunctions.getBuildMenuSetup);
 
   /**
-   *  @route /setup/setupForIngestMenu
+   *  /setup/setupForIngestMenu
    *
    *  @GET
    *  Gets compiled setup of category-nested indicators for data-ingestion menu 
@@ -33,7 +33,7 @@ module.exports = router => {
   router.route("/setupForIngestMenu").get(routerFunctions.getIngestMenuSetup);
 
   /**
-   *  @route /setup/geojson/:type
+   *  /setup/geojson/:type
    *
    *  @GET
    *  Gets a geojson file given a specific region type

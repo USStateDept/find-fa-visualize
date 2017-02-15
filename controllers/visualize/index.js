@@ -9,7 +9,7 @@ import routerFunctions from "./router/";
 
 module.exports = router => {
   /**
-   * @route /visualize/data
+   *  /visualize/data
    *
    *  @REPORT
    *  Report method takes a json body. Returns indicator/country data for requested parameters, to be visualized 
@@ -18,7 +18,7 @@ module.exports = router => {
   router.route("/data").report(routerFunctions.reportData);
 
   /**
-   * @route /visualize/data
+   *  /visualize/data
    *
    *  @REPORT
    *  Report method takes a json body. Returns different average data for indicator/countries
