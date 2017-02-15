@@ -1,21 +1,18 @@
 {
-
-    
     "express": {
         "view cache": false,
         "view engine": "js",
         "views": "path:./.build/templates"
     },
-    
-
-    
     "view engines": {
         "js": {
             "module": "engine-munger",
             "renderer": {
                 "method": "js",
                 "arguments": [
-                    { "cache": true },
+                    {
+                        "cache": true
+                    },
                     {
                         "views": "config:express.views",
                         "view engine": "config:express.view engine",
@@ -26,28 +23,33 @@
             }
         }
     },
-    
-
-    
-
-    "specialization": {
+    "specialization": {},
+    "database": {
+        "name": "find-OCT",
+        "username": "postgres",
+        "password": "password",
+        "settings": {
+            "host": "127.0.0.1",
+            "dialect": "postgres",
+            "logging": false
+        }
     },
-
     "middleware": {
-
-        
-
         "static": {
             "module": {
-                "arguments": [ "path:./.build" ]
+                "arguments": [
+                    "path:./.build"
+                ]
             }
         },
-
         "router": {
             "module": {
-                "arguments": [{ "directory": "path:./controllers" }]
+                "arguments": [
+                    {
+                        "directory": "path:./controllers"
+                    }
+                ]
             }
         }
-
     }
 }

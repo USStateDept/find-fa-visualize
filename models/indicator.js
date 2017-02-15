@@ -66,18 +66,6 @@ module.exports = (sequelize, DataTypes) => {
             through: "Category_Junction",
             foreignKey: "Indicator_ID"
           });
-          Indicator.belongsToMany(models.Collection, {
-            through: "Collection_Junction",
-            foreignKey: "Indicator_ID"
-          });
-          Indicator.belongsToMany(models.Data_View, {
-            through: "Dataview_Junction",
-            foreignKey: "Indicator_ID"
-          });
-          Indicator.belongsToMany(models.Data_View, {
-            through: "Region_Data",
-            foreignKey: "Indicator_ID"
-          });
         }
       }
     }

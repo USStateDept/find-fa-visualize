@@ -1,6 +1,10 @@
 "use strict";
 
-require("babel-core/register");
+/**
+ * Necessary for future ECMA or non-supported js implimentations like import/export
+ */
+require("babel-polyfill");
+require("babel-register");
 
 let app = require("./index");
 let http = require("http");
