@@ -2,8 +2,25 @@
 
 @import "./utils/variables";
 
-@import "./components/indicatorSelect";
+@import "./fagov/mimic";
+
 
 @import "./containers/app";
 @import "./containers/wizardmenu";
 @import "./containers/chartview";
+
+body {
+  font-size: 14px;
+  font-family: 'Open Sans',Arial,Helvetica,sans-serif;
+  margin: 0px;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  line-height: 150%;
+  background-color: #ffeed2;
+  color: #00576c;
+}
+
+a {
+  cursor: pointer;
+  text-decoration: none;
+}

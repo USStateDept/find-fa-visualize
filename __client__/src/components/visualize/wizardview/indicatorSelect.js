@@ -5,7 +5,7 @@ import _ from "lodash";
 const Indicator = ({ indicators, selectIndicator, selectedIndicators }) => (
   <div>
     {indicators.map((ind, i) => (
-      <div key={i} className="ind-list">
+      <div key={i} className="Wizard__menu-column-row-base-list">
         <span
           onClick={() => {
             selectIndicator(ind);
@@ -29,7 +29,7 @@ const Indicator = ({ indicators, selectIndicator, selectedIndicators }) => (
 const Subcategory = (
   { subcategories, collapseSubcategory, openSubcategory }
 ) => (
-  <div className="sub-box">
+  <div className="Wizard__menu-column-row-body">
     {subcategories.map(
       (sub, i) => openSubcategory === sub.get("name")
         ? <div key={i}>
@@ -38,7 +38,9 @@ const Subcategory = (
                 collapseSubcategory(sub.get("name"));
               }}
               className={
-                openSubcategory === sub.get("name") ? "sub-list" : "sub-list"
+                openSubcategory === sub.get("name")
+                  ? "Wizard__menu-column-row-body-list"
+                  : "Wizard__menu-column-row-body-list"
               }
             >
               {sub.get("name")}
@@ -48,7 +50,7 @@ const Subcategory = (
             </div>
           </div>
         : <div
-            className="sub-list"
+            className="Wizard__menu-column-row-body-list"
             key={i}
             onClick={() => {
               collapseSubcategory(sub.get("name"));
@@ -117,44 +119,43 @@ class IndicatorSelect extends Component {
     } else {
       return (
         <div>
-          <div className="viz-column">
-            <div className="viz-col-holder">
-              <header className="viz-col-head">
-                <h4>Choose Indicators</h4><hr />
-              </header>
-              <div className="viz-icon-container">
-                {setup.map((category, i) => (
-                  <div className="accord-hold-all" key={i}>
-                    <div
-                      onClick={this.collapseCategory.bind(
-                        this,
-                        category.get("name")
-                      )}
-                      className="accord-title-row"
-                    >
-                      <i className={catNames[i] + " catcon"} />
-                      <p className="accord-icons">
-                        {category.get("name")}
-                      </p>
-                    </div>
-
-                    {openCategory !== category.get("name")
-                      ? <span />
-                      : <div key={i}>
-                          <Subcategory
-                            subcategories={category.get("subcategories")}
-                            openSubcategory={openSubcategory}
-                            collapseSubcategory={this.collapseSubcategory.bind(
-                              this
-                            )}
-                            {...this.props}
-                          />
-                        </div>}
-                  </div>
-                ))}
-              </div>
+          <div className="Wizard__menu-column">
+            <div className="Wizard__header-title">
+              Select up to three indicators.
             </div>
+            <input type="text" className="" />
+
+            {setup.map((category, i) => (
+              <div key={i}>
+                <div
+                  onClick={this.collapseCategory.bind(
+                    this,
+                    category.get("name")
+                  )}
+                  className="Wizard__menu-column-row-title"
+                >
+                  <i className={catNames[i] + " catcon"} />
+                  <p className="Wizard__menu-column-row-icon">
+                    {category.get("name")}
+                  </p>
+                </div>
+
+                {openCategory !== category.get("name")
+                  ? <span />
+                  : <div key={i}>
+                      <Subcategory
+                        subcategories={category.get("subcategories")}
+                        openSubcategory={openSubcategory}
+                        collapseSubcategory={this.collapseSubcategory.bind(
+                          this
+                        )}
+                        {...this.props}
+                      />
+                    </div>}
+              </div>
+            ))}
           </div>
+
         </div>
       );
     }

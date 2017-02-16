@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, PropTypes } from "react";
 
 class CountrySelect extends Component {
   render() {
@@ -15,5 +15,9 @@ class CountrySelect extends Component {
     );
   }
 }
+
+CountrySelect.PropTypes = {
+  setup: PropTypes.object.isRequired
+};
 
 export default CountrySelect;

@@ -1,0 +1,122 @@
+#fa-mimic-header {
+    position: fixed;
+    z-index: 2;
+    height: 50px;
+    width: 100%;
+    background: #00576c;
+    padding: 0 2px 0 20px;
+    border-bottom: 1px solid #013440;
+    margin: 0;
+    border: 0;
+    outline: 0;
+    display: block;
+}
+
+#fa-mimic-header:before,#fa-mimic-header:after {
+    content: '';
+    display: table;
+}
+
+#fa-mimic-header:after {
+    clear: both;
+}
+
+#fa-mimic-header h1 {
+    margin: 0;
+    font-size: 23px;
+    font-weight: 600;
+    color: #ffeed2;
+    text-transform: uppercase;
+    position: absolute;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+#fa-mimic-header h1 a {
+    color: #ffeed2;
+}
+
+#fa-mimic-header h1 .fa-mimic-logo-ext {
+    color: #3da8e0;
+    font-weight: 300;
+    text-transform: lowercase;
+    font-size: 22px;
+}
+
+#fa-mimic-header h1 .fa-mimic-logo-dot {
+    color: #3da8e0;
+}
+
+#fa-mimic-header nav {
+    float: right;
+}
+
+#fa-mimic-header nav > ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+#fa-mimic-header nav > ul > li {
+    display: inline;
+}
+
+#fa-mimic-header  nav > ul > li > a {
+    position: relative;
+    z-index: 2;
+    display: inline-block;
+    height: 100%;
+    padding: 0 25px 0 20px;
+    text-align: right;
+    text-transform: uppercase;
+    font-weight: 700;
+    line-height: 50px;
+    color: #fcb248;
+    border-left: 1px solid #00313d;
+}
+
+#fa-mimic-header nav > ul > li > a:after {
+    content: '';
+    display: none;
+    position: absolute;
+    bottom: -3px;
+    left: -1px;
+    width: 100%;
+    height: 3px;
+    background: #3da8e0;
+    border-left: 1px solid #3da8e0;
+    border-right: 1px solid #3da8e0;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+#fa-mimic-header nav > ul > li > a i {
+    display: inline-block;
+    vertical-align: text-top;
+    color: #ffeed2;
+    font-size: 1.25em;
+    padding-right: 10px;
+}
+
+#fa-mimic-header nav > ul .dropdown {
+    position: absolute;
+    z-index: 1;
+    display: none;
+    left: 0;
+    top: 50px;
+    width: 100%;
+    padding: 25px 0;
+    background: #00313d;
+    -webkit-box-shadow: inset 0 10px 8px -8px #00242c, inset 0 -10px 8px -8px #00242c;
+    box-shadow: inset 0 10px 8px -8px #00242c, inset 0 -10px 8px -8px #00242c;
+}
