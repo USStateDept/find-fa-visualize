@@ -34,18 +34,21 @@ class WizardView extends Component {
   }
 
   render() {
-    // const {
-    //   selectedIndicators,
-    //   selectedCountries,
-    //   selectedRegions,
-    //   selectedChart,
+    const {
+      // selectedIndicators,
+      // selectedCountries,
+      // selectedRegions,
+      // selectedChart,
 
-    //   // actions
-    //   clickSelectIndicator,
-    //   clickSelectCountry,
-    //   clickSelectRegion,
-    //   clickSelectChart
-    // } = this.props;
+      // // actions
+      // clickSelectIndicator,
+      // clickSelectCountry,
+      // clickSelectRegion,
+      // clickSelectChart
+
+      indicatorSetup,
+      countriesSetup
+    } = this.props;
 
     console.log("HERE ================= ---------->>>>>>> ====>>> ------->");
     console.log(this.props);
@@ -53,8 +56,10 @@ class WizardView extends Component {
     return (
       <div>
         <div id="content" className="viz-content find-body">
-          {this.state.wizardCurrentKey === 0 && <IndicatorSelect />}
-          {this.state.wizardCurrentKey === 1 && <CountrySelect />}
+          {this.state.wizardCurrentKey === 0 &&
+            <IndicatorSelect setup={indicatorSetup} />}
+          {this.state.wizardCurrentKey === 1 &&
+            <CountrySelect setup={countriesSetup} />}
           {this.state.wizardCurrentKey === 2 && <ChartSelect />}
         </div>
       </div>
@@ -64,7 +69,7 @@ class WizardView extends Component {
 
 WizardView.PropTypes = {
   indicatorSetup: PropTypes.object.isRequired,
-  countrySetup: PropTypes.object.isRequired
+  countriesSetup: PropTypes.object.isRequired
 };
 
 export default WizardView;
