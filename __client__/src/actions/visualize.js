@@ -167,7 +167,7 @@ function dispatchRequestGeojsonSuccess(json) {
 
 function dispatchSetVisualizeYear(year) {
   return {
-    type: SET_CURRENT_YEAR,
+    type: CHART_SET_YEAR,
     year: year
   };
 }

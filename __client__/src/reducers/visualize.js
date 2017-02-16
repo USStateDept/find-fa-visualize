@@ -22,7 +22,7 @@ import {
   REQUEST_GEOJSON,
   REQUEST_GEOJSON_SUCCESS,
   // chart actions
-  CHART_SET_YEAR
+  CHART_SET_YEAR,
   // state
   TOTAL_UNBUILD
 } from "../actions/visualize";
@@ -154,7 +154,7 @@ export default function visualize(state = initialState, action) {
           .set("dataLoaded", false)
           .set("dataLoadError", true);
       });
-    case SET_CURRENT_YEAR:
+    case CHART_SET_YEAR:
       return state.set("currentYearView", action.year);
 
     case REQUEST_GEOJSON:
