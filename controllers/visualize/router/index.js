@@ -8,6 +8,11 @@ const Data = model.Data;
 const RegionData = model.Region_Data;
 const Region = model.Region;
 
+/**
+ * reports data needed for visualizations. Given indicators and countries, the function will return
+ * the requested data in country,year,value
+ * 
+ */
 let reportData = (req, res) => {
   let data;
   // check for multiple requests in one
@@ -28,6 +33,10 @@ let reportData = (req, res) => {
     });
 };
 
+/**
+ * Reports back different type of averages given indicators and countries for a total timespan 
+ * 
+ */
 let reportAverages = (req, res) => {
   let countries = req.body.countries;
   getAverageWeights(countries)

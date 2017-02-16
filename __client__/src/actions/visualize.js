@@ -10,7 +10,7 @@ import BuildRules from "./utils/build-rules";
  * 
  * Constants, String literals representing actions happeing in the apply.
  * An action can be any ui interation or events such as data loading.
- * The naming shpuld be pretty descriptive and match up with what our UI is doing.
+ * The naming shpuld be pretty descriptive and match up with what our UI is doing.    
  */
 
 // setup actions
@@ -669,13 +669,16 @@ export function requestAverageData(types) {
     fetch("api/visualize/averages/weights", options)
       .then(response => response.json())
       .then(json => {
-        let indicatorLength = getState().visualize.present.selectedIndicators.length;
-
+        // init a new average factory
         let af = new AverageFactory(
           json,
           getState().visualize.present.data.chartData,
           getState().visualize.present.selectedIndicators
         );
+
+        let indicatorLength = getState().visualize.present.selectedIndicators.length;
+
+        // average data generation varies based on number of indicators
         let averageData = indicatorLength == 1
           ? af.generateAveragesForOne()
           : indicatorLength == 2
