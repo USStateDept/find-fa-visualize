@@ -43,7 +43,7 @@ export default class AverageFactory {
     self.gdpAverages["all"] = _.cloneDeep(starterObject);
 
     _.forIn(this.dataSet, function(data, key) {
-      if (key != "all") {
+      if (key !== "all") {
         // create traces
         self.eqlAverages[key] = {};
         self.popAverages[key] = {};
@@ -74,7 +74,7 @@ export default class AverageFactory {
               date.getFullYear()
             );
 
-            if (i == lastDex) {
+            if (i === lastDex) {
               // single trace
               eqlAvgs = eqlAvgs / data.traces.length;
 
@@ -137,7 +137,7 @@ export default class AverageFactory {
     self.gdpAverages["all"] = _.cloneDeep(starterObject);
 
     _.forIn(this.dataSet, function(data, key) {
-      if (key != "all") {
+      if (key !== "all") {
         // create traces
         self.eqlAverages[key] = {};
         self.popAverages[key] = {};
@@ -158,13 +158,13 @@ export default class AverageFactory {
           if (data.traces[i]) {
             // keep track of the working indicator value
             let idcDex = _.findIndex(self.indicators, ind => {
-              return ind.id == data.traces[i].ind_id;
+              return ind.id === data.traces[i].ind_id;
             });
             // just choose first availible date (bubble will hold the intial date)
             let date = data.traces[i].xBubble[0];
 
             // average calculations y, xScatter
-            if (idcDex == 0) {
+            if (idcDex === 0) {
               eqlAvgs1 += data.traces[i].y[0];
               popAvgs1 += self.calculatePopPerc(
                 data.traces[i].y[0],
@@ -177,7 +177,7 @@ export default class AverageFactory {
                 date.getFullYear()
               );
             }
-            if (idcDex == 1) {
+            if (idcDex === 1) {
               eqlAvgs2 += data.traces[i].xScatter[0];
               popAvgs2 += self.calculatePopPerc(
                 data.traces[i].xScatter[0],
@@ -191,7 +191,7 @@ export default class AverageFactory {
               );
             }
 
-            if (i == lastDex) {
+            if (i === lastDex) {
               // single trace
               eqlAvgs1 = eqlAvgs1 / data.traces.length;
               eqlAvgs2 = eqlAvgs2 / data.traces.length;
@@ -275,7 +275,7 @@ export default class AverageFactory {
     self.gdpAverages["all"] = _.cloneDeep(starterObject);
 
     _.forIn(this.dataSet, function(data, key) {
-      if (key != "all") {
+      if (key !== "all") {
         // create traces
         self.eqlAverages[key] = {};
         self.popAverages[key] = {};
@@ -300,11 +300,11 @@ export default class AverageFactory {
             let date = new Date(key);
             // keep track of the working indicator value
             let idcDex = _.findIndex(self.indicators, ind => {
-              return ind.id == data.traces[i].ind_id;
+              return ind.id === data.traces[i].ind_id;
             });
 
             // average calculations y,x,marker
-            if (idcDex == 0) {
+            if (idcDex === 0) {
               eqlAvgs1 += data.traces[i].y[0];
               popAvgs1 += self.calculatePopPerc(
                 data.traces[i].y[0],
@@ -317,7 +317,7 @@ export default class AverageFactory {
                 date.getFullYear()
               );
             }
-            if (idcDex == 1) {
+            if (idcDex === 1) {
               eqlAvgs2 += data.traces[i].x[0];
               popAvgs2 += self.calculatePopPerc(
                 data.traces[i].x[0],
@@ -330,7 +330,7 @@ export default class AverageFactory {
                 date.getFullYear()
               );
             }
-            if (idcDex == 2) {
+            if (idcDex === 2) {
               eqlAvgs2 += data.traces[i].marker.protoSize[0];
               popAvgs2 += self.calculatePopPerc(
                 data.traces[i].marker.protoSize[0],
@@ -344,7 +344,7 @@ export default class AverageFactory {
               );
             }
 
-            if (i == lastDex) {
+            if (i === lastDex) {
               // single trace
               eqlAvgs1 = eqlAvgs1 / data.traces.length;
               eqlAvgs2 = eqlAvgs2 / data.traces.length;
@@ -415,12 +415,12 @@ export default class AverageFactory {
 
   calculatePopPerc(value, countryID, year) {
     let self = this;
-    // find index where year == year and country == country
+    // find index where year === year and country === country
     let index = _.findIndex(self.weights["population"], function(o) {
-      return o.Date == year && o.Country_ID == countryID;
+      return o.Date === year && o.Country_ID === countryID;
     });
     // apply that weight and return value
-    if (index != -1) {
+    if (index !== -1) {
       return self.weights["population"][index].perc * value;
     } else {
       // do checking
@@ -430,12 +430,12 @@ export default class AverageFactory {
 
   calculateGdpPerc(value, countryID, year) {
     let self = this;
-    // find index where year == year and country == country
+    // find index where year === year and country === country
     let index = _.findIndex(self.weights["gdp"], function(o) {
-      return o.Date == year && o.Country_ID == countryID;
+      return o.Date === year && o.Country_ID === countryID;
     });
     // apply that weight and return value
-    if (index != -1) {
+    if (index !== -1) {
       return self.weights["gdp"][index].perc * value;
     } else {
       // do checking

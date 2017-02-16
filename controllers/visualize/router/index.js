@@ -107,7 +107,7 @@ async function queryIndicatorData(_setup) {
     _.each(_setup.countries, cty => {
       // make sure there is data in response object
       let exists = _.findIndex(dataSet, o => {
-        return o.Location_ID == cty.Country_ID;
+        return o.Location_ID === cty.Country_ID;
       });
       if (exists != -1) {
         countries.push(cty);
@@ -119,7 +119,7 @@ async function queryIndicatorData(_setup) {
     _.each(_setup.regions, reg => {
       // make sure there is data in response object
       let exists = _.findIndex(dataSet, o => {
-        return o.Location_ID == reg.Region_ID;
+        return o.Location_ID === reg.Region_ID;
       });
       if (exists != -1) {
         regions.push(reg);
@@ -275,10 +275,10 @@ async function performAvailibiltyCheck(_setup) {
       // indicator check
       if (indIds.length > 1) {
         let checkArray = _.filter(ctyAvil, { Date: obj.Date });
-        if (indIds.length == 2 && checkArray.length != 2) {
+        if (indIds.length === 2 && checkArray.length != 2) {
           parsed[obj.Date].includes_all_indicators = false;
         }
-        if (indIds.length == 3 && checkArray.length != 3) {
+        if (indIds.length === 3 && checkArray.length != 3) {
           parsed[obj.Date].includes_all_indicators = false;
         }
       }
@@ -286,7 +286,7 @@ async function performAvailibiltyCheck(_setup) {
       _.each(ctyIds, id => {
         if (obj.countries_without.indexOf(id) != -1) {
           let i = _.findIndex(_setup.countries, c => {
-            return c.Country_ID == id;
+            return c.Country_ID === id;
           });
           parsed[obj.Date].locations_no_data.push(
             " " + _setup.countries[i].Name
@@ -312,10 +312,10 @@ async function performAvailibiltyCheck(_setup) {
       // indicator check
       if (indIds.length > 1) {
         let checkArray = _.filter(regAvil, { Year: obj.Year });
-        if (indIds.length == 2 && checkArray.length != 2) {
+        if (indIds.length === 2 && checkArray.length != 2) {
           parsed[obj.Year].includes_all_indicators = false;
         }
-        if (indIds.length == 3 && checkArray.length != 3) {
+        if (indIds.length === 3 && checkArray.length != 3) {
           parsed[obj.Year].includes_all_indicators = false;
         }
       }
@@ -323,7 +323,7 @@ async function performAvailibiltyCheck(_setup) {
       _.each(regIds, id => {
         if (obj.regions_without.indexOf(id) != -1) {
           let i = _.findIndex(_setup.regions, r => {
-            return r.Region_ID == id;
+            return r.Region_ID === id;
           });
           parsed[obj.Year].locations_no_data.push(" " + _setup.regions[i].Name);
         }

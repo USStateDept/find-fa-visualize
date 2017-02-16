@@ -30,7 +30,7 @@ export default class Parse {
     let self = this;
     _.each(self.indicators, ind => {
       let idcDex = _.findIndex(self.dataSet, data => {
-        return data.Indicator_ID == ind.id;
+        return data.Indicator_ID === ind.id;
       });
 
       if (idcDex === -1) {
@@ -55,17 +55,17 @@ export default class Parse {
   generateLocationKeys(obj) {
     let locDex, locId, locName;
 
-    if (obj.Type == "region") {
+    if (obj.Type === "region") {
       locDex = _.findIndex(this.regions, r => {
-        return r.Region_ID == obj.Location_ID;
+        return r.Region_ID === obj.Location_ID;
       });
       locName = this.regions[locDex].Name;
       locId = this.regions[locDex].Region_ID;
     }
 
-    if (obj.Type == "country") {
+    if (obj.Type === "country") {
       locDex = _.findIndex(this.countries, c => {
-        return c.Country_ID == obj.Location_ID;
+        return c.Country_ID === obj.Location_ID;
       });
       locName = this.countries[locDex].Name;
       locId = this.countries[locDex].Country_ID;
@@ -158,7 +158,7 @@ export default class Parse {
       this.dataSet,
       obj => {
         let idcDex = _.findIndex(this.indicators, i => {
-          return i.id == obj.Indicator_ID;
+          return i.id === obj.Indicator_ID;
         });
         let idcName = this.indicators[idcDex].name;
 
@@ -299,13 +299,13 @@ export default class Parse {
         } = this.generateLocationKeys(obj);
 
         let idcDex = _.findIndex(this.indicators, i => {
-          return i.id == obj.Indicator_ID;
+          return i.id === obj.Indicator_ID;
         });
         let idcName = this.indicators[idcDex].name;
 
         // ** scale values for bubble **
         // index is going to be 1, (second indicator)
-        if (idcDex == 1) {
+        if (idcDex === 1) {
           secTotals += obj.Value;
           secCount += 1;
         }
@@ -322,10 +322,10 @@ export default class Parse {
           };
         }
         // now push x and y values onto array (for one indicator)
-        if (idcDex == 0) {
+        if (idcDex === 0) {
           _cd.all.traces[locDex].y.push(obj.Value);
         }
-        if (idcDex == 1) {
+        if (idcDex === 1) {
           _cd.all.traces[locDex].xScatter.push(obj.Value);
           _cd.all.traces[locDex].marker.protoSize.push(obj.Value);
         }
@@ -359,10 +359,10 @@ export default class Parse {
         }
 
         // now push x and y values onto array (for one indicator)
-        if (idcDex == 0) {
+        if (idcDex === 0) {
           _cd[obj.Date].traces[locDex].y.push(obj.Value);
         }
-        if (idcDex == 1) {
+        if (idcDex === 1) {
           _cd[obj.Date].traces[locDex].xScatter.push(obj.Value);
           _cd[obj.Date].traces[locDex].marker.protoSize.push(obj.Value);
         }
@@ -425,7 +425,7 @@ export default class Parse {
       obj => {
         // we are going to want to work with countries and indicators here
         let idcDex = _.findIndex(this.indicators, i => {
-          return i.id == obj.Indicator_ID;
+          return i.id === obj.Indicator_ID;
         });
         let idcName = this.indicators[idcDex].name;
 
@@ -437,7 +437,7 @@ export default class Parse {
 
         // calculate totals ** used for scaling
         // inddex is going to be 1, (second indicator)
-        if (idcDex == 2) {
+        if (idcDex === 2) {
           secTotals += obj.Value;
           secCount += 1;
         }
@@ -454,13 +454,13 @@ export default class Parse {
         }
 
         // now push x and y values onto arraya (for one indicator)
-        if (idcDex == 0) {
+        if (idcDex === 0) {
           _cd.all.traces[locDex].y.push(obj.Value);
         }
-        if (idcDex == 1) {
+        if (idcDex === 1) {
           _cd.all.traces[locDex].x.push(obj.Value);
         }
-        if (idcDex == 2) {
+        if (idcDex === 2) {
           _cd.all.traces[locDex].marker.protoSize.push(obj.Value);
         }
 
@@ -487,13 +487,13 @@ export default class Parse {
         }
 
         // now push x and y values onto arrays (for indicator 1,2 or 3)
-        if (idcDex == 0) {
+        if (idcDex === 0) {
           _cd[obj.Date].traces[locDex].y.push(obj.Value);
         }
-        if (idcDex == 1) {
+        if (idcDex === 1) {
           _cd[obj.Date].traces[locDex].x.push(obj.Value);
         }
-        if (idcDex == 2) {
+        if (idcDex === 2) {
           _cd[obj.Date].traces[locDex].marker.protoSize.push(obj.Value);
         }
 
