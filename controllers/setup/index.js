@@ -17,12 +17,12 @@ module.exports = router => {
   router.route("/indicators").get(routerFunctions.getIndicators);
 
   /**
-   *  /setup/setupForBuildMenu
+   *  /setup/setupForWizarddMenu
    *  
    *  @GET
    *  Gets compiled setup of category-nested indicators and countries & regions
    */
-  router.route("/setupForBuildMenu").get(routerFunctions.getBuildMenuSetup);
+  router.route("/setupForWizardMenu").get(routerFunctions.getWizardMenuSetup);
 
   /**
    *  /setup/setupForIngestMenu

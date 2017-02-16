@@ -23,8 +23,8 @@ let getIndicators = (req, res) => {
     });
 };
 
-let getBuildMenuSetup = (req, res) => {
-  collectAllForBuildMenu()
+let getWizardMenuSetup = (req, res) => {
+  collectAllForWizardMenuSetup()
     .then(resObj => {
       res.json(resObj);
     })
@@ -52,29 +52,24 @@ let getGeojson = (req, res) => {
   );
 };
 
-async function collectAllForBuildMenu() {
-  let res = {};
+async function collectAllForWizardMenuSetup() {
+  let response = {};
   let unsortedCategories;
 
   try {
     // query categories
     unsortedCategories = await getCombinedCategories();
     // sort categories
-    res.categories = sortCategories(unsortedCategories);
+    response.indicatorSetup = sortCategories(unsortedCategories);
     // query countries
-    res.countries = await getCountries();
+    response.countriesSetup = await getCountries();
   } catch (e) {
     console.log(e);
   }
 
-  if (res.categories.length > 0 && res.countries.length > 0) {
-    return res;
-  } else {
-    return "Uncaught Error";
-  }
+  return response;
 }
 
-// top level async function
 async function collectAllForIngestMenu() {
   let res = {};
   let unsortedCategories;
@@ -245,9 +240,9 @@ function getCountries() {
             let regionList = [];
             _.each(regions, row => {
               let typeDex = _.findIndex(regionList, r => {
-                return r.name == row.Type_Long;
+                return r.name === row.Type_Long;
               });
-              if (typeDex == -1) {
+              if (typeDex === -1) {
                 typeDex = regionList.push({ name: row.Type_Long, list: [] }) -
                   1;
               }
@@ -270,7 +265,7 @@ function getCountries() {
 
 export default {
   getIndicators,
-  getBuildMenuSetup,
+  getWizardMenuSetup,
   getIngestMenuSetup,
   getGeojson
 };

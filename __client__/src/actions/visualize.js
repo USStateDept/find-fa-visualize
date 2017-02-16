@@ -46,20 +46,21 @@ export const TOTAL_UNBUILD = "TOTAL_UNBUILD";
  */
 
 // actions to be dispatched to reducer
-function dispatchRequestSetup() {
+function dispatchRequestWizardSetup() {
   return {
     type: REQUEST_SETUP
   };
 }
 
-function dispatchRequestSetupSuccess(json) {
+function dispatchRequestWizardSetupSuccess(json) {
   return {
     type: REQUEST_SETUP_SUCCESS,
-    setup: json
+    countriesSetup: json.countriesSetup,
+    indicatorSetup: json.indicatorSetup
   };
 }
 
-function dispatchRequestSetupFailure(json) {
+function dispatchRequestWizardSetupFailure(json) {
   return {
     type: REQUEST_SETUP_FAILURE,
     message: json.message
@@ -240,7 +241,7 @@ function checkBuildReady(state) {
   if (
     selectedCountries.length > 0 &&
     selectedRegions.length > 0 &&
-    selectedChart == "Map"
+    selectedChart === "Map"
   ) {
     return {
       allow: false,
@@ -259,10 +260,10 @@ export function clickSelectIndicator(indicator) {
     let index = _.findIndex(
       getState().visualize.present.selectedIndicators,
       i => {
-        return i.id == indicator.id;
+        return i.id === indicator.id;
       }
     ); //.indexOf(indicator);
-    if (index == -1) {
+    if (index === -1) {
       dispatch(dispatchWizardSelect(indicator, "indicators"));
     } else {
       dispatch(dispatchWizardDeselect(indicator, "indicators", index));
@@ -326,11 +327,11 @@ export function selectAllFromRegion(region) {
     // foreach in countries, select country if it has region
     _.forEach(getState().visualize.present.countries[0].list, country => {
       // check the cty object and see if it contains the region
-      if (country[region.Type] == region.Name) {
+      if (country[region.Type] === region.Name) {
         let index = getState().visualize.present.selectedCountries.indexOf(
           country
         );
-        if (index == -1) {
+        if (index === -1) {
           dispatch(dispatchWizardSelect(country, "countries"));
         } else {
           dispatch(dispatchWizardDeselect(country, "countries", index));
@@ -350,7 +351,7 @@ export function selectAllCountries() {
       var index = getState().visualize.present.selectedCountries.indexOf(
         country
       );
-      if (index == -1) {
+      if (index === -1) {
         dispatch(dispatchWizardSelect(country, "countries"));
       } else {
         dispatch(dispatchWizardDeselect(country, "countries", index));
@@ -369,29 +370,31 @@ export function resetAllFields() {
 }
 
 // action creator functionality
-function fetchSetup() {
-  // thunk middleware knows how to handle functions
+function requestWizardSetup() {
   return dispatch => {
-    dispatch(dispatchRequestSetup());
+    dispatch(dispatchRequestWizardSetup());
 
-    // Return a promise to wait for
-    return fetch("api/setup/setupForBuildMenu")
+    return fetch("http://localhost:3010/setup/setupForWizardMenu")
       .then(response => response.json())
       .then(json => {
-        dispatch(dispatchRequestSetupSuccess(json));
+        dispatch(dispatchRequestWizardSetupSuccess(json));
+      })
+      .catch(error => {
+        console.log(error);
+        dispatch(dispatchRequestWizardSetupFailure(error));
       });
   };
 }
 
 // action creator
-export function fetchSetupIfNeeded() {
+export function requestWizardSetupIfNeeded() {
   return (dispatch, getState) => {
     // No need to call the external API if data is already in memory:
-    if (getState().visualize.present.setupLoaded) {
+    if (getState().visualize.get("wizardSetupLoaded")) {
       // Let the calling code know there's nothing to wait for.
       return Promise.resolve();
     } else {
-      return dispatch(fetchSetup());
+      return dispatch(requestWizardSetup());
     }
   };
 }
@@ -487,9 +490,9 @@ function fetchData(ind, cty, reg, cht) {
         let nullData = parse.nullValuesDataCheck();
         let chartObjects;
         if (!nullData) {
-          chartObjects = data.indicators.length == 1
+          chartObjects = data.indicators.length === 1
             ? parse.parseForOne()
-            : data.indicators.length == 2
+            : data.indicators.length === 2
                 ? parse.parseForTwo()
                 : parse.parseForThree();
         } else {
@@ -511,9 +514,9 @@ export function reverseAxisOrder() {
     // send reverse dataSet indicators
     parse.reverseIndicatorOrder();
     // send dataSet through parse
-    let chartObjects = originalData.indicators.length == 1
+    let chartObjects = originalData.indicators.length === 1
       ? parse.parseForOne()
-      : originalData.indicators.length == 2
+      : originalData.indicators.length === 2
           ? parse.parseForTwo()
           : parse.parseForThree();
 
@@ -578,14 +581,14 @@ export function setAverergeData(type) {
     ) {
       let index = _.findIndex(data.chartData[key].traces, t => {
         if (t) {
-          return t.name == value.name;
+          return t.name === value.name;
         } else {
           return false;
         }
       });
 
       // toggles a particular average value
-      if (index == -1) {
+      if (index === -1) {
         // adds averages to end of data object to be drawn by plotly
         data.chartData[key].traces.push(value);
       } else {
@@ -601,13 +604,13 @@ function oneIndicatorAverageCheck(indicators) {
   let averageTypesToGet = [];
 
   _.each(indicators, ind => {
-    if (ind.avgEql && averageTypesToGet.indexOf("equal") == -1) {
+    if (ind.avgEql && averageTypesToGet.indexOf("equal") === -1) {
       averageTypesToGet.push("equal");
     }
-    if (ind.avgGdp && averageTypesToGet.indexOf("gdp") == -1) {
+    if (ind.avgGdp && averageTypesToGet.indexOf("gdp") === -1) {
       averageTypesToGet.push("gdp");
     }
-    if (ind.avgPop && averageTypesToGet.indexOf("population") == -1) {
+    if (ind.avgPop && averageTypesToGet.indexOf("population") === -1) {
       averageTypesToGet.push("population");
     }
   });
@@ -679,9 +682,9 @@ export function requestAverageData(types) {
         let indicatorLength = getState().visualize.present.selectedIndicators.length;
 
         // average data generation varies based on number of indicators
-        let averageData = indicatorLength == 1
+        let averageData = indicatorLength === 1
           ? af.generateAveragesForOne()
-          : indicatorLength == 2
+          : indicatorLength === 2
               ? af.generateAveragesForTwo()
               : af.generateAveragesForThree();
 
@@ -695,7 +698,7 @@ export function requestAverageDataIfNeeded() {
     let averageTypesToGet;
     let indicators = getState().visualize.present.selectedIndicators;
 
-    if (getState().visualize.present.selectedIndicators.length == 1) {
+    if (getState().visualize.present.selectedIndicators.length === 1) {
       averageTypesToGet = oneIndicatorAverageCheck(indicators);
     } else {
       averageTypesToGet = multipleIndicatorAverageCheck(indicators);

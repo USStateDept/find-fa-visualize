@@ -1,4 +1,4 @@
-import Immutable, { Map, List } from "immutable";
+import Immutable, { Map, List, fromJS } from "immutable";
 
 import {
   // setup actions
@@ -33,12 +33,16 @@ import {
  * Data structure that represents the intial state of the application
  */
 const initialState = Map({
-  setupLoaded: false, // got setup from server
+  userSelectedView: "", // nothing at first, but a user can edit builds by choosing to see wizard
+  wizardSetupLoaded: false, // got setup from server
+  wizardSetupLoading: false,
+  wizardSetupError: false,
+  wizardSetupErrorMessage: "",
+  wizardSetupCountries: List([]), // the loading of the menu
+  wizardSetupIndicators: List([]),
   dataLoaded: false, // got data from server
   dataLoading: false, // requested and waiting for data
   currentYearView: false,
-  categories: List([]), // the loading of the menu
-  countries: List([]),
   selectedIndicators: List([]), // user setup choices
   selectedCountries: List([]),
   selectedRegions: List([]),
@@ -69,21 +73,23 @@ const initialState = Map({
 export default function visualize(state = initialState, action) {
   switch (action.type) {
     case REQUEST_SETUP:
-      return state.set("setupLoading", true);
+      return state.set("wizardSetupLoading", true);
     case REQUEST_SETUP_SUCCESS:
       return state.withMutations(s => {
         s
-          .set("setupLoading", false)
-          .set("setupLoaded", true)
-          .set("countries", action.setup.countries)
-          .set("categories", action.setup.categorie);
+          .set("wizardSetupLoading", false)
+          .set("wizardSetupLoaded", true)
+          .set("wizardSetupError", false)
+          .set("wizardSetupCountries", fromJS(action.countriesSetup))
+          .set("wizardSetupIndicators", fromJS(action.indicatorSetup));
       });
     case REQUEST_SETUP_FAILURE:
       return state.withMutations(s => {
         s
-          .set("setupLoading", false)
-          .set("setupLoaded", false)
-          .set("setupLoadError", true);
+          .set("wizardSetupLoading", false)
+          .set("wizardSetupLoaded", false)
+          .set("wizardSetupError", true)
+          .set("wizardSetupErrorMessage", action.message);
       });
     case WIZARD_SELECT_SETUP: {
       if (action.setType !== "chart") {

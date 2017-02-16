@@ -14,7 +14,7 @@ let server;
 server = http.createServer(app);
 
 // Load up the database, start the Server
-server.listen(process.env.APIPORT || 3000);
+server.listen(process.env.APIPORT || 3010);
 server.on("listening", function() {
   console.log(
     "API ===> 🐙  Express-Kraken Server listening on http://localhost:%d",

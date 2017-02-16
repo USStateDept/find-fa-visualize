@@ -31,10 +31,24 @@ options = {
 };
 
 app = module.exports = express();
+
+/**
+ * NOTICE!!!
+ * 
+ * This enables CORS
+ */
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
 app.use(kraken(options));
 app.on("start", function() {
-  let env = app.kraken.get("env:env") || "development";
-  if (env === "production") {
+  if (app.kraken.get("env:env") === "production") {
     console.log("API ===> 🌐  Using Production Environment");
   } else {
     console.log("API ===> 🚧  Using Development Environment");

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -16,14 +16,18 @@ class Visualize extends Component {
   constructor(props) {
     super(props);
 
+    let view = props.userSelectedView === "wizard"
+      ? "wizard"
+      : !props.dataLoading && !props.dataLoaded ? "wizard" : "chart";
+
     this.state = {
-      currentView: props.currentView || "wizard" // default: "wizard", options: ["wizard", "chart"]
+      currentView: view
     };
   }
 
   componentWillMount() {
-    // always fetch setup, if not done already, for wizard build process
-    // this.props.fetchSetupIfNeeded();
+    // action to request required data for wizard menu
+    this.props.requestWizardSetupIfNeeded();
   }
 
   componentWillUnmount() {
@@ -31,14 +35,12 @@ class Visualize extends Component {
   }
 
   render() {
-    // const {
-    //   dataLoaded,
-    //   dataLoading,
-    //   displayModal,
-    //   buildChart,
-    //   data,
-    //   showModal
-    // } = this.props;
+    const {
+      wizardSetupIndicators,
+      wizardSetupCountries,
+      wizardSetupErrorMessage,
+      wizardSetupLoaded
+    } = this.props;
 
     const {
       currentView
@@ -46,22 +48,35 @@ class Visualize extends Component {
 
     return (
       <div>
-        {currentView === "wizard" && <WizardView />}
+        {"HERR => " + wizardSetupErrorMessage}
+        {currentView === "wizard" &&
+          wizardSetupLoaded &&
+          <WizardView
+            indicatorSetup={wizardSetupIndicators}
+            countrySetup={wizardSetupCountries}
+          />}
         {currentView === "chart" && <ChartView />}
       </div>
     );
   }
 }
 
+// Visualize.PropTypes = {
+// };
+
 function mapStateToProps(state) {
   let { visualize } = state;
 
-  const setupLoaded = visualize.get("setupLoaded");
+  const userSelectedView = visualize.get("userSelectedView");
+  const wizardSetupLoaded = visualize.get("wizardSetupLoaded");
+  const wizardSetupLoading = visualize.get("wizardSetupLoading");
+  const wizardSetupError = visualize.get("wizardSetupError");
+  const wizardSetupErrorMessage = visualize.get("wizardSetupErrorMessage");
+  const wizardSetupIndicators = visualize.get("wizardSetupIndicators");
+  const wizardSetupCountries = visualize.get("wizardSetupCountries");
   const dataLoaded = visualize.get("dataLoaded");
   const dataLoading = visualize.get("dataLoading");
   const currentYearView = visualize.get("currentYearView");
-  const categories = visualize.get("categories");
-  const countries = visualize.get("countries");
   const selectedIndicators = visualize.get("selectedIndicators");
   const selectedCountries = visualize.get("selectedCountries");
   const selectedRegions = visualize.get("selectedRegions");
@@ -80,12 +95,15 @@ function mapStateToProps(state) {
   const mapType = visualize.get("mapType");
 
   return {
-    setupLoaded,
+    wizardSetupLoaded,
+    wizardSetupLoading,
+    wizardSetupError,
+    wizardSetupErrorMessage,
+    wizardSetupIndicators,
+    wizardSetupCountries,
     dataLoaded,
     dataLoading,
     currentYearView,
-    categories,
-    countries,
     selectedIndicators,
     selectedCountries,
     selectedRegions,
