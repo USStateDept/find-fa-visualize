@@ -138,14 +138,14 @@ function sortCategories(combined) {
         return c.name;
       })
       .indexOf(catname);
-    if (index != -1) {
+    if (index !== -1) {
       // category exists already, now we need to check if subcategory exists
       let subdex = categories[index].subcategories
         .map(s => {
           return s.name;
         })
         .indexOf(subname);
-      if (subdex != -1) {
+      if (subdex !== -1) {
         // sub cat exists, just add the indicator
         categories[index].subcategories[subdex].indicators.push({
           name: indname,

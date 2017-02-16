@@ -290,7 +290,7 @@ export function clickSelectChart(chart) {
   return (dispatch, getState) => {
     // there can be only one chart
     // in the reducer make sure you just replace it
-    if (getState().visualize.present.selectedChart != chart) {
+    if (getState().visualize.present.selectedChart !== chart) {
       dispatch(dispatchWizardDeselect(null, "chart", null));
       dispatch(dispatchWizardSelect(chart, "chart"));
     } else {

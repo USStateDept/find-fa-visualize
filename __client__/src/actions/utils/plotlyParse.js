@@ -87,7 +87,7 @@ export default class Parse {
     _.each(
       this.regions,
       r => {
-        if (r != "__PAD__") {
+        if (r !== "__PAD__") {
           let rname = r.Name;
           if (_.isUndefined(this.dataTableSet[rname])) {
             this.dataTableSet[rname] = {};

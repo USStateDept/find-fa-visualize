@@ -17,7 +17,7 @@ let reportData = (req, res) => {
   let data;
   // check for multiple requests in one
   // (many charts that could be drawn on same page)
-  if (Object.prototype.toString.call(req.body) != "[object Array]") {
+  if (Object.prototype.toString.call(req.body) !== "[object Array]") {
     data = [req.body];
   } else {
     data = req.body;
@@ -109,7 +109,7 @@ async function queryIndicatorData(_setup) {
       let exists = _.findIndex(dataSet, o => {
         return o.Location_ID === cty.Country_ID;
       });
-      if (exists != -1) {
+      if (exists !== -1) {
         countries.push(cty);
       } else {
         removedLocations.push(cty.Name);
@@ -121,7 +121,7 @@ async function queryIndicatorData(_setup) {
       let exists = _.findIndex(dataSet, o => {
         return o.Location_ID === reg.Region_ID;
       });
-      if (exists != -1) {
+      if (exists !== -1) {
         regions.push(reg);
       } else {
         removedLocations.push(reg.Name);
@@ -221,7 +221,7 @@ async function performAvailibiltyCheck(_setup) {
     }
   };
   try {
-    if (ctyIds.length != 0) {
+    if (ctyIds.length !== 0) {
       ctyAvil = await model.sequelize.query(
         `
             SELECT "Date", "Indicator_ID", COUNT(*) as data_points, ARRAY
@@ -242,7 +242,7 @@ async function performAvailibiltyCheck(_setup) {
         }
       );
     }
-    if (regIds.length != 0) {
+    if (regIds.length !== 0) {
       regAvil = await model.sequelize.query(
         `
             SELECT "Year", "Indicator_ID", COUNT(*) as data_points, ARRAY
