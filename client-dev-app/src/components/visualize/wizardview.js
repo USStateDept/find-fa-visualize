@@ -54,8 +54,8 @@ class WizardView extends Component {
     } = this.props;
 
     return (
-      <div>
-        <div id="content" className="viz-content find-body">
+      <div className="Wizard__view">
+        <div className="Wizard__menu-column">
           {this.state.wizardCurrentKey === 0 &&
             <IndicatorSelect
               setup={indicatorSetup}
@@ -64,6 +64,9 @@ class WizardView extends Component {
           {this.state.wizardCurrentKey === 1 &&
             <CountrySelect setup={countriesSetup} />}
           {this.state.wizardCurrentKey === 2 && <ChartSelect />}
+        </div>
+        <div className="Wizard__menu-column">
+          buttons here
         </div>
       </div>
     );

@@ -122,12 +122,12 @@ class IndicatorSelect extends Component {
     } else {
       return (
         <div>
-          <div className="Wizard__menu-column">
-            <div className="Wizard__header-title">
-              Select up to three indicators.
-            </div>
-            <input type="text" className="" />
+          <div className="Wizard__header-title">
+            Select up to three indicators.
+          </div>
+          <input type="text" className="" />
 
+          <div className="Wizard__menu-column-content">
             {setup.map((category, i) => (
               <div key={i}>
                 <div
@@ -156,10 +156,10 @@ class IndicatorSelect extends Component {
                         {...this.props}
                       />
                     </div>}
+
               </div>
             ))}
           </div>
-
         </div>
       );
     }

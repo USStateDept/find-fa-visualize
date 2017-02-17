@@ -1,16 +1,26 @@
-/* Modal */
+.Wizard__view {
+  padding: 100px;
+
+}
+
 .Wizard__menu-column {
-  margin-top: 200px;
-  padding: 10px;
-  width: 700px;
-  height: 500px;
+  margin: 1%;
+  width: 45%; 
   overflow-y: scroll;
   overflow-x: hidden;
+  float: left;
+  display: inline-block;
+  padding: 1%;
+}
+
+.Wizard__menu-column-content {
+  margin-top: 20px;
 }
 
 .Wizard__header-title {
   font-weight: 600;
   font-size: 20px;
+  margin-bottom: 20px;
 }
 
 .Wizard__menu-column-row-title {
@@ -19,11 +29,9 @@
   min-height: 40px;
   padding-top: .5em;
   cursor: pointer;
-
   &:hover {
     background-color: #aeb0b5;
   }
-
 }
 
 .Wizard__menu-column-row-icon {
@@ -54,4 +62,14 @@
     margin: 0;
     margin-bottom: 0.15em;
   }
+}
+
+@media screen and (max-width: 692px)   {
+    .Wizard__view {
+      padding: 20px;
+    }
+    .Wizard__menu-column {
+        width:95%;   
+        float:none;
+    }
 }
