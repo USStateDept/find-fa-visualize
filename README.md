@@ -5,7 +5,15 @@ This is an online tool that enables users to explore and analyze national level 
 
 
 
-### Client application
+# Client application
+
+#### Majorly Powered By:
+
+- [React](https://facebook.github.io/react/)
+- [Redux](http://redux.js.org/)
+- [Immutable](https://facebook.github.io/immutable-js/)
+- [Plotly.js](https://plot.ly/javascript/)
+
 
 ## Table of Contents
 
@@ -42,12 +50,11 @@ This is an online tool that enables users to explore and analyze national level 
 - [Troubleshooting](#troubleshooting)
   - [`npm test` hangs on macOS Sierra](#npm-test-hangs-on-macos-sierra)
   - [`npm run build` silently fails](#npm-run-build-silently-fails)
-- [Something Missing?](#something-missing)
 
 
 ## Folder Structure
 
-After creation, your project should look like this:
+Project structure should look like this:
 
 ```
 my-app/
@@ -57,13 +64,27 @@ my-app/
   public/
     index.html
     favicon.ico
+    ... bundled/transpiled filed here (production)
   src/
-    App.css
-    App.js
-    App.test.js
-    index.css
+    actions/
+      ... redux actions
+    components/
+      ... react components
+    containers/
+      ... react container components (parent level)
+    reducers/
+      ... redux state management reducers
+      index.js
+    sass/
+      ... application sass (broken up by utils (scss variables), containers, and components for modularity)
+      utils/
+      components/
+      containers/
+      index.scss
+    styles/
+      ... outputted scss (do not edit these files, use the sass directoy)
+    store.js
     index.js
-    logo.svg
 ```
 
 For the project to build, **these files must exist with exact filenames**:
