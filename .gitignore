@@ -6,7 +6,6 @@ coverage
 
 # production
 build
-app/config/config.json
 
 # misc
 .DS_Store
@@ -18,4 +17,4 @@ tmp/
 *.swp
 
 # editor
-.vscode
+.vscode/
