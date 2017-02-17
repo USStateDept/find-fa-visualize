@@ -71,9 +71,9 @@
 
 .Wizard__summary-box {
   padding: .5em;
-  min-height: 200px;
+  min-height: 225px;
   background-color: #f7f7f7;
-  width: 70%;
+  width: 75%;
   border: 3px solid #323a45;
 
 }
@@ -84,7 +84,8 @@
   
   & p {
     display: inline-block; 
-    padding: 0px;
+    margin: 0px;
+    margin-left: 10px;
   }
 } 
 
