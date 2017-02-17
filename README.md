@@ -56,36 +56,33 @@ This is an online tool that enables users to explore and analyze national level 
 
 Project structure should look like this:
 
-```
-my-app/
+
+<pre>
+<b>find-fa-visualize/</b>
   README.md
   node_modules/
   package.json
-  public/
+  <b>public/</b>
     index.html
     favicon.ico
     ... bundled/transpiled filed here (production)
-  src/
-    actions/
+  <b>src/</b>
+   <b>actions/</b>
       ... redux actions
-    components/
+    <b>components/</b>
       ... react components
-    containers/
+    <b>containers/</b>
       ... react container components (parent level)
-    reducers/
+    <b>reducers/</b>
       ... redux state management reducers
       index.js
-    sass/
+    <b>sass/</b>
       ... application sass (broken up by utils (scss variables), containers, and components for modularity)
-      utils/
-      components/
-      containers/
-      index.scss
-    styles/
+    <b>styles/</b>
       ... outputted scss (do not edit these files, use the sass directoy)
     store.js
     index.js
-```
+</pre>
 
 For the project to build, **these files must exist with exact filenames**:
 
