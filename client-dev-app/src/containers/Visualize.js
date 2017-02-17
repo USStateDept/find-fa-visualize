@@ -40,6 +40,7 @@ class Visualize extends Component {
       wizardSetupCountries,
       wizardSetupErrorMessage,
       wizardSetupLoaded,
+      selectedIndicators,
 
       // actions
       wizardClickSelectIndicator
@@ -58,6 +59,7 @@ class Visualize extends Component {
             indicatorSetup={wizardSetupIndicators}
             countriesSetup={wizardSetupCountries}
             clickSelectIndicator={wizardClickSelectIndicator}
+            selectedIndicators={selectedIndicators}
           />}
         {currentView === "chart" && <ChartView />}
       </div>

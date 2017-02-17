@@ -19,7 +19,7 @@
 
 .Wizard__header-title {
   font-weight: 600;
-  font-size: 20px;
+  font-size: 1.5em;
   margin-bottom: 20px;
 }
 
@@ -63,6 +63,41 @@
     margin-bottom: 0.15em;
   }
 }
+
+
+.Wizard__summary {
+  margin-top: 60px;
+}
+
+.Wizard__summary-box {
+  padding: .5em;
+  min-height: 200px;
+  background-color: #f7f7f7;
+  width: 70%;
+  border: 3px solid #323a45;
+
+}
+
+.Wizard__summary-box-item {
+  cursor: pointer;
+  font-size: .85em;
+  
+  & p {
+    display: inline-block; 
+    padding: 0px;
+  }
+} 
+
+.Wizard__summary-box-item:hover {
+  color: #981b1e;
+  
+} 
+  
+.Wizard__summary-box-title { 
+  font-size: 1.25em;
+}
+
+
 
 @media screen and (max-width: 692px)   {
     .Wizard__view {

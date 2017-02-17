@@ -180,7 +180,6 @@ function dispatchSetVisualizeYear(year) {
  */
 
 function checkBuildReady(state) {
-  console.log(state);
   const selectedIndicators = state.get("selectedIndicators");
   const selectedCountries = state.get("selectedCountries");
   const selectedRegions = state.get("selectedRegions");
@@ -251,10 +250,12 @@ function checkBuildReady(state) {
   return { allow: true, message: "" };
 }
 
-// build menu select indicator
 export function wizardClickSelectIndicator(indicator) {
   return (dispatch, getState) => {
-    let index = getState().visualize.get("selectedIndicators").find(indicator);
+    // determine if indicator is selected or not already
+    let index = getState().visualize
+      .get("selectedIndicators")
+      .find(ind => ind.equals(indicator));
     if (!index) {
       dispatch(dispatchWizardSelect(indicator, "indicators"));
     } else {

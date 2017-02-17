@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from "react";
 import IndicatorSelect from "./wizardview/indicatorSelect";
 import CountrySelect from "./wizardview/countrySelect";
 import ChartSelect from "./wizardview/chartSelect";
+import SummaryBox from "./wizardview/summaryBox";
 
 class WizardView extends Component {
   constructor(props) {
@@ -17,6 +18,9 @@ class WizardView extends Component {
       return true;
     }
     if (!nextProps.countriesSetup.equals(this.props.countriesSetup)) {
+      return true;
+    }
+    if (!nextProps.selectedIndicators.equals(this.props.selectedIndicators)) {
       return true;
     }
 
@@ -35,7 +39,7 @@ class WizardView extends Component {
 
   render() {
     const {
-      // selectedIndicators,
+      selectedIndicators,
       // selectedCountries,
       // selectedRegions,
       // selectedChart,
@@ -53,6 +57,7 @@ class WizardView extends Component {
       clickSelectIndicator
     } = this.props;
 
+    console.log(selectedIndicators);
     return (
       <div className="Wizard__view">
         <div className="Wizard__menu-column">
@@ -66,7 +71,10 @@ class WizardView extends Component {
           {this.state.wizardCurrentKey === 2 && <ChartSelect />}
         </div>
         <div className="Wizard__menu-column">
-          buttons here
+          <SummaryBox
+            selectedIndicators={selectedIndicators}
+            deselectIndicator={null}
+          />
         </div>
       </div>
     );
