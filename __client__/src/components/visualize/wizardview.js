@@ -47,17 +47,20 @@ class WizardView extends Component {
       // clickSelectChart
 
       indicatorSetup,
-      countriesSetup
-    } = this.props;
+      countriesSetup,
 
-    console.log("HERE ================= ---------->>>>>>> ====>>> ------->");
-    console.log(this.props);
+      //actions
+      clickSelectIndicator
+    } = this.props;
 
     return (
       <div>
         <div id="content" className="viz-content find-body">
           {this.state.wizardCurrentKey === 0 &&
-            <IndicatorSelect setup={indicatorSetup} />}
+            <IndicatorSelect
+              setup={indicatorSetup}
+              selectIndicator={clickSelectIndicator}
+            />}
           {this.state.wizardCurrentKey === 1 &&
             <CountrySelect setup={countriesSetup} />}
           {this.state.wizardCurrentKey === 2 && <ChartSelect />}

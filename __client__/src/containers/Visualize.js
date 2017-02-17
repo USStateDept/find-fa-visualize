@@ -39,7 +39,10 @@ class Visualize extends Component {
       wizardSetupIndicators,
       wizardSetupCountries,
       wizardSetupErrorMessage,
-      wizardSetupLoaded
+      wizardSetupLoaded,
+
+      // actions
+      wizardClickSelectIndicator
     } = this.props;
 
     const {
@@ -53,7 +56,8 @@ class Visualize extends Component {
           wizardSetupLoaded &&
           <WizardView
             indicatorSetup={wizardSetupIndicators}
-            countrySetup={wizardSetupCountries}
+            countriesSetup={wizardSetupCountries}
+            clickSelectIndicator={wizardClickSelectIndicator}
           />}
         {currentView === "chart" && <ChartView />}
       </div>

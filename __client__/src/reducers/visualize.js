@@ -95,9 +95,10 @@ export default function visualize(state = initialState, action) {
       if (action.setType !== "chart") {
         let key = action.setType.charAt(0).toUpperCase() +
           action.setType.slice(1);
+        console.log(key);
         return state.set(
           `selected${key}`,
-          state[`selected${key}`].push(action.name)
+          state.get(`selected${key}`).push(action.name)
         );
       }
       if (action.setType === "chart") {

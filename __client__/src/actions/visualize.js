@@ -180,25 +180,24 @@ function dispatchSetVisualizeYear(year) {
  */
 
 function checkBuildReady(state) {
-  let {
-    selectedIndicators,
-    selectedCountries,
-    selectedRegions,
-    selectedChart
-  } = state.visualize.present;
+  console.log(state);
+  const selectedIndicators = state.get("selectedIndicators");
+  const selectedCountries = state.get("selectedCountries");
+  const selectedRegions = state.get("selectedRegions");
+  const selectedChart = state.get("selectedChart");
 
   // basic reqs
-  if (selectedIndicators.length === 0) {
+  if (selectedIndicators.size === 0) {
     return { allow: false, message: "Please select one or more indicators" };
   }
-  if (selectedCountries.length === 0 && selectedRegions.length === 0) {
+  if (selectedCountries.size === 0 && selectedRegions.size === 0) {
     return { allow: false, message: "Please select one or more countries" };
   }
   if (selectedChart === "" || !selectedChart) {
     return { allow: false, message: "Please select a chart type" };
   }
   if (
-    selectedIndicators.length < BuildRules.charts[selectedChart].min_indicators
+    selectedIndicators.size < BuildRules.charts[selectedChart].min_indicators
   ) {
     return {
       allow: false,
@@ -208,7 +207,7 @@ function checkBuildReady(state) {
     };
   }
   if (
-    selectedIndicators.length > BuildRules.charts[selectedChart].max_indicators
+    selectedIndicators.size > BuildRules.charts[selectedChart].max_indicators
   ) {
     return {
       allow: false,
@@ -218,8 +217,8 @@ function checkBuildReady(state) {
     };
   }
   if (
-    selectedCountries.length < BuildRules.charts[selectedChart].min_countries &&
-    selectedRegions.length < BuildRules.charts[selectedChart].min_countries
+    selectedCountries.size < BuildRules.charts[selectedChart].min_countries &&
+    selectedRegions.size < BuildRules.charts[selectedChart].min_countries
   ) {
     return {
       allow: false,
@@ -228,9 +227,7 @@ function checkBuildReady(state) {
       )
     };
   }
-  if (
-    selectedCountries.length > BuildRules.charts[selectedChart].max_countries
-  ) {
+  if (selectedCountries.size > BuildRules.charts[selectedChart].max_countries) {
     return {
       allow: false,
       message: (
@@ -239,8 +236,8 @@ function checkBuildReady(state) {
     };
   }
   if (
-    selectedCountries.length > 0 &&
-    selectedRegions.length > 0 &&
+    selectedCountries.size > 0 &&
+    selectedRegions.size > 0 &&
     selectedChart === "Map"
   ) {
     return {
@@ -255,25 +252,22 @@ function checkBuildReady(state) {
 }
 
 // build menu select indicator
-export function clickSelectIndicator(indicator) {
+export function wizardClickSelectIndicator(indicator) {
   return (dispatch, getState) => {
-    let index = _.findIndex(
-      getState().visualize.present.selectedIndicators,
-      i => {
-        return i.id === indicator.id;
-      }
-    ); //.indexOf(indicator);
-    if (index === -1) {
+    let index = getState().visualize.get("selectedIndicators").find(indicator);
+    if (!index) {
       dispatch(dispatchWizardSelect(indicator, "indicators"));
     } else {
       dispatch(dispatchWizardDeselect(indicator, "indicators", index));
     }
-    dispatch(dispatchWizardTryEnableBuild(checkBuildReady(getState())));
+    dispatch(
+      dispatchWizardTryEnableBuild(checkBuildReady(getState().visualize))
+    );
   };
 }
 
 // build menu select country
-export function clickSelectCountry(country) {
+export function wizardClickSelectCountry(country) {
   return (dispatch, getState) => {
     let index = getState().visualize.present.selectedCountries.indexOf(country);
     if (index === -1) {
@@ -281,7 +275,9 @@ export function clickSelectCountry(country) {
     } else {
       dispatch(dispatchWizardDeselect(country, "countries", index));
     }
-    dispatch(dispatchWizardTryEnableBuild(checkBuildReady(getState())));
+    dispatch(
+      dispatchWizardTryEnableBuild(checkBuildReady(getState().visualize))
+    );
   };
 }
 

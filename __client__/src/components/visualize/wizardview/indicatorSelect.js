@@ -27,7 +27,7 @@ const Indicator = ({ indicators, selectIndicator, selectedIndicators }) => (
 
 // child stateless component representing body of category tree
 const Subcategory = (
-  { subcategories, collapseSubcategory, openSubcategory }
+  { subcategories, collapseSubcategory, openSubcategory, selectIndicator }
 ) => (
   <div className="Wizard__menu-column-row-body">
     {subcategories.map(
@@ -46,7 +46,10 @@ const Subcategory = (
               {sub.get("name")}
             </div>
             <div>
-              <Indicator indicators={sub.get("indicators")} />
+              <Indicator
+                selectIndicator={selectIndicator}
+                indicators={sub.get("indicators")}
+              />
             </div>
           </div>
         : <div
@@ -111,7 +114,7 @@ class IndicatorSelect extends Component {
       "icon-peace-security"
     ];
 
-    const { setup } = this.props;
+    const { setup, selectIndicator } = this.props;
     const { openSubcategory, openCategory } = this.state;
 
     if (!setup) {
@@ -149,6 +152,7 @@ class IndicatorSelect extends Component {
                         collapseSubcategory={this.collapseSubcategory.bind(
                           this
                         )}
+                        selectIndicator={selectIndicator}
                         {...this.props}
                       />
                     </div>}
