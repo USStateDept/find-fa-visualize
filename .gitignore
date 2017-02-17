@@ -6,7 +6,7 @@ coverage
 
 # production
 build
-config/config.json
+app/config/config.json
 
 # misc
 .DS_Store

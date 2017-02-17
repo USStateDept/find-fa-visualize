@@ -24,6 +24,16 @@
     }
   },
   "specialization": {},
+  "database": {
+    "name": "find-database-here",
+    "username": "postgres-username-here",
+    "password": "password-here",
+    "settings": {
+      "host": "127.0.0.1",
+      "dialect": "postgres",
+      "logging": false
+    }
+  },
   "middleware": {
     "static": {
       "module": {
