@@ -7,6 +7,8 @@ This is an online tool that enables users to explore and analyze national level 
 
 # Client application
 
+<em>In development enviornment, run inside of <b>client-dev-app</b>. This is a separate application and for production deployments can be injected into the final application build.<em>
+
 #### Majorly Powered By:
 
 - [React](https://facebook.github.io/react/)
