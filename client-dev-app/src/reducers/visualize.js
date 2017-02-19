@@ -95,7 +95,6 @@ export default function visualize(state = initialState, action) {
       if (action.setType !== "chart") {
         let key = action.setType.charAt(0).toUpperCase() +
           action.setType.slice(1);
-        console.log(key);
         return state.set(
           `selected${key}`,
           state.get(`selected${key}`).push(action.name)
@@ -111,9 +110,7 @@ export default function visualize(state = initialState, action) {
           action.setType.slice(1);
         return state.set(
           `selected${key}`,
-          state[`selected${key}`].delete(
-            state.state[`selected${key}`].find(action.name)
-          )
+          state.get(`selected${key}`).delete(action.index)
         );
       }
       if (action.setType === "chart") {

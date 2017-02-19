@@ -255,8 +255,9 @@ export function wizardClickSelectIndicator(indicator) {
     // determine if indicator is selected or not already
     let index = getState().visualize
       .get("selectedIndicators")
-      .find(ind => ind.equals(indicator));
-    if (!index) {
+      .findIndex(ind => ind.equals(indicator));
+
+    if (index === -1) {
       dispatch(dispatchWizardSelect(indicator, "indicators"));
     } else {
       dispatch(dispatchWizardDeselect(indicator, "indicators", index));
