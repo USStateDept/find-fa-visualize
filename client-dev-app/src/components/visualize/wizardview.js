@@ -1,15 +1,20 @@
 import React, { Component, PropTypes } from "react";
 
+import BeginWizard from "./wizardview/beginWizard";
 import IndicatorSelect from "./wizardview/indicatorSelect";
 import CountrySelect from "./wizardview/countrySelect";
 import ChartSelect from "./wizardview/chartSelect";
 import SummaryBox from "./wizardview/summaryBox";
+import ProgressButtons from "./wizardview/progressButtons";
 
 class WizardView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      wizardCurrentKey: 0 // [0:indicators, 1:countries, 2:chart]
+      currentWizard: "begin",
+      nextWizard: "",
+      startWizard: "",
+      prevWizard: ""
     };
   }
 
@@ -23,14 +28,73 @@ class WizardView extends Component {
     if (!nextProps.selectedIndicators.equals(this.props.selectedIndicators)) {
       return true;
     }
+    if (!nextState.currentWizard !== this.state.currentWizard) {
+      return true;
+    }
 
     return false;
   }
 
-  changeWizardState(index) {
-    this.setState({
-      wizardState: index
-    });
+  changeWizardState(direction) {
+    if (
+      this.state.currentWizard === this.state.startWizard &&
+      direction === "next"
+    ) {
+      this.setState(
+        Object.assign({}, this.state, {
+          prevWizard: this.state.currentWizard,
+          currentWizard: this.state.nextWizard,
+          nextWizard: "chart"
+        })
+      );
+    } else if (
+      this.state.currentWizard !== this.state.startWizard &&
+      direction === "next"
+    ) {
+      this.setState(
+        Object.assign({}, this.state, {
+          prevWizard: this.state.currentWizard,
+          currentWizard: "chart",
+          nextWizard: false
+        })
+      );
+    } else if (this.state.currentWizard === "chart" && direction === "back") {
+      this.setState(
+        Object.assign({}, this.state, {
+          prevWizard: this.state.startWizard,
+          currentWizard: this.state.prevWizard,
+          nextWizard: this.state.currentWizard
+        })
+      );
+    } else if (this.state.currentWizard !== "chart" && direction === "back") {
+      this.setState(
+        Object.assign({}, this.state, {
+          prevWizard: false,
+          currentWizard: this.state.prevWizard,
+          nextWizard: this.state.currentWizard
+        })
+      );
+    } else {
+      //
+    }
+  }
+
+  initWizard(option) {
+    if (option === "indicator") {
+      this.setState({
+        startWizard: "indicator",
+        currentWizard: "indicator",
+        prevWizard: false,
+        nextWizard: "country"
+      });
+    } else {
+      this.setState({
+        startWizard: "country",
+        currentWizard: "country",
+        nextWizard: "indicator",
+        prevWizard: false
+      });
+    }
   }
 
   buildVisualizationAction() {
@@ -57,25 +121,43 @@ class WizardView extends Component {
       clickSelectIndicator
     } = this.props;
 
-    console.log(selectedIndicators);
+    const {
+      currentWizard,
+      nextWizard,
+      prevWizard
+    } = this.state;
+
     return (
       <div className="Wizard__view">
-        <div className="Wizard__menu-column">
-          {this.state.wizardCurrentKey === 0 &&
-            <IndicatorSelect
-              setup={indicatorSetup}
+        {currentWizard === "begin"
+          ? <BeginWizard
               selectIndicator={clickSelectIndicator}
-            />}
-          {this.state.wizardCurrentKey === 1 &&
-            <CountrySelect setup={countriesSetup} />}
-          {this.state.wizardCurrentKey === 2 && <ChartSelect />}
-        </div>
-        <div className="Wizard__menu-column">
-          <SummaryBox
-            selectedIndicators={selectedIndicators}
-            deselectIndicator={clickSelectIndicator}
-          />
-        </div>
+              initWizard={this.initWizard.bind(this)}
+            />
+          : <div>
+              <div className="Wizard__menu-column">
+
+                {currentWizard === "indicator" &&
+                  <IndicatorSelect
+                    setup={indicatorSetup}
+                    selectIndicator={clickSelectIndicator}
+                  />}
+                {currentWizard === "country" &&
+                  <CountrySelect setup={countriesSetup} />}
+                {currentWizard === "chart" && <ChartSelect />}
+              </div>
+              <div className="Wizard__menu-column">
+                <SummaryBox
+                  selectedIndicators={selectedIndicators}
+                  deselectIndicator={clickSelectIndicator}
+                />
+                <ProgressButtons
+                  changeWizardState={this.changeWizardState.bind(this)}
+                  showFinish={nextWizard}
+                  showBack={prevWizard}
+                />
+              </div>
+            </div>}
       </div>
     );
   }

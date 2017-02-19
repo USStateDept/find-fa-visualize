@@ -57,10 +57,16 @@
   padding-left: 6em;
   cursor: pointer;
   font-size: .8em;
+  
 
   & p {
     margin: 0;
     margin-bottom: 0.15em;
+
+    &:hover { 
+      color: #ee872d;
+      content: ">"
+    }
   }
 }
 
@@ -98,6 +104,56 @@
   font-size: 1.25em;
 }
 
+.Wizard__progress-buttons {
+  margin-top: 50px;
+}
+
+.Wizard__progress-buttons {
+  margin-top: 50px;
+  width: 75%;
+  float: left;
+}
+
+.Wizard__progress-buttons > a {
+  float: right;
+}
+
+.Wizard__buttons {
+  cursor: pointer;
+  position: relative;
+  margin: 0 0 1.25rem;
+  display: inline-block;
+  padding: .8em 1.6em .8625em 1.6em;
+  margin-left: 10px;
+  min-width: 100px;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  -webkit-transition: background-color 150ms ease-out;
+  -moz-transition: background-color 150ms ease-out;
+  -o-transition: background-color 150ms ease-out;
+  -ms-transition: background-color 150ms ease-out;
+  transition: background-color 150ms ease-out;
+  border: 2px solid;
+  color: white;
+  background-color: rgba(252,178,72,0.6);
+  border-color: #ee872d;
+}
+
+.Wizard__buttons:hover {
+  transition: .5s;
+  background-color: rgba(252,178,72,1);
+} 
+
+.Wizard__begin-buttons {
+  text-align: center;
+}
+
+.Wizard__begin-buttons > a {
+
+  min-width: 220px;
+}
 
 
 @media screen and (max-width: 692px)   {

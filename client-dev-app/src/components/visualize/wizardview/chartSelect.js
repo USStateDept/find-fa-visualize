@@ -6,16 +6,7 @@ class ChartSelect extends Component {
 
     return (
       <div>
-        <div className="viz-column">
-          {/*<ChartMenu
-            {...this.props}
-            selectChart={this.selectChart.bind(this)}
-            chart={selectedChart}
-          />
-          */
-          }
-          Chart Menu
-        </div>
+        <h1> Chart View </h1>
       </div>
     );
   }

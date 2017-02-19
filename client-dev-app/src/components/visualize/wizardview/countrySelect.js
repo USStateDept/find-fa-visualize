@@ -6,11 +6,7 @@ class CountrySelect extends Component {
 
     return (
       <div>
-        <div className="viz-column">
-          {/*<CountryMenu selectCty={this.selectCty.bind(this)} {...this.props} /> */
-          }
-          Country Menu
-        </div>
+        <h1>Country View</h1>
       </div>
     );
   }
