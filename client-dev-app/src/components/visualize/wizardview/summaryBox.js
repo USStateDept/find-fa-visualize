@@ -9,7 +9,7 @@ const SummaryBox = ({ selectedIndicators, deselectIndicator }) => (
           key={i}
           className="Wizard__summary-box-item"
           onClick={() => {
-            this.removeAction(indicator);
+            deselectIndicator(indicator);
           }}
         >
           <p>{" " + indicator.get("name")} ❌</p>

@@ -73,7 +73,7 @@ class WizardView extends Component {
         <div className="Wizard__menu-column">
           <SummaryBox
             selectedIndicators={selectedIndicators}
-            deselectIndicator={null}
+            deselectIndicator={clickSelectIndicator}
           />
         </div>
       </div>
