@@ -7,6 +7,10 @@ import ChartSelect from "./wizardview/chartSelect";
 import SummaryBox from "./wizardview/summaryBox";
 import ProgressButtons from "./wizardview/progressButtons";
 
+import ReactToastr, { ToastContainer, ToastMessage } from "react-toastr";
+
+var ToastMessageFactory = React.createFactory(ToastMessage.animation);
+
 class WizardView extends Component {
   constructor(props) {
     super(props);
@@ -16,6 +20,14 @@ class WizardView extends Component {
       startWizard: "",
       prevWizard: ""
     };
+  }
+
+  componentDidUpdate() {
+    if (this.props.selectionsMessage) {
+      this.refs.container.warning(this.props.selectionsMessage, "Oops!", {
+        closeButton: true
+      });
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -31,7 +43,6 @@ class WizardView extends Component {
     if (!nextState.currentWizard !== this.state.currentWizard) {
       return true;
     }
-    console.log("NOT UPDATING");
     return false;
   }
 
@@ -133,6 +144,12 @@ class WizardView extends Component {
 
     return (
       <div className="Wizard__view">
+        {selectionsMessage &&
+          <ToastContainer
+            ref="container"
+            toastMessageFactory={ToastMessageFactory}
+            className="toast-top-right"
+          />}
         {currentWizard === "begin"
           ? <BeginWizard
               selectIndicator={clickSelectIndicator}
