@@ -1,0 +1,32 @@
+@-webkit-keyframes pulse {
+  0% {
+    -ms-transform: scale(1);
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+  70% {
+    -ms-transform: scale(.9);
+    -webkit-transform: scale(.9);
+    transform: scale(.9);
+    box-shadow: 0 0 0 20px rgba(90, 153, 212, 0);
+  }
+  100% {
+    -ms-transform: scale(1);
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(90, 153, 212, 0);
+  }
+}
+@-moz-keyframes pulse {
+  0% {
+    -moz-transform: scale(1);
+  }
+  50% {
+    -moz-transform: scale(.9);
+    box-shadow: 0 0 0 30px rgba(90, 153, 212, 0);
+  }
+  100% { 
+    -moz-transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(90, 153, 212, 0);
+  }
+}

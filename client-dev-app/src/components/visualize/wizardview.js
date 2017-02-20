@@ -143,6 +143,7 @@ class WizardView extends Component {
                   <IndicatorSelect
                     setup={indicatorSetup}
                     selectIndicator={clickSelectIndicator}
+                    selectedIndicators={selectedIndicators}
                   />}
                 {currentWizard === "country" &&
                   <CountrySelect

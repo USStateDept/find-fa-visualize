@@ -65,7 +65,7 @@
 }
 
 .Wizard__menu-column-row-base-list {
-  padding-left: 6em;
+  margin: .25em 0 .25em 5em;
   cursor: pointer;
 
   & p {
@@ -87,7 +87,8 @@
 
 .Wizard__menu-column-row-base-float {
   float:left;
-  width: 44%;
+  width: 42%;
+  margin: 1%;
   position: relative;
   
   & p {
@@ -120,6 +121,21 @@
   font-size: 4em;
 }
 
+.Wizard__item-selected {
+  animation: pulse .75s;
+  background-color: rgba(252,178,72,1);
+
+  & p{
+    font-weight: bold;
+    &:hover {
+      color: #00576c;
+    }
+  }
+
+  &:hover {
+      color: #00576c;
+  }
+}
 
 .Wizard__summary {
   margin-top: 60px;

@@ -72,11 +72,11 @@ class RegionList extends Component {
   //   return _.findIndex(this.state.selectedRegions, r => {
   //     return r.region === reg && r.clickState === 0;
   //   }) !== -1
-  //     ? "cty-row menu-selected"
+  //     ? "cty-row Wizard__item-selected"
   //     : _.findIndex(this.state.selectedRegions, r => {
   //         return r.region === reg && r.clickState === 1;
   //       }) !== -1
-  //         ? "cty-row menu-selected-blue"
+  //         ? "cty-row Wizard__item-selected-blue"
   //         : "cty-row";
   // }
 
@@ -98,7 +98,12 @@ class RegionList extends Component {
             <div className="Wizard__menu-column-row-body-list f32">
               {countryList.map((country, i) => (
                 <div
-                  className="Wizard__menu-column-row-base-float"
+                  className={
+                    selectedCountries.findIndex(cty => cty.equals(country)) !==
+                      -1
+                      ? "Wizard__item-selected Wizard__menu-column-row-base-float"
+                      : "Wizard__menu-column-row-base-float"
+                  }
                   onClick={() => {
                     this.props.selectCountry(country);
                   }}
@@ -232,7 +237,7 @@ export default CountrySelect;
 // <li
 //                 className={
 //                   this.props.selectedCountries.findIndex(cty) !== -1
-//                     ? "cty-row menu-selected"
+//                     ? "cty-row Wizard__item-selected"
 //                     : "cty-row"
 //                 }
 //                 onClick={() => {

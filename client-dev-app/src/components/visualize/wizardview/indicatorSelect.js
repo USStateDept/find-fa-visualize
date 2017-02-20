@@ -6,20 +6,18 @@ const Indicator = ({ indicators, selectIndicator, selectedIndicators }) => (
   <div>
     {indicators.map((ind, i) => (
       <div key={i} className="Wizard__menu-column-row-base-list">
-        <span
+        <div
           onClick={() => {
             selectIndicator(ind);
           }}
           className={
-            _.findIndex(selectedIndicators, selected => {
-              return selected.get("id") == ind.get("id");
-            }) != -1
-              ? "menu-selected"
+            selectedIndicators.findIndex(sel => sel.equals(ind)) !== -1
+              ? "Wizard__item-selected"
               : ""
           }
         >
-          <p>{`> ${ind.get("name")}`}</p>
-        </span>
+          <p>{ind.get("name")}</p>
+        </div>
       </div>
     ))}
   </div>
@@ -27,7 +25,13 @@ const Indicator = ({ indicators, selectIndicator, selectedIndicators }) => (
 
 // child stateless component representing body of category tree
 const Subcategory = (
-  { subcategories, collapseSubcategory, openSubcategory, selectIndicator }
+  {
+    subcategories,
+    collapseSubcategory,
+    openSubcategory,
+    selectIndicator,
+    selectedIndicators
+  }
 ) => (
   <div className="Wizard__menu-column-row-body">
     {subcategories.map(
@@ -43,11 +47,12 @@ const Subcategory = (
                   : "Wizard__menu-column-row-body-list"
               }
             >
-              {sub.get("name")}
+              {sub.get("name")} ◹
             </div>
             <div>
               <Indicator
                 selectIndicator={selectIndicator}
+                selectedIndicators={selectedIndicators}
                 indicators={sub.get("indicators")}
               />
             </div>
@@ -59,7 +64,7 @@ const Subcategory = (
               collapseSubcategory(sub.get("name"));
             }}
           >
-            {sub.get("name")}
+            {sub.get("name")} ◿
           </div>
     )}
   </div>
