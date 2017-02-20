@@ -26,9 +26,9 @@ export const WIZARD_SET_GEOJSON_MAPTYPE = "WIZARD_SET_GEOJSON_MAPTYPE";
 export const WIZARD_TRY_ENABLE_BUILD = "WIZARD_TRY_ENABLE_BUILD";
 export const WIZARD_RESET = "WIZARD_RESET";
 // data actions
-export const REQUEST_DATA = "REQUEST_DATA";
-export const REQUEST_DATA_SUCCESS = "REQUEST_DATA_SUCCESS";
-export const REQUEST_DATA_FAILURE = "REQUEST_DATA_FAILURE";
+export const REQUEST_CHART_DATA = "REQUEST__CHART_DATA";
+export const REQUEST_CHART_DATA_SUCCESS = "REQUEST_CHART_DATA_SUCCESS";
+export const REQUEST_CHART_DATA_FAILURE = "REQUEST_CHART_DATA_FAILURE";
 export const REQUEST_AVERAGES = "REQUEST_AVERAGES";
 export const REQUEST_AVERAGES_SUCCESS = "REQUEST_AVERAGES_SUCCESS";
 export const REQUEST_AVERAGES_FAILURE = "REQUEST_AVERAGES_FAILURE";
@@ -122,21 +122,21 @@ function dispatchWizardReset() {
 
 function dispatchRequestVisualizeData() {
   return {
-    type: REQUEST_DATA
+    type: REQUEST_CHART_DATA
   };
 }
 
 function dispatchRequestVisualizeDataSuccess(data, original) {
   return {
-    type: REQUEST_DATA_SUCCESS,
+    type: REQUEST_CHART_DATA_SUCCESS,
     data: data,
-    dataResults: original
+    chartDataInitial: original
   };
 }
 
 function dispatchRequestVisualizeDataFailure(json) {
   return {
-    type: REQUEST_DATA_FAILURE,
+    type: REQUEST_CHART_DATA_FAILURE,
     message: json.message
   };
 }
@@ -257,6 +257,8 @@ function checkBuildReady(state) {
 
   if (indicatorsInitiated && countriesInitiated && chartInitiated) {
     return { allow: true, message: "" };
+  } else {
+    return { allow: false, message: false };
   }
 }
 
@@ -478,27 +480,29 @@ function selectAllForSavedViz(setup) {
 }
 
 // action functionality/creator/performer
-function fetchData(ind, cty, reg, cht) {
-  // thunk middleware knows how to handle functions
-  return dispatch => {
-    // let component know we are requesting data
+export function chartRequestData() {
+  return (dispatch, getState) => {
+    const state = getState().visualize;
+    const selectedIndicators = state.get("selectedIndicators");
+    const selectedCountries = state.get("selectedCountries");
+    const selectedRegions = state.get("selectedRegions");
+    const selectedChart = state.get("selectedChart");
+
     dispatch(dispatchRequestVisualizeData());
-    // here is where we set our chart to build
-    // the build chart
-    dispatch(dispatchWizardSetChart(cht));
+    dispatch(dispatchWizardSetChart(selectedChart));
 
     // Return a promise to wait for
-    return fetch("api/visualize/data", {
-      method: "POST",
+    return fetch("http://localhost:3010/visualize/data", {
+      method: "REPORT",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        indicators: ind,
-        countries: cty,
-        regions: reg,
-        chart: cht
+        indicators: selectedIndicators,
+        countries: selectedCountries,
+        regions: selectedRegions,
+        chart: selectedChart
       })
     })
       .then(response => response.json())
@@ -544,48 +548,28 @@ export function reverseAxisOrder() {
   };
 }
 
-// action functionality/creator/performer
-export function buildVizFromSavedID(id) {
-  return dispatch => {
-    // query for id and get build chart
-    fetch("api/visualize/save/" + id)
-      .then(response => response.json())
-      .then(json => {
-        // if completed, we need to just build the chart
-        if (json.complete) {
-          dispatch(selectAllForSavedViz(json.viz_setup));
-          let { chart, indicators, regions, countries } = json.viz_setup;
-          return dispatch(fetchData(indicators, countries, regions, chart));
-        } else {
-          // select all that apply to build
-          // but dont fetch data
-          dispatch(selectAllForSavedViz(json.viz_setup));
-        }
-      });
-  };
-}
-
-// ** BUILDS THE CHART **
-// chart comes from the BuildMenu local state
-export function dispatchRequestVisualizeDataForBuild() {
-  return (dispatch, getState) => {
-    // get global variables
-    const {
-      selectedIndicators,
-      selectedCountries,
-      selectedChart,
-      selectedRegions
-    } = getState().visualize.present;
-    return dispatch(
-      fetchData(
-        selectedIndicators,
-        selectedCountries,
-        selectedRegions,
-        selectedChart
-      )
-    );
-  };
-}
+// // action functionality/creator/performer
+// export function buildVizFromSavedID(id) {
+//   return dispatch => {
+//     // query for id and get build chart
+//     fetch("api/visualize/save/" + id)
+//       .then(response => response.json())
+//       .then(json => {
+//         // if completed, we need to just build the chart
+//         if (json.complete) {
+//           dispatch(selectAllForSavedViz(json.viz_setup));
+//           let { chart, indicators, regions, countries } = json.viz_setup;
+//           return dispatch(
+//             requestChartData(indicators, countries, regions, chart)
+//           );
+//         } else {
+//           // select all that apply to build
+//           // but dont fetch data
+//           dispatch(selectAllForSavedViz(json.viz_setup));
+//         }
+//       });
+//   };
+// }
 
 export function setAverergeData(type) {
   return (dispatch, getState) => {

@@ -108,10 +108,6 @@ class WizardView extends Component {
     }
   }
 
-  buildVisualizationAction() {
-    this.props.requestDataForBuild();
-  }
-
   render() {
     const {
       selectedIndicators,
@@ -136,7 +132,8 @@ class WizardView extends Component {
       clickSelectIndicator,
       clickSelectCountry,
       clickSelectChart,
-      clickSelectAllCountries
+      clickSelectAllCountries,
+      requestData
     } = this.props;
 
     const {
@@ -206,6 +203,7 @@ class WizardView extends Component {
                   buildAllowed={buildAllowed}
                   showFinish={nextWizard}
                   showBack={prevWizard}
+                  requestData={requestData}
                 />
               </div>
             </div>}

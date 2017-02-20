@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 const ProgressButtons = (
-  { changeWizardState, showFinish, showBack, buildAllowed }
+  { changeWizardState, showFinish, showBack, buildAllowed, requestData }
 ) => (
   <div className="Wizard__progress-buttons">
     {showFinish &&
@@ -11,7 +11,7 @@ const ProgressButtons = (
     {!showFinish &&
       <a
         className={`Wizard__buttons ${!buildAllowed && "disabled"} `}
-        onClick={null}
+        onClick={buildAllowed ? requestData : null}
       >
         Finish
       </a>}

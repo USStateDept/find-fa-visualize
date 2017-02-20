@@ -14,9 +14,9 @@ import {
   WIZARD_SELECT_SETUP_INIT,
   WIZARD_RESET,
   // data actions
-  REQUEST_DATA,
-  REQUEST_DATA_SUCCESS,
-  REQUEST_DATA_FAILURE,
+  REQUEST_CHART_DATA,
+  REQUEST_CHART_DATA_SUCCESS,
+  REQUEST_CHART_DATA_FAILURE,
   REQUEST_AVERAGES,
   REQUEST_AVERAGES_SUCCESS,
   REQUEST_AVERAGES_FAILURE,
@@ -34,7 +34,7 @@ import {
  * Data structure that represents the intial state of the application
  */
 const initialState = Map({
-  userSelectedView: "", // nothing at first, but a user can edit builds by choosing to see wizard
+  // wizard
   wizardSetupLoaded: false, // got setup from server
   wizardSetupLoading: false,
   wizardSetupError: false,
@@ -46,16 +46,19 @@ const initialState = Map({
   wizardCountrySelectInit: false,
   wizardChartSelectInit: false,
   wizardBuildAllowed: false,
-  dataLoaded: false, // got data from server
-  dataLoading: false, // requested and waiting for data
+  // chart visualize
+
+  chartDataInitial: Map({}), // data that came directly from server (un-parsed)
+  chartDataLoaded: false, // got data from server
+  chartDataLoading: false, // requested and waiting for data
+  chartData: Map({}), // data used to draw current viz
   currentYearView: false,
   selectedIndicators: List([]), // user setup choices
   selectedCountries: List([]),
   selectedRegions: List([]),
   selectedChart: "",
   buildChart: "", // the chart being used for build & on the fly changes
-  data: Map({}), // data used to draw current viz
-  dataResults: Map({}), // data that came directly from server
+
   geoIsLoading: false,
   geoLoaded: false,
   geoJson: undefined,
@@ -143,29 +146,29 @@ export default function visualize(state = initialState, action) {
       });
     case WIZARD_SET_GEOJSON_MAPTYPE:
       return state.set("mapType", action.mapType);
-    case REQUEST_DATA:
+    case REQUEST_CHART_DATA:
       return state.withMutations(s => {
         s
-          .set("dataLoading", true)
-          .set("dataLoaded", false)
+          .set("chartDataLoading", true)
+          .set("chartDataLoaded", false)
           .set("showModal", false)
           .set("currentYearView", false)
-          .set("data", Map({}));
+          .set("chartData", Map({}));
       });
-    case REQUEST_DATA_SUCCESS:
+    case REQUEST_CHART_DATA_SUCCESS:
       return state.withMutations(s => {
         s
-          .set("dataLoading", false)
-          .set("dataLoaded", true)
-          .set("data", action.data)
-          .set("dataResults", action.dataResults);
+          .set("chartDataLoading", false)
+          .set("chartDataLoaded", true)
+          .set("chartData", action.data)
+          .set("chartchartDataInitial", action.chartDataInitial);
       });
-    case REQUEST_DATA_FAILURE:
+    case REQUEST_CHART_DATA_FAILURE:
       return state.withMutations(s => {
         s
-          .set("dataLoading", false)
-          .set("dataLoaded", false)
-          .set("dataLoadError", true);
+          .set("chartDataLoading", false)
+          .set("chartDataLoaded", false)
+          .set("chartDataLoadError", true);
       });
     case CHART_SET_YEAR:
       return state.set("currentYearView", action.year);

@@ -11,16 +11,13 @@ class ChartView extends Component {
     const {
       dataLoaded,
       dataLoading,
-      displayModal,
-      buildChart,
       data
     } = this.props;
 
     return (
-      <div>
-        <div id="content" className="viz-content find-body">
-
-          {/* Determine Which Components to show when data loaded *
+      <div className="Chart__view">
+        {dataLoading && <div className="FindFa__loading" />}
+        {/* Determine Which Components to show when data loaded *
           {dataLoaded &&
             <ChartBanner
               {...this.props}
@@ -62,8 +59,8 @@ class ChartView extends Component {
         </div>
 
       */
-          }
-        </div>
+        }
+
       </div>
     );
   }

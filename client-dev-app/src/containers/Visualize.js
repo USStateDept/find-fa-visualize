@@ -16,13 +16,19 @@ class Visualize extends Component {
   constructor(props) {
     super(props);
 
-    let view = props.userSelectedView === "wizard"
-      ? "wizard"
-      : !props.dataLoading && !props.dataLoaded ? "wizard" : "chart";
-
     this.state = {
-      currentView: view
+      currentView: (
+        !props.chartDataLoading && !props.chartDataLoaded ? "wizard" : "chart"
+      )
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.chartDataLoading) {
+      this.setState({ currentView: "chart" });
+    }
+
+    // add more cases here for new view
   }
 
   componentWillMount() {
@@ -36,6 +42,7 @@ class Visualize extends Component {
 
   render() {
     const {
+      // wizard
       wizardSetupIndicators,
       wizardSetupCountries,
       wizardSetupErrorMessage,
@@ -47,11 +54,17 @@ class Visualize extends Component {
       selectedChart,
       wizardBuildAllowed,
 
+      // chart
+      chartData,
+      chartDataLoaded,
+      chartDataLoading,
+
       // actions
       wizardClickSelectIndicator,
       wizardClickSelectCountry,
       wizardClickSelectAllCountries,
-      wizardClickSelectChart
+      wizardClickSelectChart,
+      chartRequestData
     } = this.props;
 
     const {
@@ -76,8 +89,14 @@ class Visualize extends Component {
             selectedRegions={selectedRegions}
             selectionsMessage={wizardSelectionsMessage}
             buildAllowed={wizardBuildAllowed}
+            requestData={chartRequestData}
           />}
-        {currentView === "chart" && <ChartView />}
+        {currentView === "chart" &&
+          <ChartView
+            dataLoading={chartDataLoading}
+            dataLoaded={chartDataLoaded}
+            data={chartData}
+          />}
       </div>
     );
   }
@@ -89,7 +108,6 @@ class Visualize extends Component {
 function mapStateToProps(state) {
   let { visualize } = state;
 
-  const userSelectedView = visualize.get("userSelectedView");
   const wizardSetupLoaded = visualize.get("wizardSetupLoaded");
   const wizardSetupLoading = visualize.get("wizardSetupLoading");
   const wizardSetupError = visualize.get("wizardSetupError");
@@ -98,16 +116,16 @@ function mapStateToProps(state) {
   const wizardSetupCountries = visualize.get("wizardSetupCountries");
   const wizardSelectionsMessage = visualize.get("wizardSelectionsMessage");
   const wizardBuildAllowed = visualize.get("wizardBuildAllowed");
-  const dataLoaded = visualize.get("dataLoaded");
-  const dataLoading = visualize.get("dataLoading");
+  const chartDataLoaded = visualize.get("chartDataLoaded");
+  const chartDataLoading = visualize.get("chartDataLoading");
+  const chartData = visualize.get("chartData");
+  const chartDataInitial = visualize.get("chartDataInitial");
   const currentYearView = visualize.get("currentYearView");
   const selectedIndicators = visualize.get("selectedIndicators");
   const selectedCountries = visualize.get("selectedCountries");
   const selectedRegions = visualize.get("selectedRegions");
   const selectedChart = visualize.get("selectedChart");
   const buildChart = visualize.get("buildChart");
-  const data = visualize.get("data");
-  const dataResults = visualize.get("dataResults");
   const geoIsLoading = visualize.get("geoIsLoading");
   const geoLoaded = visualize.get("geoLoaded");
   const geoJson = visualize.get("geoJson");
@@ -125,16 +143,16 @@ function mapStateToProps(state) {
     wizardSetupCountries,
     wizardSelectionsMessage,
     wizardBuildAllowed,
-    dataLoaded,
-    dataLoading,
+    chartDataLoaded,
+    chartDataLoading,
+    chartData,
+    chartDataInitial,
     currentYearView,
     selectedIndicators,
     selectedCountries,
     selectedRegions,
     selectedChart,
     buildChart,
-    data,
-    dataResults,
     geoIsLoading,
     geoLoaded,
     geoJson,
