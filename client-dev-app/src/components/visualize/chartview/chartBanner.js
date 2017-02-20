@@ -58,7 +58,8 @@ class ChartBanner extends Component {
       initSave,
       autoSaveShare,
       chartType,
-      liveChartTypeChange
+      liveChartTypeChange,
+      changeToWizardView
     } = this.props;
 
     let chActive = currentTab == "Chart" ? "Banner__tab-active" : "";
@@ -111,7 +112,7 @@ class ChartBanner extends Component {
             changeChart={liveChartTypeChange}
           />
           <a
-            onClick={this.props.displayModal}
+            onClick={changeToWizardView}
             className="Chart__banner-edit Chart__banner-tool"
           >
             Edit

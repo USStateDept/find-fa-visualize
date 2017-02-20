@@ -14,12 +14,24 @@ var ToastMessageFactory = React.createFactory(ToastMessage.animation);
 class WizardView extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      currentWizard: "begin",
-      nextWizard: "",
-      startWizard: "",
-      prevWizard: ""
-    };
+
+    if (props.selectedIndicators.size > 0 && props.selectedCountries.size > 0) {
+      // this wizard is constructed from a chart that is already built
+      this.state = {
+        currentWizard: "chart",
+        nextWizard: false,
+        startWizard: "indicator",
+        prevWizard: "country"
+      };
+    } else {
+      // this is a fresh wizard start
+      this.state = {
+        currentWizard: "begin",
+        nextWizard: "",
+        startWizard: "",
+        prevWizard: ""
+      };
+    }
   }
 
   componentDidUpdate() {

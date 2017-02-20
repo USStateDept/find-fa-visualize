@@ -53,7 +53,8 @@ class ChartView extends Component {
       dataLoading,
       data,
       selectedViewChart,
-      liveChartTypeChange
+      liveChartTypeChange,
+      changeToWizardView
     } = this.props;
 
     const {
@@ -69,6 +70,7 @@ class ChartView extends Component {
             currentTab={currentTab}
             chartType={selectedViewChart}
             liveChartTypeChange={liveChartTypeChange}
+            changeToWizardView={changeToWizardView}
             changeTab={this.changeTab.bind(this)}
             data={data}
             closeSave={this.closeSave.bind(this)}

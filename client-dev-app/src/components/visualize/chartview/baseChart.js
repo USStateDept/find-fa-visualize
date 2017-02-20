@@ -133,12 +133,14 @@ class BaseChart extends Component {
 
     let layout = {
       yaxis: {
-        title: this.state.indicators[0].name
+        title: this.state.indicators[0].name,
+        titlefont: { size: 20 }
       },
       xaxis: {
         title: "Year",
         tickformat: "%Y",
-        hoverformat: "%Y"
+        hoverformat: "%Y",
+        titlefont: { size: 20 }
       },
       showlegend: this.state.showLegend,
       margin: {

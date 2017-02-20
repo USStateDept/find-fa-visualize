@@ -27,7 +27,12 @@ class Visualize extends Component {
     if (nextProps.chartDataLoading) {
       this.setState({ currentView: "chart" });
     }
+
     // add more cases here for new view
+  }
+
+  changeToWizardView() {
+    this.setState({ currentView: "wizard" });
   }
 
   componentWillMount() {
@@ -99,6 +104,7 @@ class Visualize extends Component {
             data={chartData}
             selectedViewChart={selectedViewChart}
             liveChartTypeChange={chartLiveChartTypeChange}
+            changeToWizardView={this.changeToWizardView.bind(this)}
           />}
       </div>
     );
