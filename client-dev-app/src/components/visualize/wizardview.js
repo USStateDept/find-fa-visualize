@@ -31,7 +31,7 @@ class WizardView extends Component {
     if (!nextState.currentWizard !== this.state.currentWizard) {
       return true;
     }
-
+    console.log("NOT UPDATING");
     return false;
   }
 
@@ -156,7 +156,17 @@ class WizardView extends Component {
                     selectedCountries={selectedCountries}
                     selectAllCountries={clickSelectAllCountries}
                   />}
-                {currentWizard === "chart" && <ChartSelect />}
+                {currentWizard === "chart" &&
+                  <ChartSelect
+                    chartOptiontype={
+                      selectedIndicators.size === 0 ||
+                        selectedIndicators.size > 3
+                        ? "none"
+                        : selectedIndicators.size === 1
+                            ? "one"
+                            : selectedIndicators.size === 2 ? "two" : "three"
+                    }
+                  />}
               </div>
               <div className="Wizard__menu-column">
                 <SummaryBox

@@ -16,7 +16,7 @@ class ChartList extends Component {
             key={i}
             className={
               this.props.chart == n.id
-                ? "menu-selected Wizard__chart-option"
+                ? "Wizard__item-selected Wizard__chart-option"
                 : "Wizard__chart-option"
             }
           >
@@ -38,7 +38,10 @@ class ChartList extends Component {
 
 class ChartSelect extends Component {
   render() {
-    let chartType = "two";
+    let {
+      chartOptiontype
+    } = this.props;
+
     const chartTypes = [
       {
         name: "one",
@@ -62,7 +65,7 @@ class ChartSelect extends Component {
         <div className="Wizard__menu-column-content">
           {chartTypes.map((type, i) => (
             <div key={i}>
-              {chartType != type.name
+              {chartOptiontype != type.name
                 ? <span />
                 : <div key={i}>
                     <ChartList

@@ -195,24 +195,10 @@ function checkBuildReady(state) {
   if (selectedChart === "" || !selectedChart) {
     return { allow: false, message: "Please select a chart type" };
   }
-  if (
-    selectedIndicators.size < BuildRules.charts[selectedChart].min_indicators
-  ) {
+  if (selectedIndicators.size > 3) {
     return {
       allow: false,
-      message: (
-        `You have not selected enough indicators for the chart type: ${selectedChart}`
-      )
-    };
-  }
-  if (
-    selectedIndicators.size > BuildRules.charts[selectedChart].max_indicators
-  ) {
-    return {
-      allow: false,
-      message: (
-        `You have selected too many indicators for the chart type: ${selectedChart}`
-      )
+      message: `You have choosen too many indicators (max is 3)`
     };
   }
   if (
