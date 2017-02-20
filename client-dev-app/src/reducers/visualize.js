@@ -56,8 +56,8 @@ const initialState = Map({
   selectedIndicators: List([]), // user setup choices
   selectedCountries: List([]),
   selectedRegions: List([]),
-  selectedChart: "",
-  buildChart: "", // the chart being used for build & on the fly changes
+  selectedChart: "", // choosen in wizard menu
+  selectedViewChart: "", // the chart being used for build & on the fly changes
 
   geoIsLoading: false,
   geoLoaded: false,
@@ -129,7 +129,9 @@ export default function visualize(state = initialState, action) {
     }
     case WIZARD_SELECT_CHART:
       return state.withMutations(s => {
-        s.set("buildChart", action.chart).set("selectedChart", action.chart);
+        s
+          .set("selectedViewChart", action.chart)
+          .set("selectedChart", action.chart);
       });
     case WIZARD_TRY_ENABLE_BUILD:
       return state.withMutations(s => {

@@ -3,20 +3,52 @@ import React, { Component } from "react";
 // import ChartBanner from "./chartview/Banner";
 // import DataTable from "./chartview/DataTable";
 // import Metadata from "./chartview/Metadata";
-// import BaseChart from "./chartview/BaseChart";
+import BaseChart from "./chartview/baseChart";
 // import MapChart from "./chartview/Map";
 
 class ChartView extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      currentTab: "Chart",
+      fromSavedID: undefined,
+      saveModal: false
+    };
+  }
+
   render() {
     const {
       dataLoaded,
       dataLoading,
-      data
+      data,
+      selectedViewChart
     } = this.props;
+
+    const {
+      currentTab,
+      saveModal
+    } = this.state;
 
     return (
       <div className="Chart__view">
         {dataLoading && <div className="FindFa__loading" />}
+        {dataLoaded &&
+          selectedViewChart != "Map" &&
+          currentTab == "Chart" &&
+          <BaseChart
+            data={data}
+            chartType={selectedViewChart}
+            showSettings={true}
+            showLegend={true}
+            showAverage={true}
+            showToolbar={true}
+            showTitle={false}
+            {...this.props}
+          />}
+        }
+
+
         {/* Determine Which Components to show when data loaded *
           {dataLoaded &&
             <ChartBanner

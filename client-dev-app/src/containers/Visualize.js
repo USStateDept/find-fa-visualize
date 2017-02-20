@@ -58,6 +58,7 @@ class Visualize extends Component {
       chartData,
       chartDataLoaded,
       chartDataLoading,
+      selectedViewChart,
 
       // actions
       wizardClickSelectIndicator,
@@ -96,6 +97,7 @@ class Visualize extends Component {
             dataLoading={chartDataLoading}
             dataLoaded={chartDataLoaded}
             data={chartData}
+            selectedViewChart={selectedViewChart}
           />}
       </div>
     );
@@ -125,7 +127,7 @@ function mapStateToProps(state) {
   const selectedCountries = visualize.get("selectedCountries");
   const selectedRegions = visualize.get("selectedRegions");
   const selectedChart = visualize.get("selectedChart");
-  const buildChart = visualize.get("buildChart");
+  const selectedViewChart = visualize.get("selectedViewChart");
   const geoIsLoading = visualize.get("geoIsLoading");
   const geoLoaded = visualize.get("geoLoaded");
   const geoJson = visualize.get("geoJson");
@@ -152,7 +154,7 @@ function mapStateToProps(state) {
     selectedCountries,
     selectedRegions,
     selectedChart,
-    buildChart,
+    selectedViewChart,
     geoIsLoading,
     geoLoaded,
     geoJson,

@@ -1,0 +1,10 @@
+.js-plotly-plot .plotly .modebar { 
+  background: transparent !important;
+}
+
+.js-plotly-plot .plotly .modebar-btn path {
+  fill: #ffeed2 !important;
+  &:hover {
+    fill: darken(#ffeed2, 20) !important;
+  }
+}
