@@ -1,21 +1,43 @@
 import React, { Component } from "react";
 
-const SummaryBox = ({ selectedIndicators, deselectIndicator }) => (
+const SummaryBox = (
+  { selectedIndicators, deselectIndicator, deselectCountry, selectedCountries }
+) => (
   <div className="Wizard__summary">
     <strong className="Wizard__summary-box-title">Selection:</strong>
     <div className="Wizard__summary-box">
-      {selectedIndicators.map((indicator, i) => (
-        <span
-          key={i}
-          className="Wizard__summary-box-item"
-          onClick={() => {
-            deselectIndicator(indicator);
-          }}
-        >
-          <p>{" " + indicator.get("name")} ❌</p>
-        </span>
-      ))}
+      <div className="Wizard__summary-box-section">
+        Indicators:<br />
+        {selectedIndicators.map((indicator, i) => (
+          <span
+            key={i}
+            className="Wizard__summary-box-section-item"
+            onClick={() => {
+              deselectIndicator(indicator);
+            }}
+          >
+            <p>{" " + indicator.get("name")} ❌</p>
+          </span>
+        ))}
+      </div>
+      <div className="Wizard__summary-box-section">
+        Countries:<br />
+        {selectedCountries.map((country, i) => (
+          <span
+            key={i}
+            className="Wizard__summary-box-section-item"
+            onClick={() => {
+              deselectCountry(country);
+            }}
+          >
+            <p>{" " + country.get("Name")} ❌</p>
+          </span>
+        ))}
+      </div>
+      <div className="Wizard__summary-box-section">
+        Chart:<br />
 
+      </div>
     </div>
   </div>
 );

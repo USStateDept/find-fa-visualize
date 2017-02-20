@@ -271,7 +271,10 @@ export function wizardClickSelectIndicator(indicator) {
 // build menu select country
 export function wizardClickSelectCountry(country) {
   return (dispatch, getState) => {
-    let index = getState().visualize.present.selectedCountries.indexOf(country);
+    let index = getState().visualize
+      .get("selectedCountries")
+      .findIndex(cty => cty.equals(country));
+
     if (index === -1) {
       dispatch(dispatchWizardSelect(country, "countries"));
     } else {

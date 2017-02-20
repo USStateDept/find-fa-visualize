@@ -104,9 +104,6 @@ class WizardView extends Component {
   render() {
     const {
       selectedIndicators,
-      // selectedCountries,
-      // selectedRegions,
-      // selectedChart,
 
       // // actions
       // clickSelectIndicator,
@@ -117,8 +114,13 @@ class WizardView extends Component {
       indicatorSetup,
       countriesSetup,
 
+      selectedCountries,
+      selectedRegions,
+      // selectedChart,
+
       //actions
-      clickSelectIndicator
+      clickSelectIndicator,
+      clickSelectCountry
     } = this.props;
 
     const {
@@ -143,13 +145,22 @@ class WizardView extends Component {
                     selectIndicator={clickSelectIndicator}
                   />}
                 {currentWizard === "country" &&
-                  <CountrySelect setup={countriesSetup} />}
+                  <CountrySelect
+                    setup={countriesSetup}
+                    selectCountry={clickSelectCountry}
+                    setMapTypeForGeojson={() =>
+                      console.log("< LOAD GEOJSON HERE>")}
+                    selectedRegions={selectedRegions}
+                    selectedCountries={selectedCountries}
+                  />}
                 {currentWizard === "chart" && <ChartSelect />}
               </div>
               <div className="Wizard__menu-column">
                 <SummaryBox
                   selectedIndicators={selectedIndicators}
                   deselectIndicator={clickSelectIndicator}
+                  selectedCountries={selectedCountries}
+                  deselectCountry={clickSelectCountry}
                 />
                 <ProgressButtons
                   changeWizardState={this.changeWizardState.bind(this)}

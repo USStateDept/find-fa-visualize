@@ -145,7 +145,7 @@ class IndicatorSelect extends Component {
 
                 {openCategory !== category.get("name")
                   ? <span />
-                  : <div key={i}>
+                  : <div>
                       <Subcategory
                         subcategories={category.get("subcategories")}
                         openSubcategory={openSubcategory}
