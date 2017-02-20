@@ -81,7 +81,12 @@ class RegionList extends Component {
   // }
 
   render() {
-    const { countryList, selectedCountries, selectCountry } = this.props;
+    const {
+      countryList,
+      selectedCountries,
+      selectCountry,
+      selectAllCountries
+    } = this.props;
 
     return (
       <div className="Wizard__menu-column-row-body">
@@ -91,7 +96,7 @@ class RegionList extends Component {
               <span
                 className="bld-options-btn"
                 onClick={() => {
-                  this.props.selectAllCountries();
+                  selectAllCountries();
                 }}
               >Select All</span>
             </div>
@@ -159,7 +164,8 @@ class CountrySelect extends Component {
       setup,
       selectedRegions,
       selectedCountries,
-      selectCountry
+      selectCountry,
+      selectAllCountries
     } = this.props;
 
     return (
@@ -191,6 +197,7 @@ class CountrySelect extends Component {
                       selectedRegions={selectedRegions}
                       selectedCountries={selectedCountries}
                       selectCountry={selectCountry}
+                      selectAllCountries={selectAllCountries}
                     />
                   </div>}
             </div>

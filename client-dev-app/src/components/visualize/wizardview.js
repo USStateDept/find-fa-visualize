@@ -120,7 +120,8 @@ class WizardView extends Component {
 
       //actions
       clickSelectIndicator,
-      clickSelectCountry
+      clickSelectCountry,
+      clickSelectAllCountries
     } = this.props;
 
     const {
@@ -153,6 +154,7 @@ class WizardView extends Component {
                       console.log("< LOAD GEOJSON HERE>")}
                     selectedRegions={selectedRegions}
                     selectedCountries={selectedCountries}
+                    selectAllCountries={clickSelectAllCountries}
                   />}
                 {currentWizard === "chart" && <ChartSelect />}
               </div>

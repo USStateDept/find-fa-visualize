@@ -346,19 +346,15 @@ export function selectAllFromRegion(region) {
 }
 
 // select all countries
-export function selectAllCountries() {
+export function wizardClickSelectAllCountries() {
   return (dispatch, getState) => {
-    _.forEach(getState().visualize.present.countries[0].list, country => {
-      var index = getState().visualize.present.selectedCountries.indexOf(
-        country
-      );
-      if (index === -1) {
-        dispatch(dispatchWizardSelect(country, "countries"));
-      } else {
-        dispatch(dispatchWizardDeselect(country, "countries", index));
-      }
-    });
-    dispatch(dispatchWizardTryEnableBuild(checkBuildReady(getState())));
+    getState().visualize
+      .get("wizardSetupCountries")
+      .get(0)
+      .get("list")
+      .map(country => {
+        dispatch(wizardClickSelectCountry(country));
+      });
   };
 }
 
