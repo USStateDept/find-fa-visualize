@@ -3,9 +3,6 @@
 @import "./utils/siteIcons";
 @import "./utils/plotlyOverride";
 
-@import "./fagov/mimic";
-
-
 @import "./containers/app";
 @import "./containers/wizardview";
 @import "./containers/chartview";
@@ -24,4 +21,8 @@ body {
 a {
   cursor: pointer;
   text-decoration: none;
+}
+
+.dummyClear{
+    clear: both;
 }

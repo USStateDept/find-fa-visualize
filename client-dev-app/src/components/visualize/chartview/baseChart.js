@@ -133,13 +133,9 @@ class BaseChart extends Component {
 
     let layout = {
       yaxis: {
-        title: this.state.indicators[0].name,
-        tickcolor: "#ffeed2",
-        gridColor: "#ffeed2"
+        title: this.state.indicators[0].name
       },
       xaxis: {
-        tickcolor: "#ffeed2",
-        gridColor: "#ffeed2",
         title: "Year",
         tickformat: "%Y",
         hoverformat: "%Y"
@@ -152,8 +148,8 @@ class BaseChart extends Component {
         family: "'Open Sans',Arial,Helvetica,sans-serif",
         color: "#ffeed2"
       },
-      paper_bgcolor: "#00313d",
-      plot_bgcolor: "#00313d"
+      paper_bgcolor: "#00576c",
+      plot_bgcolor: "#00576c"
     };
 
     if (this.state.showTitle) {

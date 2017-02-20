@@ -74,7 +74,7 @@ class Visualize extends Component {
 
     return (
       <div>
-        {"HERR => " + wizardSetupErrorMessage}
+
         {currentView === "wizard" &&
           wizardSetupLoaded &&
           <WizardView

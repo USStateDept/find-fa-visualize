@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-// import ChartBanner from "./chartview/Banner";
+import ChartBanner from "./chartview/chartBanner";
 // import DataTable from "./chartview/DataTable";
 // import Metadata from "./chartview/Metadata";
 import BaseChart from "./chartview/baseChart";
@@ -15,6 +15,36 @@ class ChartView extends Component {
       fromSavedID: undefined,
       saveModal: false
     };
+  }
+
+  changeTab(tab) {
+    this.setState({
+      currentTab: tab
+    });
+  }
+
+  setupLoadViz(id) {
+    this.setState({
+      fromSavedID: id
+    });
+  }
+
+  closeSave() {
+    this.setState({
+      saveModal: false
+    });
+  }
+
+  initSave() {
+    this.setState({
+      saveModal: true
+    });
+  }
+
+  autoSaveShare() {
+    this.props.saveVisualization("SHARED URL - NO NAME").then(() => {
+      this.setState({ saveModal: true });
+    });
   }
 
   render() {
@@ -34,6 +64,16 @@ class ChartView extends Component {
       <div className="Chart__view">
         {dataLoading && <div className="FindFa__loading" />}
         {dataLoaded &&
+          <ChartBanner
+            {...this.props}
+            currentTab={currentTab}
+            changeTab={this.changeTab.bind(this)}
+            data={data}
+            closeSave={this.closeSave.bind(this)}
+            initSave={this.initSave.bind(this)}
+            autoSaveShare={this.autoSaveShare.bind(this)}
+          />}
+        {dataLoaded &&
           selectedViewChart != "Map" &&
           currentTab == "Chart" &&
           <BaseChart
@@ -50,17 +90,7 @@ class ChartView extends Component {
 
 
         {/* Determine Which Components to show when data loaded *
-          {dataLoaded &&
-            <ChartBanner
-              {...this.props}
-              currentTab={currentTab}
-              changeTab={this.changeTab.bind(this)}
-              data={data}
-              saveViz={this.saveViz.bind(this)}
-              closeSave={this.closeSave.bind(this)}
-              initSave={this.initSave.bind(this)}
-              autoSaveShare={this.autoSaveShare.bind(this)}
-            />}
+          
           {dataLoaded &&
             buildChart == "Map" &&
             currentTab == "Chart" &&
