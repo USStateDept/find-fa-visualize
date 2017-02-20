@@ -325,7 +325,7 @@ export function wizardClickSelectChart(chart) {
 }
 
 // on-the-fly chart change
-export function liveChartChange(chart) {
+export function chartLiveChartTypeChange(chart) {
   return dispatch => {
     // there can be only one chart
     // in the reducer make sure you just replace it

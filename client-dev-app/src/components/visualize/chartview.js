@@ -52,7 +52,8 @@ class ChartView extends Component {
       dataLoaded,
       dataLoading,
       data,
-      selectedViewChart
+      selectedViewChart,
+      liveChartTypeChange
     } = this.props;
 
     const {
@@ -65,8 +66,9 @@ class ChartView extends Component {
         {dataLoading && <div className="FindFa__loading" />}
         {dataLoaded &&
           <ChartBanner
-            {...this.props}
             currentTab={currentTab}
+            chartType={selectedViewChart}
+            liveChartTypeChange={liveChartTypeChange}
             changeTab={this.changeTab.bind(this)}
             data={data}
             closeSave={this.closeSave.bind(this)}

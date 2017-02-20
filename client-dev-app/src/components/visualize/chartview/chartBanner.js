@@ -3,30 +3,22 @@ import React, { PropTypes, Component } from "react";
 class ChangeChart extends Component {
   constructor(props) {
     super(props);
+
+    let list1 = ["Line", "Bar-Chart", "Stacked-Bar", "Map", "Treemap"];
+    let list2 = ["Scatter", "Bubble"];
+
+    let optionsList = list1.indexOf(props.chartType) !== -1
+      ? list1
+      : list2.indexOf(props.chartType) !== -2 ? list2 : [];
+
     this.state = {
-      current: props.buildChart,
-      options: []
+      current: props.chartType,
+      options: optionsList
     };
   }
 
-  componentWillMount() {
-    let list1 = ["Line", "Bar-Chart", "Stacked-Bar", "Map", "Treemap"];
-    let list2 = ["Scatter", "Bubble"];
-    //Make list 3 if needed
-    var oneDex = list1.indexOf(this.state.current);
-    var twoDex = list2.indexOf(this.state.current);
-    if (oneDex != -1) {
-      this.setState({
-        options: ["Line", "Bar-Chart", "Stacked-Bar", "Map", "Treemap"]
-      });
-    }
-    if (twoDex != -1) {
-      this.setState({ options: ["Scatter", "Bubble"] });
-    }
-  }
-
   changeChart(e) {
-    if (e.target.value != "null") {
+    if (e.target.value !== "null") {
       this.props.changeChart(e.target.value);
     }
   }
@@ -64,7 +56,9 @@ class ChartBanner extends Component {
       changeTab,
       currentTab,
       initSave,
-      autoSaveShare
+      autoSaveShare,
+      chartType,
+      liveChartTypeChange
     } = this.props;
 
     let chActive = currentTab == "Chart" ? "Banner__tab-active" : "";
@@ -73,7 +67,7 @@ class ChartBanner extends Component {
 
     // create indicator title
     let indicatorTitle = "";
-    console.log(this.props.data.indicators);
+
     if (this.props.data.indicators.length == 1) {
       indicatorTitle = (
         <div>
@@ -113,8 +107,8 @@ class ChartBanner extends Component {
       <div className="Chart__banner ">
         <div className="Chart__banner-actions">
           <ChangeChart
-            buildChart={this.props.buildChart}
-            changeChart={this.props.liveChartChange}
+            chartType={chartType}
+            changeChart={liveChartTypeChange}
           />
           <a
             onClick={this.props.displayModal}
@@ -143,7 +137,7 @@ class ChartBanner extends Component {
               changeTab("Meta Data");
             }}
             className={"Chart__banner-tabs " + mdActive}
-          >Meta Data</li>
+          >Source</li>
         </ul>
         <div className="dummyClear" />
       </div>

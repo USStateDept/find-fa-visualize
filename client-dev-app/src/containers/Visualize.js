@@ -27,7 +27,6 @@ class Visualize extends Component {
     if (nextProps.chartDataLoading) {
       this.setState({ currentView: "chart" });
     }
-
     // add more cases here for new view
   }
 
@@ -65,7 +64,8 @@ class Visualize extends Component {
       wizardClickSelectCountry,
       wizardClickSelectAllCountries,
       wizardClickSelectChart,
-      chartRequestData
+      chartRequestData,
+      chartLiveChartTypeChange
     } = this.props;
 
     const {
@@ -98,6 +98,7 @@ class Visualize extends Component {
             dataLoaded={chartDataLoaded}
             data={chartData}
             selectedViewChart={selectedViewChart}
+            liveChartTypeChange={chartLiveChartTypeChange}
           />}
       </div>
     );
