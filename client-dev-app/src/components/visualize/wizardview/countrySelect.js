@@ -95,7 +95,7 @@ class RegionList extends Component {
                 }}
               >Select All</span>
             </div>
-            <div className="Wizard__menu-column-row-body-list">
+            <div className="Wizard__menu-column-row-body-list f32">
               {countryList.map((country, i) => (
                 <div
                   className="Wizard__menu-column-row-base-float"

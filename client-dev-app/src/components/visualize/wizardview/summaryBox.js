@@ -30,6 +30,10 @@ const SummaryBox = (
               deselectCountry(country);
             }}
           >
+            {" "}
+            <span className={"flag " + country.get("ISO").toLowerCase()}>
+              &nbsp;
+            </span>
             <p>{" " + country.get("Name")} ❌</p>
           </span>
         ))}

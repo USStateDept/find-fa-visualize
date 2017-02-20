@@ -18,7 +18,7 @@ const Indicator = ({ indicators, selectIndicator, selectedIndicators }) => (
               : ""
           }
         >
-          <p>{ind.get("name")}</p>
+          <p>{`> ${ind.get("name")}`}</p>
         </span>
       </div>
     ))}

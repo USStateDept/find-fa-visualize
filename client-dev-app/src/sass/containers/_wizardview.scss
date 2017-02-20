@@ -48,7 +48,7 @@
 
 .Wizard__menu-column-row-body-list {
   padding-left: 4em;
-  font-size: .8em;
+  
   padding-top: .25em;
   padding-bottom: .25em;
   overflow: auto;
@@ -57,8 +57,6 @@
 .Wizard__menu-column-row-base-list {
   padding-left: 6em;
   cursor: pointer;
-  font-size: .8em;
-  
 
   & p {
     margin: 0;
@@ -66,7 +64,6 @@
 
     &:hover { 
       color: #ee872d;
-      content: ">"
     }
   }
 }
@@ -74,17 +71,20 @@
 .Wizard__menu-column-row-base-float {
   float:left;
   width: 44%;
-  
+  position: relative;
   
   & p {
     margin: 0;
     margin-bottom: 0.15em;
-
-    &:hover { 
-      color: #ee872d;
-      content: ">"
-    }
+    display: inline;
+    position: absolute;
+    top: 25%;
+    margin-left: 10px;
   }
+
+  &:hover { 
+      color: #ee872d;
+    }
 }
 
 
