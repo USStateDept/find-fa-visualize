@@ -86,8 +86,6 @@ class ChartView extends Component {
             showTitle={false}
             {...this.props}
           />}
-        }
-
 
         {/* Determine Which Components to show when data loaded *
           

@@ -146,10 +146,10 @@ class BaseChart extends Component {
       },
       font: {
         family: "'Open Sans',Arial,Helvetica,sans-serif",
-        color: "#ffeed2"
+        color: "#00576c"
       },
-      paper_bgcolor: "#00576c",
-      plot_bgcolor: "#00576c"
+      paper_bgcolor: "#ffeed2",
+      plot_bgcolor: "#ffeed2"
     };
 
     if (this.state.showTitle) {

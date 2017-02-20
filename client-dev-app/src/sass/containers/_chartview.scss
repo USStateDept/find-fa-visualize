@@ -1,5 +1,5 @@
 .Chart__view {
-  background-color: #00576c;
+  background-color: #ffeed2;
   height: 100vh;
   padding: 50px;
 }
@@ -11,6 +11,8 @@
 .Chart__banner {
   text-align: center;
   padding-top: 100px;
+  font-weight: 600;
+  color: #ffeed2;
 }
 
 .Chart__banner-actions {
@@ -24,30 +26,28 @@
   padding-left: 1em;
   padding-right: 1em;
   height: 3em;
-  background-color: #ffeed2;
+  background-color: #00576c;
   width: 8em;
   cursor: pointer;
   text-align: center;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
-  border: 3px solid #ffeed2;
+  border: 3px solid #00576c;
   border-bottom: none;
-  color: black;
 
   &:hover {
-    background-color: darken(#ffeed2, 20);
-    border-color: darken(#ffeed2, 20);
+    background-color: darken(#00576c, 7);
+    border-color: darken(#00576c, 7);
   }
 }
 
 .Banner__tab-active {
-  background-color: #00576c;
-  color: #ffeed2;
-  font-weight: 600;
+  background-color: #ffeed2;
+  color: #00576c;
 
   &:hover {
-    background-color:#00576c;
-    border-color: #ffeed2;
+    background-color:#ffeed2;
+    border-color: #00576c;
   }
   
 }
@@ -61,23 +61,23 @@
 }
 
 .Chart__banner-title {
-  color: #ffeed2;
+  color: #00576c;
   clear: both;
 }
 
 .Chart__banner-title-units{
   line-height: 0;
-  color: #ffeed2;
+  color: #00576c;
 }
 
 .Chart__banner-tool {
-  background-color: #ffeed2;
+  background-color: #00576c;
   padding: 5px;
   min-width: 5em;
   cursor: pointer;
 
   &:hover {
-    background-color: darken(#ffeed2, 20);
+    background-color: darken(#00576c, 7);
   }
 }
 
@@ -90,7 +90,7 @@
   margin-left: .5em;
 }
 
-.Chart__banner-chart-dropdown select {
+.Chart__banner-chart-dropdown > select {
   padding-right: 2.5em;
   background-color: transparent;
   border: 0;
@@ -98,27 +98,9 @@
   text-indent: 0.01px;
   text-overflow: '';
   border-radius: 0;
-  -webkit-appearance: none;
   cursor: pointer;
+  color: #ffeed2;
   font-size: 1em;
-  color: #00576c;
+  font-weight: 600;
 }
-.Chart__banner-chart-dropdown::before,
-.Chart__banner-chart-dropdown::after {
-  content: "";
-  position: absolute;
-  pointer-events: none;
-}
-.Chart__banner-chart-dropdown::after {
-  content: "\25BC";
-  line-height: 1;
-  right: 1.2em;
-  top: 50%;
-  margin-top: -.5em;
-}
-.Chart__banner-chart-dropdown::before {
-  width: 2em;
-  right: 0;
-  top: 0;
-  bottom: 0;
-}
+
