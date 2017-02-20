@@ -130,6 +130,8 @@ class WizardView extends Component {
       selectionsMessage,
       selectedChart,
 
+      buildAllowed,
+
       //actions
       clickSelectIndicator,
       clickSelectCountry,
@@ -201,6 +203,7 @@ class WizardView extends Component {
                 />
                 <ProgressButtons
                   changeWizardState={this.changeWizardState.bind(this)}
+                  buildAllowed={buildAllowed}
                   showFinish={nextWizard}
                   showBack={prevWizard}
                 />

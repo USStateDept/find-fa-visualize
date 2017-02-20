@@ -45,6 +45,7 @@ class Visualize extends Component {
       selectedCountries,
       selectedRegions,
       selectedChart,
+      wizardBuildAllowed,
 
       // actions
       wizardClickSelectIndicator,
@@ -74,6 +75,7 @@ class Visualize extends Component {
             selectedCountries={selectedCountries}
             selectedRegions={selectedRegions}
             selectionsMessage={wizardSelectionsMessage}
+            buildAllowed={wizardBuildAllowed}
           />}
         {currentView === "chart" && <ChartView />}
       </div>
@@ -95,6 +97,7 @@ function mapStateToProps(state) {
   const wizardSetupIndicators = visualize.get("wizardSetupIndicators");
   const wizardSetupCountries = visualize.get("wizardSetupCountries");
   const wizardSelectionsMessage = visualize.get("wizardSelectionsMessage");
+  const wizardBuildAllowed = visualize.get("wizardBuildAllowed");
   const dataLoaded = visualize.get("dataLoaded");
   const dataLoading = visualize.get("dataLoading");
   const currentYearView = visualize.get("currentYearView");
@@ -105,7 +108,6 @@ function mapStateToProps(state) {
   const buildChart = visualize.get("buildChart");
   const data = visualize.get("data");
   const dataResults = visualize.get("dataResults");
-  const buildReady = visualize.get("buildReady");
   const geoIsLoading = visualize.get("geoIsLoading");
   const geoLoaded = visualize.get("geoLoaded");
   const geoJson = visualize.get("geoJson");
@@ -122,6 +124,7 @@ function mapStateToProps(state) {
     wizardSetupIndicators,
     wizardSetupCountries,
     wizardSelectionsMessage,
+    wizardBuildAllowed,
     dataLoaded,
     dataLoading,
     currentYearView,
@@ -132,7 +135,6 @@ function mapStateToProps(state) {
     buildChart,
     data,
     dataResults,
-    buildReady,
     geoIsLoading,
     geoLoaded,
     geoJson,

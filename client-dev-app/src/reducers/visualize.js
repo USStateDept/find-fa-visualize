@@ -41,11 +41,11 @@ const initialState = Map({
   wizardSetupErrorMessage: "",
   wizardSetupCountries: List([]), // the loading of the menu
   wizardSetupIndicators: List([]),
-  buildReady: false,
   wizardSelectionsMessage: "",
   wizardIndicatorSelectInit: false,
   wizardCountrySelectInit: false,
   wizardChartSelectInit: false,
+  wizardBuildAllowed: false,
   dataLoaded: false, // got data from server
   dataLoading: false, // requested and waiting for data
   currentYearView: false,
@@ -131,7 +131,7 @@ export default function visualize(state = initialState, action) {
     case WIZARD_TRY_ENABLE_BUILD:
       return state.withMutations(s => {
         s
-          .set("buildReady", action.value)
+          .set("wizardBuildAllowed", action.value)
           .set("wizardSelectionsMessage", action.message);
       });
     case WIZARD_RESET:

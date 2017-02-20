@@ -255,8 +255,9 @@ function checkBuildReady(state) {
     }
   }
 
-  // all checks passed
-  return { allow: true, message: "" };
+  if (indicatorsInitiated && countriesInitiated && chartInitiated) {
+    return { allow: true, message: "" };
+  }
 }
 
 export function wizardClickSelectIndicator(indicator) {

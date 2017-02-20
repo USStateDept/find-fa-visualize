@@ -208,12 +208,18 @@
   color: white;
   background-color: rgba(252,178,72,0.6);
   border-color: #ee872d;
+
+  &:hover {
+    transition: .5s;
+    background-color: rgba(252,178,72,1);
+  }
+  &.disabled {
+    background-color: lightgrey;
+    border-color: lightgrey;
+    cursor: not-allowed;
+  }
 }
 
-.Wizard__buttons:hover {
-  transition: .5s;
-  background-color: rgba(252,178,72,1);
-} 
 
 .Wizard__begin-buttons {
   text-align: center;
