@@ -18,6 +18,7 @@ export const REQUEST_SETUP = "REQUEST_SETUP";
 export const REQUEST_SETUP_SUCCESS = "REQUEST_SETUP_SUCCESS";
 export const REQUEST_SETUP_FAILURE = "REQUEST_SETUP_FAILURE";
 // wizard ui actions
+export const WIZARD_SELECT_SETUP_INIT = "WIZARD_SELECT_SETUP_INIT";
 export const WIZARD_SELECT_SETUP = "WIZARD_SELECT_SETUP";
 export const WIZARD_DESELECT_SETUP = "WIZARD_DESELECT_SETUP";
 export const WIZARD_SELECT_CHART = "WIZARD_SELECT_CHART";
@@ -64,6 +65,13 @@ function dispatchRequestWizardSetupFailure(json) {
   return {
     type: REQUEST_SETUP_FAILURE,
     message: json.message
+  };
+}
+
+function dispatchWizardSelectInit(optionType) {
+  return {
+    type: WIZARD_SELECT_SETUP_INIT,
+    optionType: optionType
   };
 }
 
@@ -185,53 +193,68 @@ function checkBuildReady(state) {
   const selectedRegions = state.get("selectedRegions");
   const selectedChart = state.get("selectedChart");
 
+  const indicatorsInitiated = state.get("wizardIndicatorSelectInit");
+  const countriesInitiated = state.get("wizardCountrySelectInit");
+  const chartInitiated = state.get("wizardChartSelectInit");
+
   // basic reqs
-  if (selectedIndicators.size === 0) {
-    return { allow: false, message: "Please select one or more indicators" };
+  if (indicatorsInitiated) {
+    if (selectedIndicators.size === 0) {
+      return { allow: false, message: "Please select one or more indicators" };
+    }
+    if (selectedIndicators.size > 3) {
+      return {
+        allow: false,
+        message: `You have choosen too many indicators (max is 3)`
+      };
+    }
   }
-  if (selectedCountries.size === 0 && selectedRegions.size === 0) {
-    return { allow: false, message: "Please select one or more countries" };
+
+  if (countriesInitiated) {
+    if (selectedCountries.size === 0 && selectedRegions.size === 0) {
+      return { allow: false, message: "Please select one or more countries" };
+    }
   }
-  if (selectedChart === "" || !selectedChart) {
-    return { allow: false, message: "Please select a chart type" };
+
+  if (chartInitiated) {
+    if (selectedChart === "" || !selectedChart) {
+      return { allow: false, message: "Please select a chart type" };
+    }
+    if (
+      selectedCountries.size < BuildRules.charts[selectedChart].min_countries &&
+      selectedRegions.size < BuildRules.charts[selectedChart].min_countries
+    ) {
+      return {
+        allow: false,
+        message: (
+          `You have not selected enough countries for the chart type: ${selectedChart}`
+        )
+      };
+    }
+    if (
+      selectedCountries.size > BuildRules.charts[selectedChart].max_countries
+    ) {
+      return {
+        allow: false,
+        message: (
+          `You have selected too many countries for the chart type: ${selectedChart}`
+        )
+      };
+    }
+    if (
+      selectedCountries.size > 0 &&
+      selectedRegions.size > 0 &&
+      selectedChart === "Map"
+    ) {
+      return {
+        allow: false,
+        message: (
+          `You may not visualize Countries and Regions on a map togther (yet)`
+        )
+      };
+    }
   }
-  if (selectedIndicators.size > 3) {
-    return {
-      allow: false,
-      message: `You have choosen too many indicators (max is 3)`
-    };
-  }
-  if (
-    selectedCountries.size < BuildRules.charts[selectedChart].min_countries &&
-    selectedRegions.size < BuildRules.charts[selectedChart].min_countries
-  ) {
-    return {
-      allow: false,
-      message: (
-        `You have not selected enough countries for the chart type: ${selectedChart}`
-      )
-    };
-  }
-  if (selectedCountries.size > BuildRules.charts[selectedChart].max_countries) {
-    return {
-      allow: false,
-      message: (
-        `You have selected too many countries for the chart type: ${selectedChart}`
-      )
-    };
-  }
-  if (
-    selectedCountries.size > 0 &&
-    selectedRegions.size > 0 &&
-    selectedChart === "Map"
-  ) {
-    return {
-      allow: false,
-      message: (
-        `You may not visualize Countries and Regions on a map togther (yet)`
-      )
-    };
-  }
+
   // all checks passed
   return { allow: true, message: "" };
 }
@@ -247,6 +270,9 @@ export function wizardClickSelectIndicator(indicator) {
       dispatch(dispatchWizardSelect(indicator, "indicators"));
     } else {
       dispatch(dispatchWizardDeselect(indicator, "indicators", index));
+    }
+    if (!getState().visualize.get("wizardIndicatorSelectInit")) {
+      dispatch(dispatchWizardSelectInit("Indicator"));
     }
     dispatch(
       dispatchWizardTryEnableBuild(checkBuildReady(getState().visualize))
@@ -265,6 +291,9 @@ export function wizardClickSelectCountry(country) {
       dispatch(dispatchWizardSelect(country, "countries"));
     } else {
       dispatch(dispatchWizardDeselect(country, "countries", index));
+    }
+    if (!getState().visualize.get("wizardCountrySelectInit")) {
+      dispatch(dispatchWizardSelectInit("Country"));
     }
     dispatch(
       dispatchWizardTryEnableBuild(checkBuildReady(getState().visualize))

@@ -11,6 +11,7 @@ import {
   WIZARD_SELECT_CHART,
   WIZARD_TRY_ENABLE_BUILD,
   WIZARD_SET_GEOJSON_MAPTYPE,
+  WIZARD_SELECT_SETUP_INIT,
   WIZARD_RESET,
   // data actions
   REQUEST_DATA,
@@ -40,6 +41,11 @@ const initialState = Map({
   wizardSetupErrorMessage: "",
   wizardSetupCountries: List([]), // the loading of the menu
   wizardSetupIndicators: List([]),
+  buildReady: false,
+  wizardSelectionsMessage: "",
+  wizardIndicatorSelectInit: false,
+  wizardCountrySelectInit: false,
+  wizardChartSelectInit: false,
   dataLoaded: false, // got data from server
   dataLoading: false, // requested and waiting for data
   currentYearView: false,
@@ -50,8 +56,6 @@ const initialState = Map({
   buildChart: "", // the chart being used for build & on the fly changes
   data: Map({}), // data used to draw current viz
   dataResults: Map({}), // data that came directly from server
-  buildReady: false,
-  buildMessage: "",
   geoIsLoading: false,
   geoLoaded: false,
   geoJson: undefined,
@@ -91,6 +95,9 @@ export default function visualize(state = initialState, action) {
           .set("wizardSetupError", true)
           .set("wizardSetupErrorMessage", action.message);
       });
+    case WIZARD_SELECT_SETUP_INIT: {
+      return state.set(`wizard${action.optionType}SelectInit`, true);
+    }
     case WIZARD_SELECT_SETUP: {
       if (action.setType !== "chart") {
         let key = action.setType.charAt(0).toUpperCase() +
@@ -123,7 +130,9 @@ export default function visualize(state = initialState, action) {
       });
     case WIZARD_TRY_ENABLE_BUILD:
       return state.withMutations(s => {
-        s.set("buildReady", action.value).set("buildMessage", action.message);
+        s
+          .set("buildReady", action.value)
+          .set("wizardSelectionsMessage", action.message);
       });
     case WIZARD_RESET:
       return state.withMutations(s => {

@@ -40,6 +40,7 @@ class Visualize extends Component {
       wizardSetupCountries,
       wizardSetupErrorMessage,
       wizardSetupLoaded,
+      wizardSelectionsMessage,
       selectedIndicators,
       selectedCountries,
       selectedRegions,
@@ -68,6 +69,7 @@ class Visualize extends Component {
             selectedIndicators={selectedIndicators}
             selectedCountries={selectedCountries}
             selectedRegions={selectedRegions}
+            selectionsMessage={wizardSelectionsMessage}
           />}
         {currentView === "chart" && <ChartView />}
       </div>
@@ -88,6 +90,7 @@ function mapStateToProps(state) {
   const wizardSetupErrorMessage = visualize.get("wizardSetupErrorMessage");
   const wizardSetupIndicators = visualize.get("wizardSetupIndicators");
   const wizardSetupCountries = visualize.get("wizardSetupCountries");
+  const wizardSelectionsMessage = visualize.get("wizardSelectionsMessage");
   const dataLoaded = visualize.get("dataLoaded");
   const dataLoading = visualize.get("dataLoading");
   const currentYearView = visualize.get("currentYearView");
@@ -99,7 +102,6 @@ function mapStateToProps(state) {
   const data = visualize.get("data");
   const dataResults = visualize.get("dataResults");
   const buildReady = visualize.get("buildReady");
-  const buildMessage = visualize.get("buildMessage");
   const geoIsLoading = visualize.get("geoIsLoading");
   const geoLoaded = visualize.get("geoLoaded");
   const geoJson = visualize.get("geoJson");
@@ -115,6 +117,7 @@ function mapStateToProps(state) {
     wizardSetupErrorMessage,
     wizardSetupIndicators,
     wizardSetupCountries,
+    wizardSelectionsMessage,
     dataLoaded,
     dataLoading,
     currentYearView,
@@ -126,7 +129,6 @@ function mapStateToProps(state) {
     data,
     dataResults,
     buildReady,
-    buildMessage,
     geoIsLoading,
     geoLoaded,
     geoJson,

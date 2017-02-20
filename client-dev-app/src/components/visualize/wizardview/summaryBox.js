@@ -1,7 +1,13 @@
 import React, { Component } from "react";
 
 const SummaryBox = (
-  { selectedIndicators, deselectIndicator, deselectCountry, selectedCountries }
+  {
+    selectedIndicators,
+    deselectIndicator,
+    deselectCountry,
+    selectedCountries,
+    selectionsMessage
+  }
 ) => (
   <div className="Wizard__summary">
     <strong className="Wizard__summary-box-title">Selection:</strong>
@@ -31,9 +37,7 @@ const SummaryBox = (
             }}
           >
             {" "}
-            <span className={"flag " + country.get("ISO").toLowerCase()}>
-              &nbsp;
-            </span>
+            <span className={"flag " + country.get("ISO").toLowerCase()} />
             <p>{" " + country.get("Name")} ❌</p>
           </span>
         ))}
@@ -43,6 +47,7 @@ const SummaryBox = (
 
       </div>
     </div>
+    {selectionsMessage}
   </div>
 );
 

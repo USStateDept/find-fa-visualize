@@ -116,6 +116,7 @@ class WizardView extends Component {
 
       selectedCountries,
       selectedRegions,
+      selectionsMessage,
       // selectedChart,
 
       //actions
@@ -174,6 +175,7 @@ class WizardView extends Component {
                   deselectIndicator={clickSelectIndicator}
                   selectedCountries={selectedCountries}
                   deselectCountry={clickSelectCountry}
+                  selectionsMessage={selectionsMessage}
                 />
                 <ProgressButtons
                   changeWizardState={this.changeWizardState.bind(this)}
