@@ -44,11 +44,13 @@ class Visualize extends Component {
       selectedIndicators,
       selectedCountries,
       selectedRegions,
+      selectedChart,
 
       // actions
       wizardClickSelectIndicator,
       wizardClickSelectCountry,
-      wizardClickSelectAllCountries
+      wizardClickSelectAllCountries,
+      wizardClickSelectChart
     } = this.props;
 
     const {
@@ -66,7 +68,9 @@ class Visualize extends Component {
             clickSelectIndicator={wizardClickSelectIndicator}
             clickSelectCountry={wizardClickSelectCountry}
             clickSelectAllCountries={wizardClickSelectAllCountries}
+            clickSelectChart={wizardClickSelectChart}
             selectedIndicators={selectedIndicators}
+            selectedChart={selectedChart}
             selectedCountries={selectedCountries}
             selectedRegions={selectedRegions}
             selectionsMessage={wizardSelectionsMessage}

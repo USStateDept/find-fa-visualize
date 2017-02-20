@@ -128,11 +128,12 @@ class WizardView extends Component {
       selectedCountries,
       selectedRegions,
       selectionsMessage,
-      // selectedChart,
+      selectedChart,
 
       //actions
       clickSelectIndicator,
       clickSelectCountry,
+      clickSelectChart,
       clickSelectAllCountries
     } = this.props;
 
@@ -176,6 +177,8 @@ class WizardView extends Component {
                   />}
                 {currentWizard === "chart" &&
                   <ChartSelect
+                    selectChart={clickSelectChart}
+                    selectedChart={selectedChart}
                     chartOptiontype={
                       selectedIndicators.size === 0 ||
                         selectedIndicators.size > 3
@@ -192,7 +195,9 @@ class WizardView extends Component {
                   deselectIndicator={clickSelectIndicator}
                   selectedCountries={selectedCountries}
                   deselectCountry={clickSelectCountry}
+                  deselectChart={clickSelectChart}
                   selectionsMessage={selectionsMessage}
+                  selectedChart={selectedChart}
                 />
                 <ProgressButtons
                   changeWizardState={this.changeWizardState.bind(this)}

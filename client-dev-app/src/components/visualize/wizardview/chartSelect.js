@@ -15,17 +15,15 @@ class ChartList extends Component {
           <div
             key={i}
             className={
-              this.props.chart == n.id
+              this.props.selectedChart === n.id
                 ? "Wizard__item-selected Wizard__chart-option"
                 : "Wizard__chart-option"
             }
+            onClick={() => {
+              this.props.selectChart(n.id);
+            }}
           >
-            <span
-              onClick={() => {
-                this.props.selectChart(n.id);
-              }}
-              className={`icon-${n.display} Wizard__chart-option-icon`}
-            />
+            <div className={`icon-${n.display} Wizard__chart-option-icon`} />
             <br />
             {n.id}
           </div>
@@ -39,7 +37,9 @@ class ChartList extends Component {
 class ChartSelect extends Component {
   render() {
     let {
-      chartOptiontype
+      chartOptiontype,
+      selectedChart,
+      selectChart
     } = this.props;
 
     const chartTypes = [
@@ -69,8 +69,8 @@ class ChartSelect extends Component {
                 ? <span />
                 : <div key={i}>
                     <ChartList
-                      {...this.props}
-                      chart={this.props.chart}
+                      selectedChart={selectedChart}
+                      selectChart={selectChart}
                       list={type.list}
                     />
                   </div>}

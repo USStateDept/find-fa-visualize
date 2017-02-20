@@ -5,7 +5,9 @@ const SummaryBox = (
     selectedIndicators,
     deselectIndicator,
     deselectCountry,
+    deselectChart,
     selectedCountries,
+    selectedChart,
     selectionsMessage
   }
 ) => (
@@ -44,6 +46,15 @@ const SummaryBox = (
       </div>
       <div className="Wizard__summary-box-section">
         Chart:<br />
+        {selectedChart &&
+          <span
+            className="Wizard__summary-box-section-item"
+            onClick={() => {
+              deselectChart(selectedChart);
+            }}
+          >
+            <p>{" " + selectedChart} ❌</p>
+          </span>}
 
       </div>
     </div>

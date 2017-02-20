@@ -302,17 +302,22 @@ export function wizardClickSelectCountry(country) {
 }
 
 // build menu select chart
-export function clickSelectChart(chart) {
+export function wizardClickSelectChart(chart) {
   return (dispatch, getState) => {
     // there can be only one chart
     // in the reducer make sure you just replace it
-    if (getState().visualize.present.selectedChart !== chart) {
+    if (getState().visualize.get("selectedChart") !== chart) {
       dispatch(dispatchWizardDeselect(null, "chart", null));
       dispatch(dispatchWizardSelect(chart, "chart"));
     } else {
       dispatch(dispatchWizardDeselect(null, "chart", null));
     }
-    dispatch(dispatchWizardTryEnableBuild(checkBuildReady(getState())));
+    if (!getState().visualize.get("wizardChartSelectInit")) {
+      dispatch(dispatchWizardSelectInit("Chart"));
+    }
+    dispatch(
+      dispatchWizardTryEnableBuild(checkBuildReady(getState().visualize))
+    );
   };
 }
 
