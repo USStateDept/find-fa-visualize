@@ -172,7 +172,7 @@ class CountrySelect extends Component {
                 className="Wizard__menu-column-row-title"
               >
 
-                <p className="Wizard__menu-column-row-icon">
+                <p className="Wizard__menu-column-row-name">
                   {region.get("name")}
                 </p>
 

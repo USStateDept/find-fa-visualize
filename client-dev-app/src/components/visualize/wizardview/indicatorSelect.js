@@ -137,8 +137,8 @@ class IndicatorSelect extends Component {
                   )}
                   className="Wizard__menu-column-row-title"
                 >
-                  <i className={catNames[i] + " catcon"} />
-                  <p className="Wizard__menu-column-row-icon">
+                  <i className={catNames[i] + " Wizard__indicator-row-icon"} />
+                  <p className="Wizard__menu-column-row-name">
                     {category.get("name")}
                   </p>
                 </div>

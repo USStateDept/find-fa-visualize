@@ -27,14 +27,24 @@
   border-bottom: 1px solid #aeb0b5;
   width: 100%;
   min-height: 40px;
-  padding-top: .5em;
+  padding-top: 1em;
   cursor: pointer;
+  position: relative;
+  
+  
   &:hover {
     background-color: #aeb0b5;
   }
+
+  & p {
+    position: absolute;
+    display: inline;
+    margin: 0;
+    margin-left: 10px;
+  }
 }
 
-.Wizard__menu-column-row-icon {
+.Wizard__menu-column-row-name {
   padding-top: .25em;
   margin-left: 2em;
 }
@@ -68,6 +78,13 @@
   }
 }
 
+.Wizard__indicator-row-icon {
+  width: 30px;
+  height: 30px;
+  float: left;
+  font-size: 25px;
+}
+
 .Wizard__menu-column-row-base-float {
   float:left;
   width: 44%;
@@ -85,6 +102,22 @@
   &:hover { 
       color: #ee872d;
     }
+}
+
+.Wizard__chart-option {
+  float:left;
+  padding: 1em;
+  font-size: 1em;
+  color: #323a45;
+  margin-top: .5em;
+  margin-bottom: .5em;
+  text-align: center;
+  cursor: pointer;
+}
+
+.Wizard__chart-option-icon {
+  display: inline-block;
+  font-size: 4em;
 }
 
 
