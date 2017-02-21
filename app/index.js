@@ -2,6 +2,7 @@
 
 import express from "express";
 import kraken from "kraken-js";
+import path from "path";
 let options, app;
 
 /*
@@ -31,6 +32,12 @@ options = {
 };
 
 app = module.exports = express();
+
+app.use(express.static("./.build"));
+
+app.get("/", function(req, res) {
+  res.sendFile(path.join(__dirname, "./.build", "index.html"));
+});
 
 /**
  * NOTICE!!!
