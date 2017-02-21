@@ -259,7 +259,6 @@ export function wizardClickSelectRegion(region) {
 export function wizardClickSelectAllFromRegion(region) {
   return (dispatch, getState) => {
     // foreach in countries, select country if it has
-    console.log(getState().visualize);
     getState().visualize
       .get("wizardSetupCountries")
       .get(0)

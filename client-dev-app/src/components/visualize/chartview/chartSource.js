@@ -3,7 +3,6 @@ import React, { PropTypes, Component } from "react";
 class ChartSource extends Component {
   constructor(props) {
     super(props);
-    console.log(props.data.metadataSet);
     this.state = {
       metadata: props.data.metadataSet
     };

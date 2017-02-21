@@ -81,7 +81,6 @@ class BaseChart extends Component {
 
   plotlyRenderStyle() {
     // draw the chart with the corresponding startdate
-    console.log(this.state.year);
     let dataSet = this.state.data[this.state.year].traces.slice(0);
     // sometimes there will be empty indexes in this array
     dataSet = _.without(dataSet, undefined);
