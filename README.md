@@ -11,14 +11,20 @@ This is an online tool that enables users to explore and analyze national level 
 This is a separate application and for production deployments can be injected into the final application build. (dust template script includes to bundle.js)<em>
 
 #How to run the code in development
-## Start the Server (/app)
-1. `npm i`
-2. Create a /app/config/config.json file from app/config/config.sample.json . While in app root directory, `cp app/config/config.sample.json app/config/config.json`
+
+## 1) Set up the development database
+1. Install Postgres 9.4
+2. Restore from the latest backup for development. Contact creamertg@state.gov for the backup.
+3. Validate there were no errors with the restore
+
+## 2) Prep the server, build the client-side assets, and start the server
+1. Under app, `npm install`
+2. Create a app/config/config.json file from app/config/config.sample.json . You can do this from the top-level directory of the repo with `cp app/config/config.sample.json app/config/config.json`.
 3. Add your development database credentials to the config.json file you just created
-4. 
-
-
-# How to start Client
+4. Under client-dev-app, `npm install`
+5. Once npm is finished installing the packages, run `npm run build`. This will create a client-dev-app/build directory.
+5. Copy the client-dev-app/build directory to app/.build . Note that the directory under app is a hidden directory. You can do this from the top-level directory of the repo with `cp -r client-dev-app/build app/.build`.
+6. While in the top-level directory, run the server `node app/server.js`
 
 #### Majorly Powered By:
 
