@@ -39,15 +39,6 @@ export default class Parse {
   }
 
   /**
-   * Reverses the current indicator order,
-   * this is needed for when a user needs to switch axis'scale
-   */
-  reverseIndicatorOrder() {
-    let removed = this.indicators.splice(0, 1);
-    this.indicators.push(removed[0]);
-  }
-
-  /**
    * Genrates keys that parsing would need, 
    * dependent on location type
    */

@@ -233,6 +233,29 @@ export function wizardClickSelectCountry(country) {
   };
 }
 
+// build menu select region
+export function wizardClickSelectRegion(region) {
+  return (dispatch, getState) => {
+    let index = getState().visualize
+      .get("selectedRegions")
+      .findIndex(reg => region.equals(region));
+
+    if (index === -1) {
+      dispatch(dispatchWizardSelect(region, "regions"));
+    } else {
+      dispatch(dispatchWizardDeselect(region, "regions", index));
+    }
+    if (!getState().visualize.get("wizardCountrySelectInit")) {
+      dispatch(dispatchWizardSelectInit("Country"));
+    }
+    dispatch(
+      dispatchWizardTryEnableBuild(
+        BuildGate.checkBuildReady(getState().visualize)
+      )
+    );
+  };
+}
+
 // build menu select chart
 export function wizardClickSelectChart(chart) {
   return (dispatch, getState) => {
@@ -261,21 +284,6 @@ export function chartLiveChartTypeChange(chart) {
     // there can be only one chart
     // in the reducer make sure you just replace it
     dispatch(dispatchWizardSetChart(chart));
-  };
-}
-
-// build menu select region
-export function clickSelectRegion(region) {
-  return (dispatch, getState) => {
-    let index = getState().visualize.present.selectedRegions.indexOf(region);
-    if (index === -1) {
-      dispatch(dispatchWizardSelect(region, "regions"));
-    } else {
-      dispatch(dispatchWizardDeselect(region, "regions", index));
-    }
-    dispatch(
-      dispatchWizardTryEnableBuild(BuildGate.checkBuildReady(getState()))
-    );
   };
 }
 
@@ -462,28 +470,6 @@ export function chartRequestData() {
 
         dispatch(dispatchRequestVisualizeDataSuccess(chartObjects, data));
       });
-  };
-}
-
-// switch the axis's on the chart
-export function reverseAxisOrder() {
-  return (dispatch, getState) => {
-    // get the original dataset -- shallow copy
-    let originalData = _.cloneDeep(getState().visualize.present.dataResults);
-
-    let parse = new Parse(originalData);
-    // send reverse dataSet indicators
-    parse.reverseIndicatorOrder();
-    // send dataSet through parse
-    let chartObjects = originalData.indicators.length === 1
-      ? parse.parseForOne()
-      : originalData.indicators.length === 2
-          ? parse.parseForTwo()
-          : parse.parseForThree();
-
-    // dispatch parsed object
-    dispatch(dispatchRequestVisualizeDataSuccess(chartObjects, originalData));
-    parse = null;
   };
 }
 

@@ -124,12 +124,6 @@ class WizardView extends Component {
     const {
       selectedIndicators,
 
-      // // actions
-      // clickSelectIndicator,
-      // clickSelectCountry,
-      // clickSelectRegion,
-      // clickSelectChart
-
       indicatorSetup,
       countriesSetup,
 
@@ -143,6 +137,7 @@ class WizardView extends Component {
       //actions
       clickSelectIndicator,
       clickSelectCountry,
+      clickSelectRegion,
       clickSelectChart,
       clickSelectAllCountries,
       requestData
@@ -180,6 +175,7 @@ class WizardView extends Component {
                   <CountrySelect
                     setup={countriesSetup}
                     selectCountry={clickSelectCountry}
+                    selectRegion={clickSelectRegion}
                     setMapTypeForGeojson={() =>
                       console.log("< LOAD GEOJSON HERE>")}
                     selectedRegions={selectedRegions}

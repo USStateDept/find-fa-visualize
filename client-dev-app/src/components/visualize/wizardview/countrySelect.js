@@ -3,24 +3,18 @@ import React, { Component, PropTypes } from "react";
 import _ from "lodash";
 
 class RegionList extends Component {
-  // constructor(props) {
-  //   // init based on global store
-  //   console.log(props);
-  //   let copy = props.selectedRegions.slice(0);
-  //   _.each(copy, (r, i) => {
-  //     copy[i] = {
-  //       region: r,
-  //       clickState: 0
-  //     };
-  //   });
+  constructor(props) {
+    super(props);
 
-  //   super(props);
-
-  //   // TODO ADD THIS AS A GLOBAL MAPPING IN REDUCER
-  //   this.state = {
-  //     selectedRegions: copy
-  //   };
-  // }
+    this.state = {
+      selectedRegions: props.selectedRegions.map((r, i) => {
+        return {
+          region: r,
+          clickState: 0
+        };
+      })
+    };
+  }
 
   // componentWillReceiveProps(props) {
   //   // selected state regions needs to be in sync with the global store
@@ -40,45 +34,43 @@ class RegionList extends Component {
   // }
 
   // // region name, type of region (like continent)
-  // selectRegion(reg, type) {
-  //   let dex = _.findIndex(this.state.selectedRegions, r => {
-  //     return r.region === reg;
-  //   });
-  //   let copy = this.state.selectedRegions.slice(0);
+  selectRegion(reg, type) {
+    let dex = this.state.selectedRegions.findIndex(r => r.region === reg);
+    let copy = this.state.selectedRegions;
 
-  //   if (dex === -1) {
-  //     copy.push({ region: reg, clickState: 0 });
-  //     this.props.clickSelectRegion(reg, type);
-  //   } else if (copy[dex].clickState === 0) {
-  //     // it exists but has only been clicked once
-  //     copy[dex].clickState += 1;
-  //     // toggle the individual selection
-  //     this.props.clickSelectRegion(reg, type);
-  //     // select all countries
-  //     this.props.selectAllFromRegion(reg, type);
-  //   } else {
-  //     // its been clicked multiple times now, reset it
-  //     copy[dex] = {};
-  //     // toggled all selected this point
-  //     this.props.selectAllFromRegion(reg, type);
-  //   }
+    if (dex === -1) {
+      copy = copy.push({ region: reg, clickState: 0 });
+      this.props.selectRegion(reg, type);
+    } else if (copy.get(dex).clickState === 0) {
+      // it exists but has only been clicked once
+      copy = copy.set(copy.get(dex), copy.get(dex).clickState += 1);
+      // toggle the individual selection
+      this.props.selectRegion(reg, type);
+      // select all countries
+      this.props.selectAllFromRegion(reg, type);
+    } else {
+      // its been clicked multiple times now, reset it
+      copy = copy.set(copy.get(dex), {});
+      // toggled all selected this point
+      this.props.selectAllFromRegion(reg, type);
+    }
 
-  //   this.setState({
-  //     selectedRegions: copy
-  //   });
-  // }
+    this.setState({
+      selectedRegions: copy
+    });
+  }
 
-  // getRegionClassName(reg) {
-  //   return _.findIndex(this.state.selectedRegions, r => {
-  //     return r.region === reg && r.clickState === 0;
-  //   }) !== -1
-  //     ? "cty-row Wizard__item-selected"
-  //     : _.findIndex(this.state.selectedRegions, r => {
-  //         return r.region === reg && r.clickState === 1;
-  //       }) !== -1
-  //         ? "cty-row Wizard__item-selected-blue"
-  //         : "cty-row";
-  // }
+  getRegionClassName(region) {
+    return this.state.selectedRegions.findIndex(
+      r => r.region === region && r.clickState === 0
+    ) !== -1
+      ? "cty-row Wizard__item-selected"
+      : this.state.selectedRegions.findIndex(
+          r => r.region === region && r.clickState === 1
+        ) !== -1
+          ? "cty-row Wizard__item-selected-blue"
+          : "cty-row";
+  }
 
   render() {
     const {
@@ -123,16 +115,20 @@ class RegionList extends Component {
             </div>
           </div>}
         {this.props.type !== "All" &&
-          <ul className="country-list">
-            {this.props.list.map((reg, i) => (
-              <li
-                className={this.getRegionClassName(reg)}
-                onClick={this.selectRegion.bind(this, reg, reg.Type)}
+          <div className="Wizard__menu-column-row-body-list">
+            {countryList.map((region, i) => (
+              <div
+                className={this.getRegionClassName(region)}
+                onClick={this.selectRegion.bind(
+                  this,
+                  region,
+                  region.get("Type")
+                )}
               >
-                {reg.Name}
-              </li>
+                <p>{region.get("Name")}</p>
+              </div>
             ))}
-          </ul>}
+          </div>}
       </div>
     );
   }
@@ -165,6 +161,7 @@ class CountrySelect extends Component {
       selectedRegions,
       selectedCountries,
       selectCountry,
+      selectRegion,
       selectAllCountries
     } = this.props;
 
@@ -197,6 +194,7 @@ class CountrySelect extends Component {
                       selectedRegions={selectedRegions}
                       selectedCountries={selectedCountries}
                       selectCountry={selectCountry}
+                      selectRegion={selectRegion}
                       selectAllCountries={selectAllCountries}
                     />
                   </div>}
