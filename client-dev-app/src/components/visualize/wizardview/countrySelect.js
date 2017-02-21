@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from "react";
-
 import _ from "lodash";
+
+import SearchSelect from "./searchSelect";
 
 class RegionList extends Component {
   constructor(props) {
@@ -158,7 +159,8 @@ class CountrySelect extends Component {
         <div className="Wizard__header-title">
           Select the countries and regions you're interested in.
         </div>
-        <input type="text" className="" />
+
+        <SearchSelect setup={setup} select={selectCountry} type="country" />
 
         <div className="Wizard__menu-column-content">
           {setup.map((region, i) => (

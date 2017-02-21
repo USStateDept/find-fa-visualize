@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from "react";
 import _ from "lodash";
 
+import SearchSelect from "./searchSelect";
+
 // child stateless component representing base of category tree
 const Indicator = ({ indicators, selectIndicator, selectedIndicators }) => (
   <div>
@@ -130,7 +132,12 @@ class IndicatorSelect extends Component {
           <div className="Wizard__header-title">
             Select up to three indicators.
           </div>
-          <input type="text" className="" />
+
+          <SearchSelect
+            setup={setup}
+            select={selectIndicator}
+            type="indicator"
+          />
 
           <div className="Wizard__menu-column-content">
             {setup.map((category, i) => (
