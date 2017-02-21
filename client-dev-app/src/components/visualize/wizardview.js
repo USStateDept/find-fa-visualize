@@ -138,6 +138,7 @@ class WizardView extends Component {
       clickSelectIndicator,
       clickSelectCountry,
       clickSelectRegion,
+      clickSelectAllFromRegion,
       clickSelectChart,
       clickSelectAllCountries,
       requestData
@@ -176,6 +177,7 @@ class WizardView extends Component {
                     setup={countriesSetup}
                     selectCountry={clickSelectCountry}
                     selectRegion={clickSelectRegion}
+                    selectAllFromRegion={clickSelectAllFromRegion}
                     setMapTypeForGeojson={() =>
                       console.log("< LOAD GEOJSON HERE>")}
                     selectedRegions={selectedRegions}

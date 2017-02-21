@@ -162,6 +162,7 @@ class CountrySelect extends Component {
       selectedCountries,
       selectCountry,
       selectRegion,
+      selectAllFromRegion,
       selectAllCountries
     } = this.props;
 
@@ -195,6 +196,7 @@ class CountrySelect extends Component {
                       selectedCountries={selectedCountries}
                       selectCountry={selectCountry}
                       selectRegion={selectRegion}
+                      selectAllFromRegion={selectAllFromRegion}
                       selectAllCountries={selectAllCountries}
                     />
                   </div>}

@@ -68,6 +68,7 @@ class Visualize extends Component {
       wizardClickSelectIndicator,
       wizardClickSelectCountry,
       wizardClickSelectRegion,
+      wizardClickSelectAllFromRegion,
       wizardClickSelectAllCountries,
       wizardClickSelectChart,
       chartRequestData,
@@ -89,6 +90,7 @@ class Visualize extends Component {
             clickSelectIndicator={wizardClickSelectIndicator}
             clickSelectCountry={wizardClickSelectCountry}
             clickSelectRegion={wizardClickSelectRegion}
+            clickSelectAllFromRegion={wizardClickSelectAllFromRegion}
             clickSelectAllCountries={wizardClickSelectAllCountries}
             clickSelectChart={wizardClickSelectChart}
             selectedIndicators={selectedIndicators}

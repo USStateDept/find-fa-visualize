@@ -256,6 +256,26 @@ export function wizardClickSelectRegion(region) {
   };
 }
 
+export function wizardClickSelectAllFromRegion(region) {
+  return (dispatch, getState) => {
+    // foreach in countries, select country if it has
+    console.log(getState().visualize);
+    getState().visualize
+      .get("wizardSetupCountries")
+      .get(0)
+      .get("list")
+      .map(country => {
+        // check the cty object and see if it contains the region
+        if (country.get(region.get("Type")) === region.get("Name")) {
+          dispatch(wizardClickSelectCountry(country));
+        }
+      });
+    dispatch(
+      dispatchWizardTryEnableBuild(BuildGate.checkBuildReady(getState()))
+    );
+  };
+}
+
 // build menu select chart
 export function wizardClickSelectChart(chart) {
   return (dispatch, getState) => {
@@ -284,30 +304,6 @@ export function chartLiveChartTypeChange(chart) {
     // there can be only one chart
     // in the reducer make sure you just replace it
     dispatch(dispatchWizardSetChart(chart));
-  };
-}
-
-export function selectAllFromRegion(region) {
-  return (dispatch, getState) => {
-    // foreach in countries, select country if it has region
-    _.forEach(getState().visualize.present.countries[0].list, country => {
-      // check the cty object and see if it contains the region
-      if (country[region.Type] === region.Name) {
-        let index = getState().visualize.present.selectedCountries.indexOf(
-          country
-        );
-        if (index === -1) {
-          dispatch(dispatchWizardSelect(country, "countries"));
-        } else {
-          dispatch(dispatchWizardDeselect(country, "countries", index));
-        }
-      }
-    });
-
-    // finally after all selection, dispatch build ready
-    dispatch(
-      dispatchWizardTryEnableBuild(BuildGate.checkBuildReady(getState()))
-    );
   };
 }
 
