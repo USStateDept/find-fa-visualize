@@ -3,14 +3,11 @@ import React, { PropTypes, Component } from "react";
 const YearSelect = ({ listYears, selectYear }) => (
   <div>
     <h3>Select Year(s):</h3>
-    <label for="all">All</label>
-    <input name="all" type="checkbox" className="Chart__settings-checkbox" />
-    <div>
+    <div className="Chart__banner-tool Chart__chart-dropdown">
       <select onChange={selectYear.bind(this)}>
         <option value="null">Select Year</option>
         {listYears.map((y, i) => <option key={i} value={y}>{y}</option>)}
       </select>
-
     </div>
   </div>
 );

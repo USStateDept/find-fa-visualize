@@ -107,13 +107,30 @@
   font-weight: 600;
 }
 
+.Chart__chart-dropdown {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  float: left;
+}
+
+.Chart__chart-dropdown > select {
+  padding-right: 2.5em;
+  background-color: transparent;
+  border: 0;
+  margin: 0;
+  text-indent: 0.01px;
+  text-overflow: '';
+  border-radius: 0;
+  cursor: pointer;
+  color: #ffeed2;
+  font-size: 1em;
+  font-weight: 600;
+}
+
 .Chart__data-csv {
   float: left;
-
-  // margin-left: 1%;
   margin-top: 1em;
-  // padding: 5px;
-  // border: none;
   margin-bottom: .5em;
   color: #ffeed2;
   background-color: #00576c;

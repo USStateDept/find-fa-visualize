@@ -641,10 +641,8 @@ export function requestAverageDataIfNeeded() {
   };
 }
 
-export function setCurrentViewYear(e) {
-  console.log(e);
-  e.preventDefault();
+export function setCurrentViewYear(year) {
   return dispatch => {
-    // dispatch(dispatchSetVisualizeYear(year));
+    dispatch(dispatchSetVisualizeYear(year));
   };
 }

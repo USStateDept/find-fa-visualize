@@ -70,7 +70,6 @@ class BaseChart extends Component {
 
   componentDidMount() {
     this.renderNewChart();
-    this.props.setCurrentViewYear(this.state.year);
   }
 
   renderNewChart() {
@@ -250,11 +249,16 @@ class BaseChart extends Component {
     }
   }
 
-  selectYear(year) {
-    this.setState({ year: year }, () => {
-      this.renderNewChart();
-      this.props.setCurrentViewYear(this.state.year);
-    });
+  selectYear(e) {
+    if (e.target.value !== "null") {
+      this.setState(
+        Object.assign({}, this.state, { year: e.target.value }),
+        () => {
+          this.renderNewChart();
+          this.props.setCurrentViewYear(this.state.year);
+        }
+      );
+    }
   }
 
   render() {
