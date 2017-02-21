@@ -28,7 +28,6 @@ class BaseChart extends Component {
         countries,
         indicators,
         simpleSet,
-        scale,
         listYears
       }
     } = props;
@@ -47,26 +46,6 @@ class BaseChart extends Component {
       indicators: indicators,
       chartType: chartType,
       simpleData: simpleSet,
-      scale: _.isUndefined(scale) ? 1 : scale,
-      scaleRange: [
-        -10,
-        -1,
-        -0.01,
-        0,
-        0.01,
-        1,
-        10,
-        100,
-        1000,
-        100000,
-        10000000,
-        100000000,
-        1000000000,
-        1500000000,
-        2000000000,
-        5000000000,
-        10000000000
-      ],
       listYears: listYears,
       year: startYear, // start showing at last year
       chartID: `plotly-chart-${props.uid}`
@@ -81,12 +60,7 @@ class BaseChart extends Component {
         countries: nextProps.data.countries || this.props.countries,
         indicators: nextProps.data.indicators || this.props.indicators,
         simpleData: nextProps.data.simpleSet || this.props.simpleData,
-        listYears: nextProps.data.listYears || this.props.listYears,
-        scale: (
-          nextProps.data.scale || _.isUndefined(this.props.data.scale)
-            ? 1
-            : this.props.data.scale
-        )
+        listYears: nextProps.data.listYears || this.props.listYears
       },
       () => {
         this.renderNewChart();
@@ -104,10 +78,6 @@ class BaseChart extends Component {
     if (this.state.shouldChartRender) {
       this.plotlyRenderStyle();
     }
-  }
-
-  plotlyScale(num) {
-    return this.state.scaleRange[num];
   }
 
   plotlyRenderStyle() {
@@ -168,7 +138,7 @@ class BaseChart extends Component {
           trace.x = trace.xBubble;
           trace.mode = "markers";
           trace.marker.sizemode = "area";
-          trace.marker.sizeref = this.state.scale;
+          trace.marker.sizemin = 5;
           trace.marker.size = trace.marker.protoSize;
         });
         break;
@@ -177,7 +147,7 @@ class BaseChart extends Component {
         _.forEach(dataSet, trace => {
           trace.mode = "markers";
           trace.marker.sizemode = "area";
-          trace.marker.sizeref = this.plotlyScale(this.state.scale);
+          trace.marker.sizemin = 10;
           trace.marker.size = trace.marker.protoSize;
         });
         layout.xaxis = Object.assign({}, layout.xaxis, {
@@ -280,13 +250,6 @@ class BaseChart extends Component {
   }
 
   // passed to child (settings)
-  _onChangeScale(scale) {
-    this.setState({ scale: scale }, a => {
-      this.renderNewChart();
-    });
-  }
-
-  // passed to child (settings)
   _onChangeYear(year) {
     let nextIndex = this.state.listYears.indexOf(year) + 1;
     this.setState(
@@ -307,8 +270,6 @@ class BaseChart extends Component {
             ref="chartContainer"
           />
           <ChartSettings
-            startScale={this.state.scaleRange.indexOf(this.state.scale)}
-            actualScale={this.state.scale}
             startYear={this.state.year}
             numYears={this.state.listYears.length}
             chartType={this.state.chartType}

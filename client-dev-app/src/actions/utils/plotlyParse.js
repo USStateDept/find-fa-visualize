@@ -21,7 +21,6 @@ export default class Parse {
     this.common = {}; // common values such as totals, years
     this.mapSet = {}; // used for map viz
     this.simpleSet = []; // used for creating map set
-    this.scale = 0; // this is needed for some bubble scaling options
     this.retObj = {}; // parent level return object
     this.shouldChartRender = true; // if ever false, plotly wont render the chart, usually because of null values
   }
@@ -303,13 +302,6 @@ export default class Parse {
         });
         let idcName = this.indicators[idcDex].name;
 
-        // ** scale values for bubble **
-        // index is going to be 1, (second indicator)
-        if (idcDex === 1) {
-          secTotals += obj.Value;
-          secCount += 1;
-        }
-
         // ** Full Set  **
         // create traces for full data sets (all years combined)
         if (_.isUndefined(_cd.all.traces[locDex])) {
@@ -372,10 +364,6 @@ export default class Parse {
       this
     );
 
-    // get bubble scale
-    this.scale = secTotals / secCount;
-    this.scale = this._defineScale(this.scale);
-
     // reverse years array and add 'all'
     this.common.years.push("all");
 
@@ -388,7 +376,6 @@ export default class Parse {
       removedLocations: this.removed,
       metadataSet: this.metadataSet,
       nullAvailibility: this.nullAvailibility,
-      scale: this.scale,
       dataTableSet: this.dataTableSet,
       listYears: this.common.years,
       dataSet: this.dataSet,
@@ -502,10 +489,6 @@ export default class Parse {
       this
     );
 
-    // get scale
-    this.scale = secTotals / secCount;
-    this.scale = this._defineScale(this.scale);
-
     // reverse years array and add 'all'
     this.common.years.push("all");
 
@@ -518,54 +501,11 @@ export default class Parse {
       removedLocations: this.removed,
       nullAvailibility: this.nullAvailibility,
       metadataSet: this.metadataSet,
-      scale: this.scale,
       dataTableSet: this.dataTableSet,
       listYears: this.common.years,
       dataSet: this.dataSet,
       shouldChartRender: this.shouldChartRender
     };
     return this.retObj;
-  }
-
-  /**
-   * Finds a scale value for bubble by comparring values with
-   * pre-defined numbers that scale should fall under
-   * 
-   * @param {num} num number to base scale off of
-   * @returns {num} scale
-   */
-  _defineScale(num) {
-    let arr = [
-      -10,
-      -1,
-      -0.01,
-      0,
-      0.01,
-      1,
-      10,
-      100,
-      1000,
-      100000,
-      10000000,
-      100000000,
-      1000000000,
-      1500000000,
-      2000000000,
-      5000000000,
-      10000000000
-    ];
-    let curr = arr[0];
-    let currI = 0;
-    let diff = Math.abs(num - curr);
-    let i = arr.length;
-    while (i--) {
-      let newDiff = Math.abs(num - arr[i]);
-      if (newDiff < diff) {
-        diff = newDiff;
-        curr = arr[i];
-        currI = i;
-      }
-    }
-    return currI;
   }
 }
