@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 
 import ChartBanner from "./chartview/chartBanner";
-// import DataTable from "./chartview/DataTable";
+import ChartData from "./chartview/chartData";
 // import Metadata from "./chartview/Metadata";
 import BaseChart from "./chartview/baseChart";
-// import MapChart from "./chartview/Map";
+import ChartSource from "./chartview/chartSource";
 
 class ChartView extends Component {
   constructor(props) {
@@ -83,13 +83,13 @@ class ChartView extends Component {
           <BaseChart
             data={data}
             chartType={selectedViewChart}
-            showSettings={true}
             showLegend={true}
             showAverage={true}
             showToolbar={true}
             showTitle={false}
-            {...this.props}
           />}
+        {dataLoaded && currentTab == "Data Table" && <ChartData data={data} />}
+        {dataLoaded && currentTab == "Meta Data" && <ChartSource data={data} />}
 
         {/* Determine Which Components to show when data loaded *
           
@@ -119,7 +119,7 @@ class ChartView extends Component {
           {dataLoaded &&
             currentTab == "Data Table" &&
             <DataTable data={data} />}
-          {dataLoaded && currentTab == "Meta Data" && <Metadata data={data} />}
+          
         </div>
 
       */

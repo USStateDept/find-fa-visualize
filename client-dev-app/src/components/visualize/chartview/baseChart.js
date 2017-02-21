@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from "react";
 import _ from "lodash";
 //import Treemap from "./lib/Treemap";
-//import Settings from "./Settings";
+import ChartSettings from "./chartSettings";
 
 import Plotly from "plotly.js/lib/core";
 Plotly.register([
@@ -314,31 +314,21 @@ class BaseChart extends Component {
 
   render() {
     let view = this.state.shouldChartRender
-      ? <div>
+      ? <div className="Chart__container">
           <div
             id={this.state.chartID}
             key={this.state.chartType + Math.random()}
             ref="chartContainer"
-            className="Chart__chart-container"
           />
-          {/*this.props.showSettings &&
-            <div>
-              <hr />
-              <Settings
-                {...this.props}
-                _onChangeScale={this._onChangeScale.bind(this)}
-                _onChangeYear={this._onChangeYear.bind(this)}
-                startScale={this.state.scaleRange.indexOf(this.state.scale)}
-                actualScale={this.state.scale}
-                startYear={this.state.year}
-                numYears={this.state.listYears.length}
-                chartType={this.state.chartType}
-                listYears={this.state.listYears}
-                switchAxis={this.props.reverseAxisOrder.bind(this)}
-                pausePlayNext={this.state.pausePlayNext}
-              />
-            </div>*/
-          }
+          <ChartSettings
+            startScale={this.state.scaleRange.indexOf(this.state.scale)}
+            actualScale={this.state.scale}
+            startYear={this.state.year}
+            numYears={this.state.listYears.length}
+            chartType={this.state.chartType}
+            listYears={this.state.listYears}
+            pausePlayNext={this.state.pausePlayNext}
+          />
 
         </div>
       : <div>

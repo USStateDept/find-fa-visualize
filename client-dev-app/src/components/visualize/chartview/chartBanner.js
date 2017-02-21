@@ -120,26 +120,26 @@ class ChartBanner extends Component {
           <div className="dummyClear" />
         </div>
         {indicatorTitle}
-        <ul>
-          <li
-            onClick={() => {
-              changeTab("Chart");
-            }}
-            className={"Chart__banner-tabs " + chActive}
-          >Chart</li>
-          <li
-            onClick={() => {
-              changeTab("Data Table");
-            }}
-            className={"Chart__banner-tabs " + dtActive}
-          >Data Table</li>
-          <li
-            onClick={() => {
-              changeTab("Meta Data");
-            }}
-            className={"Chart__banner-tabs " + mdActive}
-          >Source</li>
-        </ul>
+
+        <div
+          onClick={() => {
+            changeTab("Chart");
+          }}
+          className={"Chart__banner-tabs " + chActive}
+        >Chart</div>
+        <div
+          onClick={() => {
+            changeTab("Data Table");
+          }}
+          className={"Chart__banner-tabs " + dtActive}
+        >Data Table</div>
+        <div
+          onClick={() => {
+            changeTab("Meta Data");
+          }}
+          className={"Chart__banner-tabs " + mdActive}
+        >Source</div>
+
         <div className="dummyClear" />
       </div>
     );
