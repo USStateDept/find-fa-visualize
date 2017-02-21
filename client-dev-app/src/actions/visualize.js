@@ -3,15 +3,15 @@ import _ from "lodash";
 
 import Parse from "./utils/plotlyParse";
 import AverageFactory from "./utils/averageFactory";
-import BuildRules from "./utils/build-rules";
+import BuildGate from "./utils/buildGate";
 
-/**
- * Actions
- * 
- * Constants, String literals representing actions happeing in the apply.
- * An action can be any ui interation or events such as data loading.
- * The naming shpuld be pretty descriptive and match up with what our UI is doing.    
- */
+//
+// Actions
+//
+// Constants, String literals representing actions happeing in the apply.
+// An action can be any ui interation or events such as data loading.
+// The naming shpuld be pretty descriptive and match up with what our UI is doing.
+//
 
 // setup actions
 export const REQUEST_SETUP = "REQUEST_SETUP";
@@ -39,12 +39,12 @@ export const CHART_SET_YEAR = "CHART_SET_YEAR";
 // overall state
 export const TOTAL_UNBUILD = "TOTAL_UNBUILD";
 
-/**
- * Action Creators Dispatchers
- * 
- * Functions that return an object with a persistant key of "type" which is always an action,
- * as well as an optional body of data needed for updates and changes in the state.
- */
+//
+// Action Creators Dispatchers
+//
+// Functions that return an object with a persistant key of "type" which is always an action,
+// as well as an optional body of data needed for updates and changes in the state.
+//
 
 // actions to be dispatched to reducer
 function dispatchRequestWizardSetup() {
@@ -181,86 +181,11 @@ function dispatchSetVisualizeYear(year) {
   };
 }
 
-/**
- * Action Creators 
- * 
- * Functions that perfom actual functionality to generate change in the state of our app
- */
-
-function checkBuildReady(state) {
-  const selectedIndicators = state.get("selectedIndicators");
-  const selectedCountries = state.get("selectedCountries");
-  const selectedRegions = state.get("selectedRegions");
-  const selectedChart = state.get("selectedChart");
-
-  const indicatorsInitiated = state.get("wizardIndicatorSelectInit");
-  const countriesInitiated = state.get("wizardCountrySelectInit");
-  const chartInitiated = state.get("wizardChartSelectInit");
-
-  // basic reqs
-  if (indicatorsInitiated) {
-    if (selectedIndicators.size === 0) {
-      return { allow: false, message: "Please select one or more indicators" };
-    }
-    if (selectedIndicators.size > 3) {
-      return {
-        allow: false,
-        message: `You have choosen too many indicators (max is 3)`
-      };
-    }
-  }
-
-  if (countriesInitiated) {
-    if (selectedCountries.size === 0 && selectedRegions.size === 0) {
-      return { allow: false, message: "Please select one or more countries" };
-    }
-  }
-
-  if (chartInitiated) {
-    if (selectedChart === "" || !selectedChart) {
-      return { allow: false, message: "Please select a chart type" };
-    }
-    if (
-      selectedCountries.size < BuildRules.charts[selectedChart].min_countries &&
-      selectedRegions.size < BuildRules.charts[selectedChart].min_countries
-    ) {
-      return {
-        allow: false,
-        message: (
-          `You have not selected enough countries for the chart type: ${selectedChart}`
-        )
-      };
-    }
-    if (
-      selectedCountries.size > BuildRules.charts[selectedChart].max_countries
-    ) {
-      return {
-        allow: false,
-        message: (
-          `You have selected too many countries for the chart type: ${selectedChart}`
-        )
-      };
-    }
-    if (
-      selectedCountries.size > 0 &&
-      selectedRegions.size > 0 &&
-      selectedChart === "Map"
-    ) {
-      return {
-        allow: false,
-        message: (
-          `You may not visualize Countries and Regions on a map togther (yet)`
-        )
-      };
-    }
-  }
-
-  if (indicatorsInitiated && countriesInitiated && chartInitiated) {
-    return { allow: true, message: "" };
-  } else {
-    return { allow: false, message: false };
-  }
-}
+//
+// Action Creators
+//
+// Functions that perfom actual functionality to generate change in the state of our app
+//
 
 export function wizardClickSelectIndicator(indicator) {
   return (dispatch, getState) => {
@@ -278,7 +203,9 @@ export function wizardClickSelectIndicator(indicator) {
       dispatch(dispatchWizardSelectInit("Indicator"));
     }
     dispatch(
-      dispatchWizardTryEnableBuild(checkBuildReady(getState().visualize))
+      dispatchWizardTryEnableBuild(
+        BuildGate.checkBuildReady(getState().visualize)
+      )
     );
   };
 }
@@ -299,7 +226,9 @@ export function wizardClickSelectCountry(country) {
       dispatch(dispatchWizardSelectInit("Country"));
     }
     dispatch(
-      dispatchWizardTryEnableBuild(checkBuildReady(getState().visualize))
+      dispatchWizardTryEnableBuild(
+        BuildGate.checkBuildReady(getState().visualize)
+      )
     );
   };
 }
@@ -319,7 +248,9 @@ export function wizardClickSelectChart(chart) {
       dispatch(dispatchWizardSelectInit("Chart"));
     }
     dispatch(
-      dispatchWizardTryEnableBuild(checkBuildReady(getState().visualize))
+      dispatchWizardTryEnableBuild(
+        BuildGate.checkBuildReady(getState().visualize)
+      )
     );
   };
 }
@@ -342,7 +273,9 @@ export function clickSelectRegion(region) {
     } else {
       dispatch(dispatchWizardDeselect(region, "regions", index));
     }
-    dispatch(dispatchWizardTryEnableBuild(checkBuildReady(getState())));
+    dispatch(
+      dispatchWizardTryEnableBuild(BuildGate.checkBuildReady(getState()))
+    );
   };
 }
 
@@ -364,7 +297,9 @@ export function selectAllFromRegion(region) {
     });
 
     // finally after all selection, dispatch build ready
-    dispatch(dispatchWizardTryEnableBuild(checkBuildReady(getState())));
+    dispatch(
+      dispatchWizardTryEnableBuild(BuildGate.checkBuildReady(getState()))
+    );
   };
 }
 
@@ -385,7 +320,9 @@ export function wizardClickSelectAllCountries() {
 export function resetAllFields() {
   return (dispatch, getState) => {
     dispatch(dispatchWizardReset());
-    dispatch(dispatchWizardTryEnableBuild(checkBuildReady(getState())));
+    dispatch(
+      dispatchWizardTryEnableBuild(BuildGate.checkBuildReady(getState()))
+    );
   };
 }
 
@@ -475,7 +412,9 @@ function selectAllForSavedViz(setup) {
     dispatch(dispatchWizardSelect(setup.chart, "chart"));
 
     // finally after all selection, dispatch build ready
-    dispatch(dispatchWizardTryEnableBuild(checkBuildReady(getState())));
+    dispatch(
+      dispatchWizardTryEnableBuild(BuildGate.checkBuildReady(getState()))
+    );
   };
 }
 

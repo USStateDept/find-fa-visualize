@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from "react";
 import _ from "lodash";
-//import Treemap from "./lib/Treemap";
+import TreemapGenerate from "./treemapGenerate";
 import ChartSettings from "./chartSettings";
 
 import Plotly from "plotly.js/lib/core";
@@ -18,44 +18,36 @@ class BaseChart extends Component {
   constructor(props) {
     super(props);
 
-    let startYear;
-    if (props.data.shouldChartRender && !props.currentYearView) {
-      if (
-        props.chartType == "Line" ||
-        props.chartType == "Bubble" ||
-        props.chartType == "Bubble-3" ||
-        props.chartType == "Stacked-Bar"
-      ) {
-        startYear = "all";
-      } else {
-        let found = false;
-        let keyMap = Object.keys(props.data.nullAvailibility);
-        let i = keyMap.length - 1; // year value also a key in the check object
-
-        while (!found) {
-          if (props.data.nullAvailibility[keyMap[i]].includes_all_indicators) {
-            found = true;
-          } else {
-            i--;
-          }
-        }
-
-        startYear = keyMap[i];
+    const {
+      chartType,
+      data: {
+        shouldChartRender,
+        nullAvailibility,
+        chartData,
+        metadataSet,
+        countries,
+        indicators,
+        simpleSet,
+        scale,
+        listYears
       }
-    } else {
-      startYear = props.currentYearView;
+    } = props;
+
+    let startYear;
+    if (shouldChartRender && !props.chartSelectedYearRange) {
+      startYear = "all";
     }
 
     this.state = {
       // Each chart will start showing all data
-      shouldChartRender: props.data.shouldChartRender,
-      data: props.data.chartData,
-      metadata: props.data.metadataSet,
-      countries: props.data.countries,
-      indicators: props.data.indicators,
-      chartType: props.chartType,
-      simpleData: props.data.simpleSet,
-      scale: _.isUndefined(props.data.scale) ? 1 : props.data.scale,
+      shouldChartRender: shouldChartRender,
+      data: chartData,
+      metadata: metadataSet,
+      countries: countries,
+      indicators: indicators,
+      chartType: chartType,
+      simpleData: simpleSet,
+      scale: _.isUndefined(scale) ? 1 : scale,
       scaleRange: [
         -10,
         -1,
@@ -75,15 +67,9 @@ class BaseChart extends Component {
         5000000000,
         10000000000
       ],
-      listYears: props.data.listYears,
+      listYears: listYears,
       year: startYear, // start showing at last year
-      pausePlayNext: props.data.listYears[0], // start date for playing animation
-      chartID: `plotly-chart-${props.uid}`,
-      showLegend: props.showLegend,
-      showToolbar: props.showToolbar,
-      showTitle: props.showTitle,
-      showAverage: props.showAverage,
-      previewMode: props.previewMode
+      chartID: `plotly-chart-${props.uid}`
     };
   }
 
@@ -218,41 +204,41 @@ class BaseChart extends Component {
         });
         break;
       }
-      // case "Treemap": {
-      //   let annotations = [];
-      //   let traces = [];
-      //   let values = this.state.simpleData;
-      //   let rectangles = Treemap.generate(values, 150, 150);
+      case "Treemap": {
+        let annotations = [];
+        let traces = [];
+        let values = this.state.simpleData;
+        let rectangles = TreemapGenerate.generate(values, 150, 150);
 
-      //   for (let i = 0; i < rectangles.length; i++) {
-      //     let x0 = rectangles[i][0],
-      //       y0 = rectangles[i][1],
-      //       x1 = rectangles[i][2],
-      //       y1 = rectangles[i][3],
-      //       country = this.state.countries[i];
+        for (let i = 0; i < rectangles.length; i++) {
+          let x0 = rectangles[i][0],
+            y0 = rectangles[i][1],
+            x1 = rectangles[i][2],
+            y1 = rectangles[i][3],
+            country = this.state.countries[i];
 
-      //     let trace = {
-      //       name: country.Name,
-      //       visible: true,
-      //       mode: "lines",
-      //       y: [y0, y1, y1, y0, y0],
-      //       x: [x0, x0, x1, x1, x0],
-      //       type: "scatter",
-      //       fill: "tozeroy"
-      //     };
-      //     traces.push(trace);
-      //     let annotation = {
-      //       x: (rectangles[i][0] + rectangles[i][2]) / 2,
-      //       y: (rectangles[i][1] + rectangles[i][3]) / 2,
-      //       text: country.ISO + "\n" + Math.floor(values[i]),
-      //       showarrow: false
-      //     };
-      //     annotations.push(annotation);
-      //   }
-      //   dataSet = traces;
-      //   layout.annotations = annotations;
-      //   break;
-      // }
+          let trace = {
+            name: country.Name,
+            visible: true,
+            mode: "lines",
+            y: [y0, y1, y1, y0, y0],
+            x: [x0, x0, x1, x1, x0],
+            type: "scatter",
+            fill: "tozeroy"
+          };
+          traces.push(trace);
+          let annotation = {
+            x: (rectangles[i][0] + rectangles[i][2]) / 2,
+            y: (rectangles[i][1] + rectangles[i][3]) / 2,
+            text: country.ISO + "\n" + Math.floor(values[i]),
+            showarrow: false
+          };
+          annotations.push(annotation);
+        }
+        dataSet = traces;
+        layout.annotations = annotations;
+        break;
+      }
       default:
       // none
     }
