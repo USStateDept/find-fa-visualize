@@ -70,7 +70,7 @@ class BaseChart extends Component {
 
   componentDidMount() {
     this.renderNewChart();
-    this.props.newCurrentViewYear(this.state.year);
+    this.props.setCurrentViewYear(this.state.year);
   }
 
   renderNewChart() {
@@ -82,6 +82,7 @@ class BaseChart extends Component {
 
   plotlyRenderStyle() {
     // draw the chart with the corresponding startdate
+    console.log(this.state.year);
     let dataSet = this.state.data[this.state.year].traces.slice(0);
     // sometimes there will be empty indexes in this array
     dataSet = _.without(dataSet, undefined);
@@ -249,16 +250,11 @@ class BaseChart extends Component {
     }
   }
 
-  // passed to child (settings)
-  _onChangeYear(year) {
-    let nextIndex = this.state.listYears.indexOf(year) + 1;
-    this.setState(
-      { year: year, pausePlayNext: this.state.listYears[nextIndex] },
-      a => {
-        this.renderNewChart();
-        this.props.newCurrentViewYear(this.state.year);
-      }
-    );
+  selectYear(year) {
+    this.setState({ year: year }, () => {
+      this.renderNewChart();
+      this.props.setCurrentViewYear(this.state.year);
+    });
   }
 
   render() {
@@ -271,10 +267,8 @@ class BaseChart extends Component {
           />
           <ChartSettings
             startYear={this.state.year}
-            numYears={this.state.listYears.length}
-            chartType={this.state.chartType}
             listYears={this.state.listYears}
-            pausePlayNext={this.state.pausePlayNext}
+            selectYear={this.selectYear.bind(this)}
           />
 
         </div>

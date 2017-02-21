@@ -23,25 +23,18 @@ class Visualize extends Component {
     };
   }
 
+  componentWillMount() {
+    this.props.requestWizardSetupIfNeeded();
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.chartDataLoading) {
       this.setState({ currentView: "chart" });
     }
-
-    // add more cases here for new view
   }
 
   changeToWizardView() {
     this.setState({ currentView: "wizard" });
-  }
-
-  componentWillMount() {
-    // action to request required data for wizard menu
-    this.props.requestWizardSetupIfNeeded();
-  }
-
-  componentWillUnmount() {
-    // this.props.resetAllFields();
   }
 
   render() {
@@ -72,7 +65,8 @@ class Visualize extends Component {
       wizardClickSelectAllCountries,
       wizardClickSelectChart,
       chartRequestData,
-      chartLiveChartTypeChange
+      chartLiveChartTypeChange,
+      setCurrentViewYear
     } = this.props;
 
     const {
@@ -109,14 +103,12 @@ class Visualize extends Component {
             selectedViewChart={selectedViewChart}
             liveChartTypeChange={chartLiveChartTypeChange}
             changeToWizardView={this.changeToWizardView.bind(this)}
+            setCurrentViewYear={setCurrentViewYear}
           />}
       </div>
     );
   }
 }
-
-// Visualize.PropTypes = {
-// };
 
 function mapStateToProps(state) {
   let { visualize } = state;
