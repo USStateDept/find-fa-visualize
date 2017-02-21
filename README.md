@@ -7,8 +7,18 @@ This is an online tool that enables users to explore and analyze national level 
 
 # Client application
 
-<em>In development enviornment, run inside of <b>client-dev-app/</b>. 
+<em>In development environment, run inside of <b>client-dev-app/</b>. 
 This is a separate application and for production deployments can be injected into the final application build. (dust template script includes to bundle.js)<em>
+
+#How to run the code in development
+## Start the Server (/app)
+1. `npm i`
+2. Create a /app/config/config.json file from app/config/config.sample.json . While in app root directory, `cp app/config/config.sample.json app/config/config.json`
+3. Add your development database credentials to the config.json file you just created
+4. 
+
+
+# How to start Client
 
 #### Majorly Powered By:
 
