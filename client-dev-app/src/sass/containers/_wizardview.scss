@@ -57,7 +57,6 @@
 
 .Wizard__menu-column-row-body-list {
   padding-left: 4em;
-  
   padding-top: .25em;
   padding-bottom: .25em;
   overflow: auto;
@@ -89,6 +88,7 @@
   width: 42%;
   margin: 1%;
   position: relative;
+  min-height: 30px;
   
   & p {
     margin: 0;
@@ -131,8 +131,27 @@
   }
 
   &:hover {
-      color: #00576c;
+    color: #00576c;
   }
+
+}
+
+.Wizard__item-selected-blue {
+  animation: pulse .75s;
+  background-color: navy;
+  color: #ffeed2;
+
+  & p{
+    font-weight: bold;
+    &:hover {
+      color: rgba(252,178,72,1);
+    }
+  }
+
+  &:hover {
+    color: rgba(252,178,72,1);
+  }
+
 }
 
 .Wizard__summary {

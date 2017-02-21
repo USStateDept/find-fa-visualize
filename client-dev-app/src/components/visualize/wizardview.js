@@ -49,6 +49,12 @@ class WizardView extends Component {
     if (!nextProps.countriesSetup.equals(this.props.countriesSetup)) {
       return true;
     }
+    if (!nextProps.selectedCountries.equals(this.props.selectedCountries)) {
+      return true;
+    }
+    if (!nextProps.selectedRegions.equals(this.props.selectedRegions)) {
+      return true;
+    }
     if (!nextProps.selectedIndicators.equals(this.props.selectedIndicators)) {
       return true;
     }
@@ -122,16 +128,15 @@ class WizardView extends Component {
 
   render() {
     const {
-      selectedIndicators,
-
+      // setup
       indicatorSetup,
       countriesSetup,
-
+      // selection
+      selectedIndicators,
       selectedCountries,
       selectedRegions,
       selectionsMessage,
       selectedChart,
-
       buildAllowed,
 
       //actions
@@ -203,7 +208,9 @@ class WizardView extends Component {
                   selectedIndicators={selectedIndicators}
                   deselectIndicator={clickSelectIndicator}
                   selectedCountries={selectedCountries}
+                  selectedRegions={selectedRegions}
                   deselectCountry={clickSelectCountry}
+                  deselectRegion={clickSelectRegion}
                   deselectChart={clickSelectChart}
                   selectionsMessage={selectionsMessage}
                   selectedChart={selectedChart}

@@ -5,8 +5,10 @@ const SummaryBox = (
     selectedIndicators,
     deselectIndicator,
     deselectCountry,
+    deselectRegion,
     deselectChart,
     selectedCountries,
+    selectedRegions,
     selectedChart,
     selectionsMessage
   }
@@ -41,6 +43,18 @@ const SummaryBox = (
             {" "}
             <span className={"flag " + country.get("ISO").toLowerCase()} />
             <p>{" " + country.get("Name")} ❌</p>
+          </span>
+        ))}
+        {selectedRegions.map((region, i) => (
+          <span
+            key={i}
+            className="Wizard__summary-box-section-item"
+            onClick={() => {
+              deselectRegion(region);
+            }}
+          >
+            {" "}
+            <p>{" " + region.get("Name")} ❌</p>
           </span>
         ))}
       </div>

@@ -16,24 +16,7 @@ class RegionList extends Component {
     };
   }
 
-  // componentWillReceiveProps(props) {
-  //   // selected state regions needs to be in sync with the global store
-  //   let copy = this.state.selectedRegions.slice(0);
-  //   _.each(this.state.selectedRegions, (r, i) => {
-  //     let dex = props.selectedRegions.indexOf(r.region);
-  //     if (dex === -1) {
-  //       if (copy[i].clickState !== 1) {
-  //         copy[i] = {};
-  //       }
-  //     }
-  //   });
-
-  //   this.setState({
-  //     selectedRegions: copy
-  //   });
-  // }
-
-  // // region name, type of region (like continent)
+  // region name, type of region (like continent)
   selectRegion(reg, type) {
     let dex = this.state.selectedRegions.findIndex(r => r.region === reg);
     let copy = this.state.selectedRegions;
@@ -64,12 +47,12 @@ class RegionList extends Component {
     return this.state.selectedRegions.findIndex(
       r => r.region === region && r.clickState === 0
     ) !== -1
-      ? "cty-row Wizard__item-selected"
+      ? "Wizard__item-selected Wizard__menu-column-row-base-float"
       : this.state.selectedRegions.findIndex(
           r => r.region === region && r.clickState === 1
         ) !== -1
-          ? "cty-row Wizard__item-selected-blue"
-          : "cty-row";
+          ? "Wizard__item-selected-blue Wizard__menu-column-row-base-float"
+          : "Wizard__menu-column-row-base-float";
   }
 
   render() {
@@ -115,20 +98,24 @@ class RegionList extends Component {
             </div>
           </div>}
         {this.props.type !== "All" &&
-          <div className="Wizard__menu-column-row-body-list">
-            {countryList.map((region, i) => (
-              <div
-                className={this.getRegionClassName(region)}
-                onClick={this.selectRegion.bind(
-                  this,
-                  region,
-                  region.get("Type")
-                )}
-              >
-                <p>{region.get("Name")}</p>
-              </div>
-            ))}
+          <div>
+            <div className="Wizard__menu-column-row-body-list">
+              {countryList.map((region, i) => (
+                <div
+                  className={this.getRegionClassName(region)}
+                  onClick={this.selectRegion.bind(
+                    this,
+                    region,
+                    region.get("Type")
+                  )}
+                  key={i}
+                >
+                  <p>{region.get("Name")}</p>
+                </div>
+              ))}
+            </div>
           </div>}
+
       </div>
     );
   }
