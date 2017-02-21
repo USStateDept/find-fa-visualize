@@ -2,6 +2,11 @@
   padding: 100px;
 }
 
+.Wizard__begin {
+  padding: 200px;
+  padding-top: 50px;
+}
+
 .Wizard__menu-column {
   margin: 1%;
   width: 45%; 
@@ -27,12 +32,14 @@
   width: 100%;
   min-height: 40px;
   padding-top: 1em;
+  padding-left: 1em;
   cursor: pointer;
   position: relative;
   
   
   &:hover {
-    background-color: #aeb0b5;
+    background-color: lighten(#00576c, 20);
+    color: #ffeed2;
   }
 
   & p {
