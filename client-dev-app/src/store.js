@@ -9,21 +9,14 @@ const middlewareBuilder = () => {
   let universalMiddleware = [thunk];
   let allComposeElements = [];
 
-  if (process.browser) {
-    if (process.env.NODE_ENV === "production") {
-      // production
-      middleware = applyMiddleware(...universalMiddleware);
-      allComposeElements = [middleware];
-    } else {
-      // development
-      console.log(
-        "====> 📃 React Logger Enabled - expect browser memory issues"
-      );
-      middleware = applyMiddleware(...universalMiddleware, createLogger());
-      allComposeElements = [middleware];
-    }
-  } else {
+  if (process.env.NODE_ENV === "production") {
+    // production
     middleware = applyMiddleware(...universalMiddleware);
+    allComposeElements = [middleware];
+  } else {
+    // development
+    console.log("====> 📃 React Logger Enabled - expect browser memory issues");
+    middleware = applyMiddleware(...universalMiddleware, createLogger());
     allComposeElements = [middleware];
   }
 

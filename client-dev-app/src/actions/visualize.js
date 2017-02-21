@@ -187,6 +187,8 @@ function dispatchSetVisualizeYear(year) {
 // Functions that perfom actual functionality to generate change in the state of our app
 //
 
+const APIURL = process.env.API_URL || "http://localhost:3010";
+
 export function wizardClickSelectIndicator(indicator) {
   return (dispatch, getState) => {
     // determine if indicator is selected or not already
@@ -334,7 +336,7 @@ function requestWizardSetup() {
   return dispatch => {
     dispatch(dispatchRequestWizardSetup());
 
-    return fetch("http://localhost:3010/setup/setupForWizardMenu")
+    return fetch(`${APIURL}/setup/setupForWizardMenu`)
       .then(response => response.json())
       .then(json => {
         dispatch(dispatchRequestWizardSetupSuccess(json));
@@ -434,7 +436,7 @@ export function chartRequestData() {
     dispatch(dispatchWizardSetChart(selectedChart));
 
     // Return a promise to wait for
-    return fetch("http://localhost:3010/visualize/data", {
+    return fetch(`${APIURL}/visualize/data`, {
       method: "REPORT",
       headers: {
         Accept: "application/json",
