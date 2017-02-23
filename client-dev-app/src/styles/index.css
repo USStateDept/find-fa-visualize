@@ -1133,7 +1133,6 @@
 
 .Chart__banner {
   text-align: center;
-  padding-top: 100px;
   font-weight: 600;
   color: #ffeed2; }
 
@@ -1241,7 +1240,6 @@
   overflow-x: scroll;
   margin: 0 auto;
   margin-top: 3em;
-  width: 100%;
   margin-bottom: 20px;
   background-color: transparent;
   border-spacing: 0;
