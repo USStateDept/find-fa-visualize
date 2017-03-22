@@ -56,7 +56,7 @@ const initialState = Map({
   selectedIndicators: List([]), // user setup choices
   selectedCountries: List([]),
   selectedRegions: List([]),
-  selectedChart: "", // choosen in wizard menu
+  selectedChart: "", // chosen in wizard menu
   selectedViewChart: "", // the chart being used for build & on the fly changes
 
   geoIsLoading: false,

@@ -77,7 +77,7 @@ function checkBuildReady(state) {
     if (selectedIndicators.size > 3) {
       return {
         allow: false,
-        message: `You have choosen too many indicators (max is 3)`
+        message: `You have chosen too many indicators (max is 3)`
       };
     }
   }
