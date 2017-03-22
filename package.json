@@ -1,0 +1,7 @@
+{
+  "scripts": {
+  	"fast": "npm run copy && npm run start",
+    "copy": "cp -R client-dev-app/build/. app/.build",
+    "start": "node app/server.js"
+  }
+}

@@ -17,5 +17,15 @@
         ]
       }
     }
+  },
+  "database": {
+    "name": "find_development",
+    "username": "postgres",
+    "password": "eDipl0macy2016!",
+    "settings": {
+      "host": "127.0.0.1",
+      "dialect": "postgres",
+      "logging": false
+    }
   }
 }
