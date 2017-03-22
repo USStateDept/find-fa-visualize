@@ -115,8 +115,14 @@ class RegionList extends Component {
                 </div>
               ))}
             </div>
+            <div className="Wizard__menu-column-row-body-float">
+              <p>
+                <i>Double-click on a collection to show the countries
+                comprising your selection. These countries will appear
+                in the Selection Box</i>
+              </p>
+            </div>
           </div>}
-
       </div>
     );
   }
@@ -157,7 +163,7 @@ class CountrySelect extends Component {
     return (
       <div>
         <div className="Wizard__header-title">
-          Select the countries and regions you're interested in.
+          Select the countries and regions youre interested in.
         </div>
 
         <SearchSelect setup={setup} select={selectCountry} type="country" />
