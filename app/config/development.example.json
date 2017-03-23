@@ -1,0 +1,31 @@
+{
+  "middleware": {
+    "devtools": {
+      "enabled": true,
+      "priority": 35,
+      "module": {
+        "name": "construx",
+        "arguments": [
+          "path:./public",
+          "path:./.build",
+          {
+            "copier": {
+              "module": "construx-copier",
+              "files": "**/*"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "database": {
+    "name": "DEV DATABASE NAME HERE",
+    "username": "DEV DATABASE USER HERE",
+    "password": "DEV DATABASE PASSWORD HERE",
+    "settings": {
+      "host": "127.0.0.1",
+      "dialect": "postgres",
+      "logging": false
+    }
+  }
+}
