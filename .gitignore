@@ -20,4 +20,5 @@ tmp/
 # editor
 .vscode/
 app/config/config.json
+app/config/development.json
 app/.build
