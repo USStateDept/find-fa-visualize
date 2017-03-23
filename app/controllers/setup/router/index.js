@@ -195,6 +195,8 @@ function sortCategories(combined) {
     }
   }
 
+  categories.push(categories.shift());
+
   return categories;
 }
 
