@@ -16,7 +16,8 @@ let getIndicators = (req, res) => {
         "Units",
         "updatedAt",
         "Indicator_Definition"
-      ]
+      ],
+      order: ["Indicator_Name"]
     })
     .then(function(data) {
       res.json(data);
@@ -194,16 +195,52 @@ function sortCategories(combined) {
       categories.push(addCat);
     }
   }
-
   categories.push(categories.shift());
 
+  for (var i = categories.length - 1; i >= 0; i--) {
+    categories[i].subcategories.sort(dynamicSort("name"));
+    for (var j = categories[i].subcategories.length - 1; j >= 0; j--) {
+      categories[i].subcategories[j].indicators.sort(dynamicSort("name"));
+    };
+  };
+
   return categories;
+}
+
+function dynamicSort(property) {
+    var sortOrder = 1;
+    if(property[0] === "-") {
+        sortOrder = -1;
+        property = property.substr(1);
+    }
+    return function (a,b) {
+        var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+        return result * sortOrder;
+    }
 }
 
 function getIndicators() {
   return new Promise((resolve, reject) => {
     model.Indicator
-      .findAll()
+      .findAll({
+        attributes: [     
+          "Indicator_ID",
+          "Indicator_Name",
+          "Indicator_URL",
+          "Indicator_Data_URL",
+          "Direct_Indicator_Source",
+          "Original_Indicator_Source",
+          "Update_Cycle",
+          "Scope",
+          "Units",
+          "Last_Source_Update_TS",
+          "When_To_Update_TS",
+          "Indicator_Definition",
+          "AVG_EQUAL",
+          "AVG_POPULATION",
+          "AVG_GDP" ],
+        order: ["Indicator_Name"]
+      })
       .then(indicators => {
         return resolve(indicators);
       })
