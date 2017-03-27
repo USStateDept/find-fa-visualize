@@ -21,7 +21,7 @@ const ProgressButtons = (
       </a>}
     {showRestart &&
       <a className="Wizard__buttons" href="/" onClick={() => changeWizardState("begin")}>
-        &lt; Back
+        &lt; Start Over
       </a>}
   </div>
 );
