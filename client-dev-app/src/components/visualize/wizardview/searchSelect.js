@@ -1,16 +1,5 @@
 import React, { Component, PropTypes } from "react";
 
-const SearchResultsBox = ({ results, select }) => (
-  <table className="Wizard__search-results">
-    {results.map((r, i) => <tr
-        onClick={() => {
-          select(r);
-        }}
-        key={i}
-      ><td>{r.get("name") || r.get("Name")}</td></tr>)}
-  </table>
-);
-
 class SearchSelect extends Component {
   constructor(props) {
     super(props);
@@ -19,6 +8,7 @@ class SearchSelect extends Component {
       type: props.type
     };
   }
+
   handleSearchInput(e, type) {
     var input = e.target.value;
     var list = [];
@@ -44,12 +34,28 @@ class SearchSelect extends Component {
   }
 
   render() {
+
+    const SearchResultsBox = ({ results, select }) => (
+    <table className="Wizard__search-results">
+      {results.map((r, i) => <tr
+          onClick={() => {
+            select(r);
+            this.refs.searchInput.value="";
+            this.state.results = [];
+            this.handleSearchInput.bind("");
+          }}
+          key={i}
+        ><td>{r.get("name") || r.get("Name")}</td></tr>)}
+    </table>
+    );
+
     return (
       <div>
         <input
           type="text"
           className="Wizard__search-input"
           placeholder="Search ..."
+          ref="searchInput"
           onChange={this.handleSearchInput.bind(this)}
         />
         {this.state.results.length !== 0 &&

@@ -163,7 +163,7 @@ class CountrySelect extends Component {
     return (
       <div>
         <div className="Wizard__header-title">
-          Select the countries and regions youre interested in.
+          Select the countries and regions you are interested in.
         </div>
 
         <SearchSelect setup={setup} select={selectCountry} type="country" />

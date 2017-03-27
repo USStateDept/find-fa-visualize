@@ -111,14 +111,14 @@ class IndicatorSelect extends Component {
 
   render() {
     const catNames = [
-      "icon-cross-sector",
       "icon-democracy",
       "icon-economic",
       "icon-education",
       "icon-enviornment",
       "icon-health",
       "icon-assistance",
-      "icon-peace-security"
+      "icon-peace-security",
+      "icon-cross-sector"
     ];
 
     const { setup, selectIndicator } = this.props;
