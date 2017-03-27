@@ -33,6 +33,7 @@ class BaseChart extends Component {
     } = props;
 
     let startYear;
+    let endYear;
     if (shouldChartRender && !props.chartSelectedYearRange) {
       startYear = "all";
     }
@@ -47,7 +48,9 @@ class BaseChart extends Component {
       chartType: chartType,
       simpleData: simpleSet,
       listYears: listYears,
-      year: startYear, // start showing at last year
+      year: startYear,
+      startYear: startYear, // start showing at last year,
+      endYear: endYear,
       chartID: `plotly-chart-${props.uid}`
     };
   }
@@ -248,16 +251,38 @@ class BaseChart extends Component {
     }
   }
 
-  selectYear(e) {
+  selectStartYear(e) {
+    console.log('in selectStartYear');
     if (e.target.value !== "null") {
       this.setState(
-        Object.assign({}, this.state, { year: e.target.value }),
+        Object.assign({}, this.state, { startYear: e.target.value }),
         () => {
           this.renderNewChart();
           this.props.setCurrentViewYear(this.state.year);
         }
       );
     }
+  }
+
+  selectEndYear(e) {
+    console.log('in selectEndYear');
+    if (e.target.value !== "null") {
+      this.setState(
+        Object.assign({}, this.state, { endYear: e.target.value }),
+        () => {
+          this.renderNewChart();
+          this.props.setCurrentViewYear(this.state.year);
+        }
+      );
+    }
+  }
+
+  calculateYearRange(startYear, endYear) {
+    console.log(this.props.listYears);
+    /*
+
+    return array of years between start year and end year
+    */
   }
 
   render() {
@@ -271,7 +296,9 @@ class BaseChart extends Component {
           <ChartSettings
             startYear={this.state.year}
             listYears={this.state.listYears}
-            selectYear={this.selectYear.bind(this)}
+            selectStartYear={this.selectStartYear.bind(this)}
+            selectEndYear={this.selectEndYear.bind(this)}
+            calculateYearRange={this.calculateYearRange.bind(this)}
           />
 
         </div>
