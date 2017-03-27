@@ -21,7 +21,8 @@ class WizardView extends Component {
         currentWizard: "chart",
         nextWizard: false,
         startWizard: "indicator",
-        prevWizard: "country"
+        prevWizard: "country",
+        restartWizard: true
       };
     } else {
       // this is a fresh wizard start
@@ -29,7 +30,8 @@ class WizardView extends Component {
         currentWizard: "begin",
         nextWizard: "",
         startWizard: "",
-        prevWizard: ""
+        prevWizard: "",
+        restartWizard: true
       };
     }
   }
@@ -73,7 +75,8 @@ class WizardView extends Component {
         Object.assign({}, this.state, {
           prevWizard: this.state.currentWizard,
           currentWizard: this.state.nextWizard,
-          nextWizard: "chart"
+          nextWizard: "chart",
+          restartWizard: false
         })
       );
     } else if (
@@ -84,7 +87,8 @@ class WizardView extends Component {
         Object.assign({}, this.state, {
           prevWizard: this.state.currentWizard,
           currentWizard: "chart",
-          nextWizard: false
+          nextWizard: false,
+          restartWizard: false
         })
       );
     } else if (this.state.currentWizard === "chart" && direction === "back") {
@@ -92,7 +96,8 @@ class WizardView extends Component {
         Object.assign({}, this.state, {
           prevWizard: this.state.startWizard,
           currentWizard: this.state.prevWizard,
-          nextWizard: this.state.currentWizard
+          nextWizard: this.state.currentWizard,
+          restartWizard: false
         })
       );
     } else if (this.state.currentWizard !== "chart" && direction === "back") {
@@ -100,7 +105,8 @@ class WizardView extends Component {
         Object.assign({}, this.state, {
           prevWizard: false,
           currentWizard: this.state.prevWizard,
-          nextWizard: this.state.currentWizard
+          nextWizard: this.state.currentWizard,
+          restartWizard: true
         })
       );
     } else {
@@ -114,14 +120,16 @@ class WizardView extends Component {
         startWizard: "indicator",
         currentWizard: "indicator",
         prevWizard: false,
-        nextWizard: "country"
+        nextWizard: "country",
+        restartWizard: true
       });
     } else {
       this.setState({
         startWizard: "country",
         currentWizard: "country",
         nextWizard: "indicator",
-        prevWizard: false
+        prevWizard: false,
+        restartWizard: true
       });
     }
   }
@@ -152,7 +160,8 @@ class WizardView extends Component {
     const {
       currentWizard,
       nextWizard,
-      prevWizard
+      prevWizard,
+      restartWizard
     } = this.state;
 
     return (
@@ -221,6 +230,7 @@ class WizardView extends Component {
                   showFinish={nextWizard}
                   showBack={prevWizard}
                   requestData={requestData}
+                  showRestart={restartWizard}
                 />
               </div>
             </div>}

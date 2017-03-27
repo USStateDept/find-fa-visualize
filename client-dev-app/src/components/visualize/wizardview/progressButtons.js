@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 const ProgressButtons = (
-  { changeWizardState, showFinish, showBack, buildAllowed, requestData }
+  { changeWizardState, showFinish, showBack, buildAllowed, requestData, showRestart }
 ) => (
   <div className="Wizard__progress-buttons">
     {showFinish &&
@@ -17,6 +17,10 @@ const ProgressButtons = (
       </a>}
     {showBack &&
       <a className="Wizard__buttons" onClick={() => changeWizardState("back")}>
+        &lt; Back
+      </a>}
+    {showRestart &&
+      <a className="Wizard__buttons" href="/" onClick={() => changeWizardState("begin")}>
         &lt; Back
       </a>}
   </div>
