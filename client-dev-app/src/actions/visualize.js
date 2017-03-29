@@ -187,7 +187,8 @@ function dispatchSetVisualizeYear(year) {
 // Functions that perfom actual functionality to generate change in the state of our app
 //
 
-const APIURL = process.env.API_URL || "http://localhost:3010";
+//const APIURL = process.env.API_URL || "http://52.73.3.128:3010";
+const APIURL = "http://find.state.gov:3010";
 
 export function wizardClickSelectIndicator(indicator) {
   return (dispatch, getState) => {
