@@ -288,8 +288,24 @@ function getCountries() {
               regionList[typeDex].list.push(row);
             });
 
+            regionList.push({name: "Agency Classification", subcategories: [] });
+
+            for (var i = regionList.length - 1; i >= 0; i--) {
+              if(regionList[i].name === "Department of Defense" || 
+                regionList[i].name === "Department of State" ||
+                regionList[i].name === "United States Agency for International Development")
+              {
+                regionList[5].subcategories.push(regionList[i])
+              } 
+              regionList[i].name = "By " + regionList[i].name;
+            }
+
+            //console.log(regionList);
+            console.log(regionList[5]);
+            console.log(regionList[5].subcategories);
+
             return resolve(
-              [{ name: "All", list: countries }].concat(regionList)
+              [{ name: "By Country Name", list: countries }].concat(regionList)
             );
           })
           .catch(err => {
