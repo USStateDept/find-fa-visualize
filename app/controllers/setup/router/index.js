@@ -306,13 +306,21 @@ function getCountries() {
                 regionList[i].id = newId;
                 regionList[5].subcategories.push(regionList[i]);
               }*/
+
+              //Add By to the labels to bring them in line with the wireframes
               regionList[i].name = "By " + regionList[i].name;
             }
 
+            //Move some stuff around to fit the customer's wireframes
             var element = regionList[3];
             regionList.splice(3, 1);
             regionList.splice(1, 0, element);
 
+            var element = regionList[2];
+            regionList.splice(2, 1);
+            regionList.splice(3, 0, element);
+
+            //Update the labels for the department collections
             regionList[2].name = regionList[2].name + " Classification";
             regionList[3].name = regionList[3].name + " Classification";
             regionList[4].name = regionList[4].name + " Classification";
