@@ -297,21 +297,25 @@ function getCountries() {
             //var newId = 0;
 
             for (var i = regionList.length - 1; i >= 0; i--) {
-              if(regionList[i].name === "Department of Defense" || 
+              /*if(regionList[i].name === "Department of Defense" || 
                 regionList[i].name === "Department of State" ||
                 regionList[i].name === "United States Agency for International Development")
               {
                 regionList[i].name = regionList[i].name + " Classification";
-                /*newId ++;
+                newId ++;
                 regionList[i].id = newId;
-                regionList[5].subcategories.push(regionList[i]);*/
-              } 
+                regionList[5].subcategories.push(regionList[i]);
+              }*/
               regionList[i].name = "By " + regionList[i].name;
             }
 
             var element = regionList[3];
             regionList.splice(3, 1);
             regionList.splice(1, 0, element);
+
+            regionList[2].name = regionList[2].name + " Classification";
+            regionList[3].name = regionList[3].name + " Classification";
+            regionList[4].name = regionList[4].name + " Classification";
 
             /*for (var i = regionList[5].subcategories.length - 1; i >= 0; i--) {
               regionList[5].subcategories[i].indicators = [];
