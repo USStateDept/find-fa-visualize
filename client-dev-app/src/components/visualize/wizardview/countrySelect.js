@@ -3,25 +3,24 @@ import _ from "lodash";
 
 import SearchSelect from "./searchSelect";
 
-// child stateless component representing base of category tree
+/*// child stateless component representing base of category tree
 const Indicator = ({ indicators, selectIndicator, selectedIndicators }) => (
   <div>
-    {indicators.map((ind, i) => (
-      <div key={i} className="Wizard__menu-column-row-base-list">
+    <div className="Wizard__menu-column-row-body-list">
+      {indicators.map((region, i) => (
         <div
-          onClick={() => {
-            selectIndicator(ind);
-          }}
-          className={
-            selectedIndicators.findIndex(sel => sel.equals(ind)) !== -1
-              ? "Wizard__item-selected"
-              : ""
-          }
-        >
-          <p>{ind.get("name")}</p>
+          
+          onClick={this.selectIndicator.bind(
+            this,
+            region,
+            region.get("Type")
+          )}
+          key={i}
+          >
+            <p>{region.get("Name")}</p>
         </div>
-      </div>
-    ))}
+      ))}
+     </div>
   </div>
 );
 
@@ -55,23 +54,35 @@ const Subcategory = (
               <Indicator
                 selectIndicator={selectIndicator}
                 selectedIndicators={selectedIndicators}
-                indicators={sub.get("list")}
+                indicators={sub.get("indicators")}
               />
             </div>
           </div>
-        : <div
-            className="Wizard__menu-column-row-body-list"
-            key={i}
-            onClick={() => {
-              collapseSubcategory(sub.get("name"));
-            }}
-          >
-            {sub.get("name")} ◿
+        : <div key={i}>
+            <div
+              onClick={() => {
+                collapseSubcategory(sub.get("name"));
+              }}
+              className={
+                openSubcategory === sub.get("name")
+                  ? "Wizard__menu-column-row-body-list"
+                  : "Wizard__menu-column-row-body-list"
+              }
+            >
+              {sub.get("name")} ◹
+            </div>
+            <div>
+              <Indicator
+                selectIndicator={selectIndicator}
+                selectedIndicators={selectedIndicators}
+                indicators={sub.get("indicators")}
+              />
+            </div>
           </div>
     )}
   </div>
 );
-
+*/
 class RegionList extends Component {
   constructor(props) {
     super(props);
@@ -222,7 +233,8 @@ class RegionList extends Component {
               </p>
             </div>
           </div>}
-        {this.props.type === "By Agency Classification" &&
+
+        {/*this.props.type === "By Agency Classification" &&
           <div>
 
             <div className="Wizard__menu-column-row-body-list">
@@ -245,7 +257,7 @@ class RegionList extends Component {
                 in the Selection Box</i>
             </div>
 
-          </div>}
+          </div>*/}
 
       </div>
     );
@@ -334,7 +346,6 @@ class CountrySelect extends Component {
                   {category.get("name")}
                 </p>
               </div>
-
               {openCategory !== category.get("name")
                 ? <span />
                 : <div key={i}>
@@ -346,7 +357,6 @@ class CountrySelect extends Component {
                       {...this.props}
                     />
                   </div>}
-
             </div>
           ))*/
           }
