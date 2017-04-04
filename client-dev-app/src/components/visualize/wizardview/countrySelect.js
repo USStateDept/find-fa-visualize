@@ -37,7 +37,10 @@ class RegionList extends Component {
       copy = copy.set(copy.get(dex), copy.get(dex).clickState = -1);
       // toggled all selected this point
       this.props.selectAllFromRegion(reg, type);
-    } else {
+    } else { //a pass where the region has been reset previously
+      // toggle the individual selection
+      this.props.selectRegion(reg, type);
+      // iterate the clickState
       copy = copy.set(copy.get(dex), copy.get(dex).clickState += 1);
     }
 
