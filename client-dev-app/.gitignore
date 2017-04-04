@@ -1,9 +1,19 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # dependencies
+/*
 !/node_modules
 /node_modules/*
-!/node_modules/plotly.js/*
+!/node_modules/plotly.js
+/node_modules/plotly.js/*
+!node_modules/plotly.js/src
+/node_modules/plotly.js/src/*
+!node_modules/plotly.js/src/components
+/node_modules/plotly.js/src/components/*
+!/node_modules/plotly.js/src/components/modebar
+/node_modules/plotly.js/src/components/modebar/*
+!node_modules/plotly.js/src/components/modebar/buttons.js
+
 
 # testing
 coverage
