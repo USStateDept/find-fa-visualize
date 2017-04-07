@@ -24,4 +24,22 @@ module.exports = router => {
    *  Report method takes a json body. Returns different average data for indicator/countries
    */
   router.route("/averages").report(routerFunctions.reportAverages);
+
+  /**
+   *  /visualize/save/:id
+   *
+   *  @REPORT
+   *
+   *  Report method returns a saved visualization
+   */
+  router.route("/save/:id").report(routerFunctions.getSavedViz);
+
+  /**
+   *  /visualize/save
+   *
+   *  @REPORT
+   *
+   *  Report method takes a json body that represents a graph visualization
+   */
+  router.route("/save").report(routerFunctions.postSavedViz);
 };

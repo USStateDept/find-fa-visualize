@@ -7,6 +7,7 @@ const model = models.getModel();
 const Data = model.Data;
 const RegionData = model.Region_Data;
 const Region = model.Region;
+const SV = model.saved_visualization;
 
 /**
  * reports data needed for visualizations. Given indicators and countries, the function will return
@@ -44,8 +45,47 @@ let reportAverages = (req, res) => {
       res.send(weights);
     })
     .catch(e => {
-      console.log(e);
+      res.send(e);
     });
+};
+
+/**
+ * @GET localhost/visualize/save/:id
+ */
+let getSavedViz = (req, res) => {
+    SV.findById(req.params.id)
+    .then( json => {
+        // -- response --
+        res.json(json)
+        // -- response --
+    }).catch( err => {
+        res.send(err);
+    })
+};
+
+ /**
+ * @POST localhost/visualize/save
+ */
+let postSavedViz = (req, res) => {
+    // response object
+    var resBody = {};
+    // lets check and see if email already exists first
+    // db will return null when not found
+    
+    var toSave = SV.build({
+        viz_setup: req.body.viz_setup,
+        viz_name: req.body.viz_name,
+        complete: req.body.complete,
+        user_id: req.body.user_id
+    })
+    toSave.save().then( sv => {
+        resBody = {saved:true, id: sv.saved_id}
+        // -- response --
+        res.json(resBody)
+        // -- response --
+    }).catch( err =>  {
+        res.send(err);
+    })
 };
 
 async function getIndicatorData(dataWantedSetup) {
@@ -414,5 +454,7 @@ function getGdpWeight(countries) {
 
 export default {
   reportData,
-  reportAverages
+  reportAverages,
+  getSavedViz,
+  postSavedViz
 };
