@@ -71,7 +71,7 @@ class BaseChart extends Component {
         indicators: nextProps.data.indicators || this.props.indicators,
         simpleData: nextProps.data.simpleSet || this.props.simpleData,
         listYears: nextProps.data.listYears || this.props.listYears,
-        year: nextProps.startYear || this.props.startYear,
+        year: nextProps.year || this.props.year,
         startYear: nextProps.startYear || this.props.startYear,
         endYear: nextProps.endYear || this.props.endYear,
         yearRange: nextProps.yearRange || this.props.yearRange,
@@ -97,7 +97,10 @@ class BaseChart extends Component {
 
   plotlyRenderStyle() {
     // draw the chart with the corresponding startdate
-    let dataSet = this.state.data[this.state.year].traces.slice(0);
+
+    // let dataSet = this.state.data[this.state.year].traces.slice(0); // Leaving original during development
+    let dataSet = this.state.data["all"].traces.slice(0);
+
     // sometimes there will be empty indexes in this array
     dataSet = _.without(dataSet, undefined);
     let chartType = this.state.chartType.slice(0);
