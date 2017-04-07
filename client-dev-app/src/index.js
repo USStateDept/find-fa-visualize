@@ -1,33 +1,31 @@
+
 import React from "react";
 import ReactDOM from "react-dom";
-
-import { Provider } from "react-redux";
+import { Router, Route } from 'react-router';
+import { Provider } from 'react-redux';
+import { ReduxRouter } from 'redux-router';
+import createBrowserHistory from 'history/lib/createBrowserHistory';
 import configureStore from "./store";
-const store = configureStore({});
-
-import App from "./containers/App";
-
+//import routes from "./routes";
 import "./styles/index.css";
 
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById("root")
+const history = createBrowserHistory();
+const initialState = window.__INITIAL_STATE__;
+const store = configureStore(initialState);
+const rootElement = document.getElementById('root');
+
+// Main Entry
+import App from "./containers/App";
+
+// Redux SMART views
+import VisualizeView from "./containers/Visualize";
+
+ReactDOM.render((
+    <Provider store={store}>
+        <Router history={history}>
+            <Route path="/" component={VisualizeView}>
+            </Route>
+        </Router>
+    </Provider>
+    ), document.getElementById("root")
 );
-// dev hot reloading
-// function render(Component) {
-//   ReactDOM.render(
-//     <Provider store={store}>
-//       <Component />
-//     </Provider>,
-//     document.getElementById("root")
-//   );
-// }
-// render(App);
-// if (module.hot) {
-//   module.hot.accept("./containers/App", () => {
-//     const NextApp = require("./containers/App").default;
-//     render(NextApp);
-//   });
-// }

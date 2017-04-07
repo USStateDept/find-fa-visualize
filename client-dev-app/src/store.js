@@ -1,10 +1,12 @@
 import { createStore, applyMiddleware, compose } from "redux";
-
+import { reduxReactRouter } from 'redux-router';
 import thunk from "redux-thunk";
+import createHistory from 'history/lib/createBrowserHistory';
 import createLogger from "redux-logger";
 import rootReducer from "./reducers/";
 
 const middlewareBuilder = () => {
+  
   let middleware = {};
   let universalMiddleware = [thunk];
   let allComposeElements = [];
@@ -12,12 +14,20 @@ const middlewareBuilder = () => {
   if (process.env.NODE_ENV === "production") {
     // production
     middleware = applyMiddleware(...universalMiddleware);
-    allComposeElements = [middleware];
+    allComposeElements = [middleware,
+                          reduxReactRouter({
+                            createHistory
+                          })
+                        ];
   } else {
     // development
     console.log("====> 📃 React Logger Enabled - expect browser memory issues");
     middleware = applyMiddleware(...universalMiddleware, createLogger());
-    allComposeElements = [middleware];
+    allComposeElements = [middleware,
+                          reduxReactRouter({
+                            createHistory
+                          })
+                        ];
   }
 
   return allComposeElements;

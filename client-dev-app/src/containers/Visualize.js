@@ -24,7 +24,22 @@ class Visualize extends Component {
   }
 
   componentWillMount() {
+    if(process.browser){
+      let params  = this.props.location.query;
+      if (params.id != undefined){
+        this.setupLoadViz(params.id);
+      }
+    }
+
     this.props.requestWizardSetupIfNeeded();
+  }
+
+  componentDidMount(){
+    // if there was an id, we need to load
+    if(this.state.fromSavedID != undefined && this.state.fromSavedID != "") {
+      // we have an id and need load that saved viz
+      this.props.buildVizFromSavedID(this.state.fromSavedID);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -33,8 +48,42 @@ class Visualize extends Component {
     }
   }
 
+  componentWillUnmount(){
+    this.props.resetAllFields();
+    this.props.removeLocaitonQuery();
+  }
+
   changeToWizardView() {
     this.setState({ currentView: "wizard" });
+  }
+
+  setupLoadViz(id){
+    this.setState({
+      fromSavedID: id
+    });
+  }
+
+  closeSave(){
+    this.setState({
+      saveModal: false
+    });
+  }
+
+  initSave(){
+    this.setState({
+      saveModal: true
+    });
+  }
+
+  autoSaveShare() {
+    this.props.saveVisualization("SHARED URL - NO NAME")
+      .then(() => {
+        this.setState({saveModal: true});
+      });
+  }
+
+  saveViz(name){
+    this.props.saveVisualization(name);
   }
 
   render() {
