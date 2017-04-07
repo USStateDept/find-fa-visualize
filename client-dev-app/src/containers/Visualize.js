@@ -16,20 +16,28 @@ class Visualize extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      currentView: (
-        !props.chartDataLoading && !props.chartDataLoaded ? "wizard" : "chart"
-      )
-    };
+    if(process.browser){
+      let params  = this.props.location.query;
+      console.log(params.id);
+      if (params.id != undefined){
+        this.setupLoadViz(params.id);
+        this.props.buildVizFromSavedID(params.id);
+        this.state = {
+          currentView: "chart"
+        };
+      } else {
+        console.log(props.chartDataLoaded);
+        this.state = {
+          currentView: (
+            !props.chartDataLoading && !props.chartDataLoaded ? "wizard" : "chart"
+          )
+        };
+      }
+    }
+
   }
 
   componentWillMount() {
-    if(process.browser){
-      let params  = this.props.location.query;
-      if (params.id != undefined){
-        this.setupLoadViz(params.id);
-      }
-    }
 
     this.props.requestWizardSetupIfNeeded();
   }
@@ -59,7 +67,8 @@ class Visualize extends Component {
 
   setupLoadViz(id){
     this.setState({
-      fromSavedID: id
+      fromSavedID: id,
+      wizardSetupLoaded: true
     });
   }
 

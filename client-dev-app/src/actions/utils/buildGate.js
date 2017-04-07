@@ -60,14 +60,14 @@ const buildRules = {
 };
 
 function checkBuildReady(state) {
-  const selectedIndicators = state.visualize.get("selectedIndicators");
-  const selectedCountries = state.visualize.get("selectedCountries");
-  const selectedRegions = state.visualize.get("selectedRegions");
-  const selectedChart = state.visualize.get("selectedChart");
+  const selectedIndicators = state.get("selectedIndicators");
+  const selectedCountries = state.get("selectedCountries");
+  const selectedRegions = state.get("selectedRegions");
+  const selectedChart = state.get("selectedChart");
 
-  const indicatorsInitiated = state.visualize.get("wizardIndicatorSelectInit");
-  const countriesInitiated = state.visualize.get("wizardCountrySelectInit");
-  const chartInitiated = state.visualize.get("wizardChartSelectInit");
+  const indicatorsInitiated = state.get("wizardIndicatorSelectInit");
+  const countriesInitiated = state.get("wizardCountrySelectInit");
+  const chartInitiated = state.get("wizardChartSelectInit");
 
   // basic reqs
   if (indicatorsInitiated) {

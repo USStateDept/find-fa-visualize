@@ -300,7 +300,7 @@ export function wizardClickSelectAllFromRegion(region) {
         }
       });
     dispatch(
-      dispatchWizardTryEnableBuild(BuildGate.checkBuildReady(getState()))
+      dispatchWizardTryEnableBuild(BuildGate.checkBuildReady(getState().visualize))
     );
   };
 }
@@ -354,7 +354,7 @@ export function resetAllFields() {
   return (dispatch, getState) => {
     dispatch(dispatchWizardReset());
     dispatch(
-      dispatchWizardTryEnableBuild(BuildGate.checkBuildReady(getState()))
+      dispatchWizardTryEnableBuild(BuildGate.checkBuildReady(getState().visualize))
     );
   };
 }
@@ -446,7 +446,7 @@ function selectAllForSavedViz(setup) {
 
     // finally after all selection, dispatch build ready
     dispatch(
-      dispatchWizardTryEnableBuild(BuildGate.checkBuildReady(getState()))
+      dispatchWizardTryEnableBuild(BuildGate.checkBuildReady(getState().visualize))
     );
   };
 }
@@ -537,7 +537,7 @@ function fetchData(ind, cty, reg, cht ) {
     dispatch(setBuildChart(cht));
 
     // Return a promise to wait for
-    return fetch('/visualize/data', {
+    return fetch(`${APIURL}/visualize/data`, {
       method: 'REPORT',
       headers: {
         'Accept': 'application/json',
