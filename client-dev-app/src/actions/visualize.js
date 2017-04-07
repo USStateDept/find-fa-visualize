@@ -502,8 +502,8 @@ export function chartRequestData() {
 export function buildVizFromSavedID(id) {
   return dispatch => {
     // query for id and get build chart
-    fetch("api/visualize/save/" + id, {
-      method: 'GET',
+    fetch(`${APIURL}/visualize/save/` + id, {
+      method: 'REPORT',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -537,8 +537,8 @@ function fetchData(ind, cty, reg, cht ) {
     dispatch(setBuildChart(cht));
 
     // Return a promise to wait for
-    return fetch('api/visualize/data', {
-      method: 'POST',
+    return fetch('/visualize/data', {
+      method: 'REPORT',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'

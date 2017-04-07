@@ -25,7 +25,6 @@ class Visualize extends Component {
 
   componentWillMount() {
     if(process.browser){
-      console.log(this.props.location.query);
       let params  = this.props.location.query;
       if (params.id != undefined){
         this.setupLoadViz(params.id);

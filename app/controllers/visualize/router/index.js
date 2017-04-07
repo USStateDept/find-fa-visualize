@@ -112,6 +112,7 @@ async function queryIndicatorData(_setup) {
   let meta;
   let nullCheck;
   let nullAvailibility;
+
   // query params
   let indIds = _setup.indicators.map(ind => {
     return ind.id;
@@ -119,9 +120,11 @@ async function queryIndicatorData(_setup) {
   let ctyIds = _setup.countries.map(cty => {
     return cty.Country_ID;
   });
-  let regIds = _setup.regions.map(reg => {
-    return reg.Region_ID;
-  });
+  if(_setup.regions){
+    let regIds = _setup.regions.map(reg => {
+      return reg.Region_ID;
+    });
+  }
   try {
     if (ctyIds.length > 0) {
       ctyDataSet = await Data.findAll({
@@ -132,14 +135,16 @@ async function queryIndicatorData(_setup) {
         order: '"Date" ASC'
       });
     }
-    if (regIds.length > 0) {
-      regDataSet = await RegionData.findAll({
-        where: {
-          Indicator_ID: indIds,
-          Region_ID: regIds
-        },
-        order: '"Year" ASC'
-      });
+    if (_setup.regions) {
+       if (regIds.length > 0) {
+        regDataSet = await RegionData.findAll({
+          where: {
+            Indicator_ID: indIds,
+            Region_ID: regIds
+          },
+          order: '"Year" ASC'
+        });
+      }
     }
     // concat data sets
     dataSet = dataSetFormation(ctyDataSet, regDataSet);
@@ -248,9 +253,11 @@ async function performAvailibiltyCheck(_setup) {
   let ctyIds = _setup.countries.map(cty => {
     return cty.Country_ID;
   });
-  let regIds = _setup.regions.map(reg => {
-    return reg.Region_ID;
-  });
+  if(_setup.regions){
+    let regIds = _setup.regions.map(reg => {
+      return reg.Region_ID;
+    });
+  }
   let ctyAvil = [];
   let regAvil = [];
   let results;
@@ -282,26 +289,28 @@ async function performAvailibiltyCheck(_setup) {
         }
       );
     }
-    if (regIds.length !== 0) {
-      regAvil = await model.sequelize.query(
-        `
-            SELECT "Year", "Indicator_ID", COUNT(*) as data_points, ARRAY
-                (
-                  SELECT UNNEST(ARRAY[:regs])
-                  EXCEPT
-                  SELECT UNNEST(array_agg("Region_ID"))
-                ) as regions_without
-            FROM "Region_Data"
-            WHERE "Region_ID" IN (:regs)
-            AND "Indicator_ID" IN (:inds)
-            GROUP BY "Year", "Indicator_ID"
-            ORDER BY "Year"
-          `,
-        {
-          replacements: { regs: regIds, inds: indIds },
-          type: model.sequelize.QueryTypes.SELECT
-        }
-      );
+    if(_setup.regions) {
+      if (regIds.length !== 0) {
+        regAvil = await model.sequelize.query(
+          `
+              SELECT "Year", "Indicator_ID", COUNT(*) as data_points, ARRAY
+                  (
+                    SELECT UNNEST(ARRAY[:regs])
+                    EXCEPT
+                    SELECT UNNEST(array_agg("Region_ID"))
+                  ) as regions_without
+              FROM "Region_Data"
+              WHERE "Region_ID" IN (:regs)
+              AND "Indicator_ID" IN (:inds)
+              GROUP BY "Year", "Indicator_ID"
+              ORDER BY "Year"
+            `,
+          {
+            replacements: { regs: regIds, inds: indIds },
+            type: model.sequelize.QueryTypes.SELECT
+          }
+        );
+      }
     }
     //results = ctyAvil.concat(regAvil);
     _.each(ctyAvil, (obj, i) => {
