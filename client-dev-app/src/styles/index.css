@@ -1180,7 +1180,8 @@
   background-color: #00576c;
   padding: 5px;
   min-width: 5em;
-  cursor: pointer; }
+  cursor: pointer;
+  margin-right: 1em; }
   .Chart__banner-tool:hover {
     background-color: #003a48; }
 

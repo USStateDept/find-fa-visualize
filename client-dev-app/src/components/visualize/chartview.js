@@ -55,7 +55,10 @@ class ChartView extends Component {
       selectedViewChart,
       liveChartTypeChange,
       changeToWizardView,
-      setCurrentViewYear
+      setCurrentViewYear,
+      requestData,
+      selectedYearRange,
+      originalYearRange
     } = this.props;
 
     const {
@@ -85,6 +88,9 @@ class ChartView extends Component {
             data={data}
             chartType={selectedViewChart}
             setCurrentViewYear={setCurrentViewYear}
+            requestData={requestData}
+            selectedYearRange={selectedYearRange}
+            originalYearRange={originalYearRange}
           />}
         {dataLoaded && currentTab == "Data Table" && <ChartData data={data} />}
         {dataLoaded && currentTab == "Meta Data" && <ChartSource data={data} />}

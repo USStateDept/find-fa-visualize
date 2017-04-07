@@ -11,7 +11,7 @@ Plotly.register([
 
 /**
  * BaseChart Component, builds out the chart and uses plotly.
- * Based ona switch statement and the current selected chart
+ * Based on a switch statement and the current selected chart
  *
  */
 class BaseChart extends Component {
@@ -28,14 +28,18 @@ class BaseChart extends Component {
         countries,
         indicators,
         simpleSet,
-        listYears
+        listYears,
+        startYear,
+        endYear,
+        yearRange,
+        selectedYearRange,
+        originalYearRange
       }
+
     } = props;
 
-    let startYear;
-    let endYear;
     if (shouldChartRender && !props.chartSelectedYearRange) {
-      startYear = "all";
+      // shrug
     }
 
     this.state = {
@@ -48,9 +52,12 @@ class BaseChart extends Component {
       chartType: chartType,
       simpleData: simpleSet,
       listYears: listYears,
-      year: startYear,
+      year: "all",
       startYear: startYear, // start showing at last year,
       endYear: endYear,
+      yearRange: yearRange,
+      selectedYearRange: selectedYearRange,
+      originalYearRange: originalYearRange,
       chartID: `plotly-chart-${props.uid}`
     };
   }
@@ -63,7 +70,13 @@ class BaseChart extends Component {
         countries: nextProps.data.countries || this.props.countries,
         indicators: nextProps.data.indicators || this.props.indicators,
         simpleData: nextProps.data.simpleSet || this.props.simpleData,
-        listYears: nextProps.data.listYears || this.props.listYears
+        listYears: nextProps.data.listYears || this.props.listYears,
+        year: nextProps.startYear || this.props.startYear,
+        startYear: nextProps.startYear || this.props.startYear,
+        endYear: nextProps.endYear || this.props.endYear,
+        yearRange: nextProps.yearRange || this.props.yearRange,
+        selectedYearRange: nextProps.selectedYearRange || this.props.selectedYearRange,
+        originalYearRange: nextProps.originalYearRange || this.props.originalYearRange
       },
       () => {
         this.renderNewChart();
@@ -251,38 +264,42 @@ class BaseChart extends Component {
     }
   }
 
-  selectStartYear(e) {
-    console.log('in selectStartYear');
-    if (e.target.value !== "null") {
-      this.setState(
-        Object.assign({}, this.state, { startYear: e.target.value }),
-        () => {
-          this.renderNewChart();
-          this.props.setCurrentViewYear(this.state.year);
-        }
-      );
+  calculateYearRange(startYear, endYear, callback) {
+    let newYearRange = [];
+    endYear = parseInt(endYear);
+    startYear = parseInt(startYear);
+    newYearRange.push(startYear);
+
+    while(startYear < endYear) {
+      startYear++
+
+      if(startYear === endYear) {
+        newYearRange.push(endYear);
+      } else {
+        newYearRange.push(startYear);
+      }
+
     }
+
+    callback(newYearRange);
+  }
+
+  selectStartYear(e) {
+    this.setState(
+      Object.assign({}, this.state, { startYear: e.target.value }),
+      () => {
+        this.calculateYearRange(this.state.startYear, this.state.endYear, this.props.requestData);
+      }
+    );
   }
 
   selectEndYear(e) {
-    console.log('in selectEndYear');
-    if (e.target.value !== "null") {
-      this.setState(
-        Object.assign({}, this.state, { endYear: e.target.value }),
-        () => {
-          this.renderNewChart();
-          this.props.setCurrentViewYear(this.state.year);
-        }
-      );
-    }
-  }
-
-  calculateYearRange(startYear, endYear) {
-    console.log(this.props.listYears);
-    /*
-
-    return array of years between start year and end year
-    */
+    this.setState(
+      Object.assign({}, this.state, { endYear: e.target.value }),
+      () => {
+        this.calculateYearRange(this.state.startYear, this.state.endYear, this.props.requestData);
+      }
+    );
   }
 
   render() {
@@ -296,6 +313,8 @@ class BaseChart extends Component {
           <ChartSettings
             startYear={this.state.year}
             listYears={this.state.listYears}
+            selectedYearRange={this.props.selectedYearRange}
+            originalYearRange={this.props.originalYearRange}
             selectStartYear={this.selectStartYear.bind(this)}
             selectEndYear={this.selectEndYear.bind(this)}
             calculateYearRange={this.calculateYearRange.bind(this)}

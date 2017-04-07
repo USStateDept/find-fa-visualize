@@ -1,12 +1,14 @@
 import React, { PropTypes, Component } from "react";
 
-const YearSelect = ({ listYears, selectYear, label, year }) => (
+//TODO Add radial button toggle between range and all
+
+const YearSelect = ({ originalYearRange, selectYear, label, year }) => (
   <div>
     <div className="Chart__banner-tool Chart__chart-dropdown">
       <label>{label}</label>
       <select onChange={selectYear.bind(this)}>
-        <option value="null">Select Year</option>
-        {listYears.map((y, i) => <option key={i} value={y}>{y}</option>)}
+        <option value="null">{year}</option>
+        {originalYearRange.map((y, i) => <option key={i} value={y}>{y}</option>)}
       </select>
     </div>
   </div>
@@ -23,7 +25,9 @@ class YearRangeSelect extends Component {
       selectEndYear: props.selectEndYear,
       calculateYearRange: props.calculateYearRange,
       startLabel: "First Year of Range: ",
-      endLabel: "Last Year of Range: "
+      endLabel: "Last Year of Range: ",
+      selectedYearRange: props.selectedYearRange,
+      originalYearRange: props.originalYearRange
     };
   }
 
@@ -37,25 +41,31 @@ class YearRangeSelect extends Component {
       selectEndYear,
       calculateYearRange,
       startLabel,
-      endLabel
+      endLabel,
+      selectedYearRange,
+      originalYearRange
     } = this.props;
 
     return (
+
       <div className="viz-chart-settings">
-        
+        Showing {listYears[0]} through {listYears[(listYears.length - 2)]}
         <YearSelect
           globalChangeYear={this.props._onChangeYear}
           listYears={listYears}
-          year={startYear}
+          selectedYearRange={selectedYearRange}
+          originalYearRange={originalYearRange}
+          year={listYears[0]}
           selectYear={selectStartYear}
           label="First Year of Range:"
-          style="margin-left: 2em"
         />
 
         <YearSelect
           globalChangeYear={this.props._onChangeYear}
           listYears={listYears}
-          year={endYear}
+          selectedYearRange={selectedYearRange}
+          originalYearRange={originalYearRange}
+          year={listYears[(listYears.length - 2)]}
           selectYear={selectEndYear}
           label="Last Year of Range:"
         />

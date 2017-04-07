@@ -22,7 +22,9 @@ class ChartSettings extends Component {
       endYear: props.endYear,
       selectStartYear: props.selectStartYear,
       selectEndYear: props.selectEndYear,
-      calculateYearRange: props.calculateYearRange
+      calculateYearRange: props.calculateYearRange,
+      selectedYearRange: props.selectedYearRange,
+      originalYearRange: props.originalYearRange
     };
   }
 
@@ -34,7 +36,9 @@ class ChartSettings extends Component {
       endYear,
       selectStartYear,
       selectEndYear,
-      calculateYearRange
+      calculateYearRange,
+      originalYearRange,
+      selectedYearRange
     } = this.props;
 
     return (
@@ -48,6 +52,8 @@ class ChartSettings extends Component {
           selectStartYear={selectStartYear}
           selectEndYear={selectEndYear}
           calculateYearRange={calculateYearRange}
+          originalYearRange={originalYearRange}
+          selectedYearRange={selectedYearRange}
         />
 
       </div>
