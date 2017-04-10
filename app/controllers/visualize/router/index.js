@@ -135,8 +135,8 @@ async function queryIndicatorData(_setup) {
         order: '"Date" ASC'
       });
     }
-    if (_setup.regions) {
-       if (regIds.length > 0) {
+    //if (_setup.regions != "") {
+       if (regIds.length > 0 || _setup.regions != "") {
         regDataSet = await RegionData.findAll({
           where: {
             Indicator_ID: indIds,
@@ -145,7 +145,7 @@ async function queryIndicatorData(_setup) {
           order: '"Year" ASC'
         });
       }
-    }
+    //}
     // concat data sets
     dataSet = dataSetFormation(ctyDataSet, regDataSet);
     // country checks
@@ -289,8 +289,8 @@ async function performAvailibiltyCheck(_setup) {
         }
       );
     }
-    if(_setup.regions) {
-      if (regIds.length !== 0) {
+    //if(_setup.regions != "") {
+      if (regIds.length !== 0 || _setup.regions != "") {
         regAvil = await model.sequelize.query(
           `
               SELECT "Year", "Indicator_ID", COUNT(*) as data_points, ARRAY
@@ -311,7 +311,7 @@ async function performAvailibiltyCheck(_setup) {
           }
         );
       }
-    }
+    //}
     //results = ctyAvil.concat(regAvil);
     _.each(ctyAvil, (obj, i) => {
       if (_.isUndefined(parsed[obj.Date])) {

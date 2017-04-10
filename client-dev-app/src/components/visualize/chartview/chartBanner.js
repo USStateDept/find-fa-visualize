@@ -111,6 +111,8 @@ class ChartBanner extends Component {
             chartType={chartType}
             changeChart={liveChartTypeChange}
           />
+          <button onClick={autoSaveShare} type="button" className="banner-save" >Share</button>
+          <button onClick={initSave} type="button" className="banner-save" >Save</button>
           <a
             onClick={changeToWizardView}
             className="Chart__banner-edit Chart__banner-tool"

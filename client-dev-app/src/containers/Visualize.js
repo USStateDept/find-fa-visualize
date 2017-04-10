@@ -18,7 +18,6 @@ class Visualize extends Component {
 
     if(process.browser){
       let params  = this.props.location.query;
-      console.log(params.id);
       if (params.id != undefined){
         this.setupLoadViz(params.id);
         this.props.buildVizFromSavedID(params.id);
@@ -26,7 +25,6 @@ class Visualize extends Component {
           currentView: "chart"
         };
       } else {
-        console.log(props.chartDataLoaded);
         this.state = {
           currentView: (
             !props.chartDataLoading && !props.chartDataLoaded ? "wizard" : "chart"
