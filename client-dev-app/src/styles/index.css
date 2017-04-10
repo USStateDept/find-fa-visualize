@@ -892,11 +892,15 @@
   stroke-opacity: .1 !important; }
 
 .Wizard__view {
-  padding: 100px; }
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-bottom: 50px; }
 
 .Wizard__begin {
-  padding: 200px;
-  padding-top: 50px; }
+  padding-top: 25px;
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-bottom: 50px; }
 
 .Wizard__menu-column {
   margin: 1%;
@@ -1122,7 +1126,9 @@
 .Chart__view {
   background-color: #ffeed2;
   height: 100vh;
-  padding: 50px; }
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-bottom: 50px; }
 
 .Chart__container {
   padding: 25px;
@@ -1130,6 +1136,9 @@
   border-top: none;
   max-width: inherit;
   overflow: scroll; }
+
+.Chart__removedLocations {
+ float: right; }
 
 .Chart__banner {
   text-align: center;

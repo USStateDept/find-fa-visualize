@@ -28,7 +28,8 @@ class BaseChart extends Component {
         countries,
         indicators,
         simpleSet,
-        listYears
+        listYears,
+        removedLocations
       }
     } = props;
 
@@ -47,6 +48,7 @@ class BaseChart extends Component {
       chartType: chartType,
       simpleData: simpleSet,
       listYears: listYears,
+      removedLocations: removedLocations,
       year: startYear, // start showing at last year
       chartID: `plotly-chart-${props.uid}`
     };
@@ -60,7 +62,8 @@ class BaseChart extends Component {
         countries: nextProps.data.countries || this.props.countries,
         indicators: nextProps.data.indicators || this.props.indicators,
         simpleData: nextProps.data.simpleSet || this.props.simpleData,
-        listYears: nextProps.data.listYears || this.props.listYears
+        listYears: nextProps.data.listYears || this.props.listYears,
+        removedLocations: nextProps.data.removedLocations || this.props.removedLocations
       },
       () => {
         this.renderNewChart();
@@ -82,6 +85,7 @@ class BaseChart extends Component {
   plotlyRenderStyle() {
     // draw the chart with the corresponding startdate
     let dataSet = this.state.data[this.state.year].traces.slice(0);
+
     // sometimes there will be empty indexes in this array
     dataSet = _.without(dataSet, undefined);
     let chartType = this.state.chartType.slice(0);
@@ -215,22 +219,23 @@ class BaseChart extends Component {
     // Plotly Final options
     let plotlySettings = {
       displayModeBar: true,
-      // modeBarButtonsToAdd: [
-      //   {
-      //     name: "show all",
-      //     click: gd => {
-      //       Plotly.restyle(gd, "visible", true);
-      //     },
-      //     icon: Plotly.Icons["eye"]
-      //   },
-      //   {
-      //     name: "hide all",
-      //     click: gd => {
-      //       Plotly.restyle(gd, "visible", "legendonly");
-      //     },
-      //     icon: Plotly.Icons["eye-off"]
-      //   }
-      // ],
+      displaylogo: false,
+       modeBarButtonsToAdd: [
+         {
+           name: "Show All",
+           click: gd => {
+             Plotly.restyle(gd, "visible", true);
+           },
+           icon: Plotly.Icons["autoscale"]
+         },
+         {
+           name: "Hide All",
+           click: gd => {
+             Plotly.restyle(gd, "visible", "legendonly");
+           },
+           icon: Plotly.Icons["undo"]
+         }
+       ],
       modeBarButtonsToRemove: [
         "zoom2d",
         "lasso2d",
@@ -273,6 +278,13 @@ class BaseChart extends Component {
             listYears={this.state.listYears}
             selectYear={this.selectYear.bind(this)}
           />
+
+          <div className="Chart__removedLocations">
+            <p><b>Countries/Regions in this selection with no data:</b></p>
+              {this.state.removedLocations.map(function(location, i){
+                return <span key={i}>{location}, </span>})
+              }
+          </div>
 
         </div>
       : <div>
