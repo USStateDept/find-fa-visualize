@@ -215,22 +215,23 @@ class BaseChart extends Component {
     // Plotly Final options
     let plotlySettings = {
       displayModeBar: true,
-      // modeBarButtonsToAdd: [
-      //   {
-      //     name: "show all",
-      //     click: gd => {
-      //       Plotly.restyle(gd, "visible", true);
-      //     },
-      //     icon: Plotly.Icons["eye"]
-      //   },
-      //   {
-      //     name: "hide all",
-      //     click: gd => {
-      //       Plotly.restyle(gd, "visible", "legendonly");
-      //     },
-      //     icon: Plotly.Icons["eye-off"]
-      //   }
-      // ],
+      displaylogo: false,
+       modeBarButtonsToAdd: [
+         {
+           name: "Show All",
+           click: gd => {
+             Plotly.restyle(gd, "visible", true);
+           },
+           icon: Plotly.Icons["autoscale"]
+         },
+         {
+           name: "Hide All",
+           click: gd => {
+             Plotly.restyle(gd, "visible", "legendonly");
+           },
+           icon: Plotly.Icons["undo"]
+         }
+       ],
       modeBarButtonsToRemove: [
         "zoom2d",
         "lasso2d",
