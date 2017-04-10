@@ -451,6 +451,7 @@ export function chartRequestData() {
     })
       .then(response => response.json())
       .then(json => {
+        console.log(json);
         var data = json[0];
         let parse = new Parse(data);
         let nullData = parse.nullValuesDataCheck();
