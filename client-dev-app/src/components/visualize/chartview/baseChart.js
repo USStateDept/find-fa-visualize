@@ -39,10 +39,6 @@ class BaseChart extends Component {
 
     } = props;
 
-    if (shouldChartRender && !props.chartSelectedYearRange) {
-      // shrug
-    }
-
     this.state = {
       // Each chart will start showing all data
       shouldChartRender: shouldChartRender,
@@ -101,7 +97,6 @@ class BaseChart extends Component {
   plotlyRenderStyle() {
     // draw the chart with the corresponding startdate
 
-    // let dataSet = this.state.data[this.state.year].traces.slice(0); // Leaving original during development
     let dataSet = this.state.data["all"].traces.slice(0);
 
     // sometimes there will be empty indexes in this array
