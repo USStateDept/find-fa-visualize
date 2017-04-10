@@ -84,13 +84,24 @@ async function queryIndicatorData(_setup) {
   });
   try {
     if (ctyIds.length > 0) {
-      ctyDataSet = await Data.findAll({
-        where: {
-          Indicator_ID: indIds,
-          Country_ID: ctyIds
-        },
-        order: '"Date" ASC'
-      });
+      if (_setup.yearRange.length > 0) {
+        ctyDataSet = await Data.findAll({
+          where: {
+            Indicator_ID: indIds,
+            Country_ID: ctyIds,
+            Date: _setup.yearRange
+          },
+          order: '"Date" ASC'
+        });
+      } else {
+        ctyDataSet = await Data.findAll({
+          where: {
+            Indicator_ID: indIds,
+            Country_ID: ctyIds
+          },
+          order: '"Date" ASC'
+        });
+      }
     }
     if (regIds.length > 0) {
       regDataSet = await RegionData.findAll({

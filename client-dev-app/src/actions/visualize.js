@@ -36,6 +36,8 @@ export const REQUEST_GEOJSON = "REQUEST_GEOJSON";
 export const REQUEST_GEOJSON_SUCCESS = "REQUEST_GEOJSON_SUCCESS";
 // chart actions
 export const CHART_SET_YEAR = "CHART_SET_YEAR";
+export const CHART_SET_SELECTED_YEAR_RANGE = "CHART_SET_SELECTED_YEAR_RANGE";
+export const CHART_SET_ORIGINAL_YEAR_RANGE = "CHART_SET_ORIGINAL_YEAR_RANGE";
 // overall state
 export const TOTAL_UNBUILD = "TOTAL_UNBUILD";
 
@@ -178,6 +180,20 @@ function dispatchSetVisualizeYear(year) {
   return {
     type: CHART_SET_YEAR,
     year: year
+  };
+}
+
+function dispatchSetSelectedYearRange(range) {
+  return {
+    type: CHART_SET_SELECTED_YEAR_RANGE,
+    range: range // array of years as integers [1990, 1991, 1992]
+  };
+}
+
+function dispatchSetOriginalYearRange(range) {
+  return {
+    type: CHART_SET_ORIGINAL_YEAR_RANGE,
+    range: range // array of years as integers [1990, 1991, 1992]
   };
 }
 
@@ -424,13 +440,18 @@ function selectAllForSavedViz(setup) {
 }
 
 // action functionality/creator/performer
-export function chartRequestData() {
+export function chartRequestData(newYearRange) {
+  if (newYearRange.stopPropagation) { // an object I don't understand is passed on initial load. This alters that to a empty array.
+    newYearRange = [];
+  }
   return (dispatch, getState) => {
     const state = getState().visualize;
     const selectedIndicators = state.get("selectedIndicators");
     const selectedCountries = state.get("selectedCountries");
     const selectedRegions = state.get("selectedRegions");
     const selectedChart = state.get("selectedChart");
+    const selectedYearRange = state.get("selectedYearRange");
+    const originalYearRange = state.get("originalYearRange");
 
     dispatch(dispatchRequestVisualizeData());
     dispatch(dispatchWizardSetChart(selectedChart));
@@ -446,7 +467,8 @@ export function chartRequestData() {
         indicators: selectedIndicators,
         countries: selectedCountries,
         regions: selectedRegions,
-        chart: selectedChart
+        chart: selectedChart,
+        yearRange: newYearRange
       })
     })
       .then(response => response.json())
@@ -456,6 +478,12 @@ export function chartRequestData() {
         let parse = new Parse(data);
         let nullData = parse.nullValuesDataCheck();
         let chartObjects;
+        let yearRange = newYearRange;
+
+        const state = getState().visualize;
+        const selectedYearRange = state.get("selectedYearRange");
+        const originalYearRange = state.get("originalYearRange");
+
         if (!nullData) {
           chartObjects = data.indicators.length === 1
             ? parse.parseForOne()
@@ -464,6 +492,14 @@ export function chartRequestData() {
                 : parse.parseForThree();
         } else {
           chartObjects = false;
+        }
+
+        if (selectedYearRange.length == 0 && originalYearRange.length == 0) { // if the ranges are still in their initialState update both. Otherwise update just the selectedYearRange
+          yearRange = _.toArray(_.pickBy(chartObjects.listYears, _.isNumber));
+          dispatch(dispatchSetSelectedYearRange(yearRange));
+          dispatch(dispatchSetOriginalYearRange(yearRange));
+        } else {
+          dispatch(dispatchSetSelectedYearRange(yearRange));
         }
 
         dispatch(dispatchRequestVisualizeDataSuccess(chartObjects, data));

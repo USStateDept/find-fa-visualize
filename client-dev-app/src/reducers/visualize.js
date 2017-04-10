@@ -24,6 +24,8 @@ import {
   REQUEST_GEOJSON_SUCCESS,
   // chart actions
   CHART_SET_YEAR,
+  CHART_SET_SELECTED_YEAR_RANGE,
+  CHART_SET_ORIGINAL_YEAR_RANGE,
   // state
   TOTAL_UNBUILD
 } from "../actions/visualize";
@@ -58,6 +60,8 @@ const initialState = Map({
   selectedRegions: List([]),
   selectedChart: "", // chosen in wizard menu
   selectedViewChart: "", // the chart being used for build & on the fly changes
+  selectedYearRange: [],
+  originalYearRange: [],
 
   geoIsLoading: false,
   geoLoaded: false,
@@ -174,6 +178,12 @@ export default function visualize(state = initialState, action) {
       });
     case CHART_SET_YEAR:
       return state.set("currentYearView", action.year);
+
+    case CHART_SET_SELECTED_YEAR_RANGE:
+      return state.set("selectedYearRange", action.range);
+
+    case CHART_SET_ORIGINAL_YEAR_RANGE:
+      return state.set("originalYearRange", action.range);
 
     case REQUEST_GEOJSON:
       return state.set("geoIsLoading", true);
