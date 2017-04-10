@@ -33,7 +33,8 @@ class BaseChart extends Component {
         endYear,
         yearRange,
         selectedYearRange,
-        originalYearRange
+        originalYearRange,
+        removedLocations
       }
 
     } = props;
@@ -58,6 +59,7 @@ class BaseChart extends Component {
       yearRange: yearRange,
       selectedYearRange: selectedYearRange,
       originalYearRange: originalYearRange,
+      removedLocations: removedLocations,
       chartID: `plotly-chart-${props.uid}`
     };
   }
@@ -76,7 +78,8 @@ class BaseChart extends Component {
         endYear: nextProps.endYear || this.props.endYear,
         yearRange: nextProps.yearRange || this.props.yearRange,
         selectedYearRange: nextProps.selectedYearRange || this.props.selectedYearRange,
-        originalYearRange: nextProps.originalYearRange || this.props.originalYearRange
+        originalYearRange: nextProps.originalYearRange || this.props.originalYearRange,
+        removedLocations: nextProps.data.removedLocations || this.props.removedLocations
       },
       () => {
         this.renderNewChart();
@@ -234,22 +237,23 @@ class BaseChart extends Component {
     // Plotly Final options
     let plotlySettings = {
       displayModeBar: true,
-      // modeBarButtonsToAdd: [
-      //   {
-      //     name: "show all",
-      //     click: gd => {
-      //       Plotly.restyle(gd, "visible", true);
-      //     },
-      //     icon: Plotly.Icons["eye"]
-      //   },
-      //   {
-      //     name: "hide all",
-      //     click: gd => {
-      //       Plotly.restyle(gd, "visible", "legendonly");
-      //     },
-      //     icon: Plotly.Icons["eye-off"]
-      //   }
-      // ],
+      displaylogo: false,
+       modeBarButtonsToAdd: [
+         {
+           name: "Show All",
+           click: gd => {
+             Plotly.restyle(gd, "visible", true);
+           },
+           icon: Plotly.Icons["autoscale"]
+         },
+         {
+           name: "Hide All",
+           click: gd => {
+             Plotly.restyle(gd, "visible", "legendonly");
+           },
+           icon: Plotly.Icons["undo"]
+         }
+       ],
       modeBarButtonsToRemove: [
         "zoom2d",
         "lasso2d",
@@ -322,6 +326,13 @@ class BaseChart extends Component {
             selectEndYear={this.selectEndYear.bind(this)}
             calculateYearRange={this.calculateYearRange.bind(this)}
           />
+
+          <div className="Chart__removedLocations">
+            <p><b>Countries/Regions in this selection with no data:</b></p>
+              {this.state.removedLocations.map(function(location, i){
+                return <span key={i}>{location}, </span>})
+              }
+          </div>
 
         </div>
       : <div>

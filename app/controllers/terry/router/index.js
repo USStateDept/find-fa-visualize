@@ -204,10 +204,6 @@ function sortCategories(combined) {
     };
   };
 
-  /*console.log(categories[0].subcategories);
-  console.log("-----------");
-  console.log(categories[0].subcategories[0].indicators[0]);*/
-
   return categories;
 }
 
@@ -292,56 +288,8 @@ function getCountries() {
               regionList[typeDex].list.push(row);
             });
 
-            //regionList.push({name: "Agency Classification", subcategories: [] });
-
-            //var newId = 0;
-
-            for (var i = regionList.length - 1; i >= 0; i--) {
-              /*if(regionList[i].name === "Department of Defense" || 
-                regionList[i].name === "Department of State" ||
-                regionList[i].name === "United States Agency for International Development")
-              {
-                regionList[i].name = regionList[i].name + " Classification";
-                newId ++;
-                regionList[i].id = newId;
-                regionList[5].subcategories.push(regionList[i]);
-              }*/
-
-              //Add By to the labels to bring them in line with the wireframes
-              regionList[i].name = "By " + regionList[i].name;
-            }
-
-            //Move some stuff around to fit the customer's wireframes
-            var element = regionList[3];
-            regionList.splice(3, 1);
-            regionList.splice(1, 0, element);
-
-            var element = regionList[2];
-            regionList.splice(2, 1);
-            regionList.splice(3, 0, element);
-
-            //Update the labels for the department collections
-            regionList[2].name = regionList[2].name + " Classification";
-            regionList[3].name = regionList[3].name + " Classification";
-            regionList[4].name = regionList[4].name + " Classification";
-
-            /*for (var i = regionList[5].subcategories.length - 1; i >= 0; i--) {
-              regionList[5].subcategories[i].indicators = [];
-              for (var j = regionList[5].subcategories[i].list.length - 1; j >= 0; j--) {
-                regionList[5].subcategories[i].indicators.push(regionList[5].subcategories[i].list[j].dataValues);
-              };
-            };*/
-
-            /*console.log(regionList);
-            console.log("------------");
-            console.log(regionList[5]);
-            console.log("------------");
-            console.log(regionList[5].subcategories);
-            console.log("------------");
-            console.log(regionList[5].subcategories[0].indicators);*/
-
             return resolve(
-              [{ name: "By Country Name", list: countries }].concat(regionList)
+              [{ name: "All", list: countries }].concat(regionList)
             );
           })
           .catch(err => {
@@ -354,15 +302,14 @@ function getCountries() {
   });
 }
 
-function arraymove(arr, fromIndex, toIndex) {
-    var element = arr[fromIndex];
-    arr.splice(fromIndex, 1);
-    arr.splice(toIndex, 0, element);
+let canIKickIt = (req, res) => {
+  return res.json("Yes you can!!");
 }
 
 export default {
   getIndicators,
   getWizardMenuSetup,
   getIngestMenuSetup,
-  getGeojson
+  getGeojson,
+  canIKickIt
 };
