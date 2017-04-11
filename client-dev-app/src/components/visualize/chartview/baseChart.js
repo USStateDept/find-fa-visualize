@@ -98,6 +98,7 @@ class BaseChart extends Component {
         titlefont: { size: 20 }
       },
       showlegend: this.state.showLegend,
+      hovermode: "closest",
       margin: {
         t: 20
       },
@@ -212,33 +213,52 @@ class BaseChart extends Component {
       // none
     }
 
-    // Plotly Final options
+        // Plotly Final options
     let plotlySettings = {
       displayModeBar: true,
-      // modeBarButtonsToAdd: [
-      //   {
-      //     name: "show all",
-      //     click: gd => {
-      //       Plotly.restyle(gd, "visible", true);
-      //     },
-      //     icon: Plotly.Icons["eye"]
-      //   },
-      //   {
-      //     name: "hide all",
-      //     click: gd => {
-      //       Plotly.restyle(gd, "visible", "legendonly");
-      //     },
-      //     icon: Plotly.Icons["eye-off"]
-      //   }
-      // ],
+      displaylogo: false,
+       modeBarButtonsToAdd: [
+         {
+           name: "Show All",
+           click: gd => {
+             Plotly.restyle(gd, "visible", true);
+           },
+           icon: Plotly.Icons["zoom_plus"]
+         },
+         {
+           name: "Hide All",
+           click: gd => {
+             Plotly.restyle(gd, "visible", "legendonly");
+           },
+           icon: Plotly.Icons["zoom_minus"]
+         },
+         {
+           name: "Save",
+           click: gd => {
+             //Save function
+           },
+           icon: Plotly.Icons["disk"]
+         },
+         {
+           name: "Share",
+           click: gd => {
+             //Share function
+           },
+           icon: Plotly.Icons["tooltip_basic"]
+         }
+       ],
       modeBarButtonsToRemove: [
         "zoom2d",
         "lasso2d",
-        "resetScale2d",
         "autoScale2d",
+        "select2d",
+        "zoomIn2d",
+        "zoomOut2d",
+        "pan2d",
         "resetGeo",
         "hoverCompareCartesian",
-        "hoverClosestCartesian"
+        "hoverClosestCartesian",
+        "toImage"
       ]
     };
 
