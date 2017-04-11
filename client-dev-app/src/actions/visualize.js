@@ -498,7 +498,7 @@ export function chartRequestData() {
   };
 }
 
- // action functionality/creator/performer
+ //action functionality/creator/performer
 export function buildVizFromSavedID(id) {
   return dispatch => {
     // query for id and get build chart
