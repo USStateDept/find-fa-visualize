@@ -288,7 +288,7 @@ export function wizardClickSelectAllFromRegion(region) {
         }
       });
     dispatch(
-      dispatchWizardTryEnableBuild(BuildGate.checkBuildReady(getState()))
+      dispatchWizardTryEnableBuild(BuildGate.checkBuildReady(getState().visualize))
     );
   };
 }
@@ -342,7 +342,7 @@ export function resetAllFields() {
   return (dispatch, getState) => {
     dispatch(dispatchWizardReset());
     dispatch(
-      dispatchWizardTryEnableBuild(BuildGate.checkBuildReady(getState()))
+      dispatchWizardTryEnableBuild(BuildGate.checkBuildReady(getState().visualize))
     );
   };
 }
@@ -434,7 +434,7 @@ function selectAllForSavedViz(setup) {
 
     // finally after all selection, dispatch build ready
     dispatch(
-      dispatchWizardTryEnableBuild(BuildGate.checkBuildReady(getState()))
+       dispatchWizardTryEnableBuild(BuildGate.checkBuildReady(getState().visualize))
     );
   };
 }

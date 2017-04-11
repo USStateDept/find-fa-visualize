@@ -16,15 +16,38 @@ class Visualize extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      currentView: (
-        !props.chartDataLoading && !props.chartDataLoaded ? "wizard" : "chart"
-      )
-    };
+    if(process.browser){
+      let params  = this.props.location.query;
+      console.log(params.id);
+      if (params.id != undefined){
+        this.setupLoadViz(params.id);
+        this.props.buildVizFromSavedID(params.id);
+        this.state = {
+          currentView: "chart"
+        };
+      } else {
+        console.log(props.chartDataLoaded);
+        this.state = {
+          currentView: (
+            !props.chartDataLoading && !props.chartDataLoaded ? "wizard" : "chart"
+          )
+        };
+      }
+    }
+
   }
 
   componentWillMount() {
+
     this.props.requestWizardSetupIfNeeded();
+  }
+
+  componentDidMount(){
+    // if there was an id, we need to load
+    if(this.state.fromSavedID != undefined && this.state.fromSavedID != "") {
+      // we have an id and need load that saved viz
+      this.props.buildVizFromSavedID(this.state.fromSavedID);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -33,8 +56,43 @@ class Visualize extends Component {
     }
   }
 
+  componentWillUnmount(){
+    this.props.resetAllFields();
+    this.props.removeLocaitonQuery();
+  }
+
   changeToWizardView() {
     this.setState({ currentView: "wizard" });
+  }
+
+  setupLoadViz(id){
+    this.setState({
+      fromSavedID: id,
+      wizardSetupLoaded: true
+    });
+  }
+
+  closeSave(){
+    this.setState({
+      saveModal: false
+    });
+  }
+
+  initSave(){
+    this.setState({
+      saveModal: true
+    });
+  }
+
+  autoSaveShare() {
+    this.props.saveVisualization("SHARED URL - NO NAME")
+      .then(() => {
+        this.setState({saveModal: true});
+      });
+  }
+
+  saveViz(name){
+    this.props.saveVisualization(name);
   }
 
   render() {
@@ -49,8 +107,6 @@ class Visualize extends Component {
       selectedCountries,
       selectedRegions,
       selectedChart,
-      selectedYearRange,
-      originalYearRange,
       wizardBuildAllowed,
 
       // chart
@@ -93,7 +149,6 @@ class Visualize extends Component {
             selectedChart={selectedChart}
             selectedCountries={selectedCountries}
             selectedRegions={selectedRegions}
-            selectedYearRange={selectedYearRange}
             selectionsMessage={wizardSelectionsMessage}
             buildAllowed={wizardBuildAllowed}
             requestData={chartRequestData}
@@ -107,9 +162,6 @@ class Visualize extends Component {
             liveChartTypeChange={chartLiveChartTypeChange}
             changeToWizardView={this.changeToWizardView.bind(this)}
             setCurrentViewYear={setCurrentViewYear}
-            requestData={chartRequestData}
-            selectedYearRange={selectedYearRange}
-            originalYearRange={originalYearRange}
           />}
       </div>
     );
@@ -137,8 +189,6 @@ function mapStateToProps(state) {
   const selectedRegions = visualize.get("selectedRegions");
   const selectedChart = visualize.get("selectedChart");
   const selectedViewChart = visualize.get("selectedViewChart");
-  const selectedYearRange = visualize.get("selectedYearRange");
-  const originalYearRange = visualize.get("originalYearRange");
   const geoIsLoading = visualize.get("geoIsLoading");
   const geoLoaded = visualize.get("geoLoaded");
   const geoJson = visualize.get("geoJson");
@@ -166,8 +216,6 @@ function mapStateToProps(state) {
     selectedRegions,
     selectedChart,
     selectedViewChart,
-    selectedYearRange,
-    originalYearRange,
     geoIsLoading,
     geoLoaded,
     geoJson,

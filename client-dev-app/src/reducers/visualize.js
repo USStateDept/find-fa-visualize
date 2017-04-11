@@ -22,6 +22,7 @@ import {
   REQUEST_AVERAGES_FAILURE,
   REQUEST_GEOJSON,
   REQUEST_GEOJSON_SUCCESS,
+  REQUEST_DATA_SUCCESS,
   // chart actions
   CHART_SET_YEAR,
   CHART_SET_SELECTED_YEAR_RANGE,
@@ -193,6 +194,17 @@ export default function visualize(state = initialState, action) {
           .set("geoIsLoading", false)
           .set("geoLoaded", true)
           .set("geoJson", action.geoJson);
+      });
+
+    case REQUEST_DATA_SUCCESS:
+      return state.withMutations(s => {
+        s
+          .set("chartDataLoading", false)
+          .set("chartDataLoaded", true)
+          .set("chartData", action.data)
+          .set("wizardBuildAllowed", true)
+          .set("wizardSetupLoaded", true)
+          // .set("chartchartDataInitial", action.chartDataInitial);
       });
 
     case REQUEST_AVERAGES:
