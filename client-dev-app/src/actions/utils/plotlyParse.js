@@ -137,6 +137,8 @@ export default class Parse {
     this.common.totals = [];
     this.common.maxValue = 0;
     this.common.years = []; // years current data has
+    this.common.startYear = 0;
+    this.common.endYear = 0;
 
     // top level data structure all charts use intiailly
     let _cd = this.chartData;
@@ -231,13 +233,17 @@ export default class Parse {
       this
     );
 
-    // reverse years array and add 'all'
+    // reverse years array, add 'all', and identify start and end years
+    this.common.startYear = this.common.years[0];
+    this.common.endYear = this.common.years[(this.common.years.length - 1)];
     this.common.years.push("all");
 
     // final object
     this.retObj = {
       chartData: this.chartData,
       listYears: this.common.years,
+      startYear: this.common.startYear,
+      endYear: this.common.endYear,
       countries: this.countries,
       regions: this.regions,
       maxValue: this.common.maxValue,

@@ -1,7 +1,9 @@
 .Chart__view {
   background-color: #ffeed2;
   height: 100vh;
-  padding: 50px;
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-bottom: 50px;
 }
 
 .Chart__container {
@@ -10,6 +12,10 @@
  border-top: none;
  max-width: inherit;
  overflow: scroll;
+}
+
+.Chart__removedLocations {
+ float: right;
 }
 
 .Chart__banner {
@@ -77,6 +83,7 @@
   padding: 5px;
   min-width: 5em;
   cursor: pointer;
+  margin-right: 1em;
 
   &:hover {
     background-color: darken(#00576c, 7);
@@ -92,7 +99,7 @@
   margin-left: .5em;
 }
 
-.Chart__banner-chart-dropdown > select {
+.Chart__banner-chart-dropdown > select, label {
   padding-right: 2.5em;
   background-color: transparent;
   border: 0;
@@ -113,7 +120,7 @@
   float: left;
 }
 
-.Chart__chart-dropdown > select {
+.Chart__chart-dropdown > select, label {
   padding-right: 2.5em;
   background-color: transparent;
   border: 0;

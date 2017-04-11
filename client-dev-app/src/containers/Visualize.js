@@ -107,6 +107,8 @@ class Visualize extends Component {
       selectedCountries,
       selectedRegions,
       selectedChart,
+      selectedYearRange,
+      originalYearRange,
       wizardBuildAllowed,
 
       // chart
@@ -149,6 +151,7 @@ class Visualize extends Component {
             selectedChart={selectedChart}
             selectedCountries={selectedCountries}
             selectedRegions={selectedRegions}
+            selectedYearRange={selectedYearRange}
             selectionsMessage={wizardSelectionsMessage}
             buildAllowed={wizardBuildAllowed}
             requestData={chartRequestData}
@@ -162,6 +165,9 @@ class Visualize extends Component {
             liveChartTypeChange={chartLiveChartTypeChange}
             changeToWizardView={this.changeToWizardView.bind(this)}
             setCurrentViewYear={setCurrentViewYear}
+            requestData={chartRequestData}
+            selectedYearRange={selectedYearRange}
+            originalYearRange={originalYearRange}
           />}
       </div>
     );
@@ -189,6 +195,8 @@ function mapStateToProps(state) {
   const selectedRegions = visualize.get("selectedRegions");
   const selectedChart = visualize.get("selectedChart");
   const selectedViewChart = visualize.get("selectedViewChart");
+  const selectedYearRange = visualize.get("selectedYearRange");
+  const originalYearRange = visualize.get("originalYearRange");
   const geoIsLoading = visualize.get("geoIsLoading");
   const geoLoaded = visualize.get("geoLoaded");
   const geoJson = visualize.get("geoJson");
@@ -216,6 +224,8 @@ function mapStateToProps(state) {
     selectedRegions,
     selectedChart,
     selectedViewChart,
+    selectedYearRange,
+    originalYearRange,
     geoIsLoading,
     geoLoaded,
     geoJson,

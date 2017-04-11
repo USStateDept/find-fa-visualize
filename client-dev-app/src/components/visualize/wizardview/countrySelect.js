@@ -3,18 +3,124 @@ import _ from "lodash";
 
 import SearchSelect from "./searchSelect";
 
+/*// child stateless component representing base of category tree
+const Indicator = ({ indicators, selectIndicator, selectedIndicators }) => (
+  <div>
+    <div className="Wizard__menu-column-row-body-list">
+      {indicators.map((region, i) => (
+        <div
+          
+          onClick={this.selectIndicator.bind(
+            this,
+            region,
+            region.get("Type")
+          )}
+          key={i}
+          >
+            <p>{region.get("Name")}</p>
+        </div>
+      ))}
+     </div>
+  </div>
+);
+
+// child stateless component representing body of category tree
+const Subcategory = (
+  {
+    subcategories,
+    collapseSubcategory,
+    openSubcategory,
+    selectIndicator,
+    selectedIndicators
+  }
+) => (
+  <div className="Wizard__menu-column-row-body">
+    {subcategories.map(
+      (sub, i) => openSubcategory === sub.get("name")
+        ? <div key={i}>
+            <div
+              onClick={() => {
+                collapseSubcategory(sub.get("name"));
+              }}
+              className={
+                openSubcategory === sub.get("name")
+                  ? "Wizard__menu-column-row-body-list"
+                  : "Wizard__menu-column-row-body-list"
+              }
+            >
+              {sub.get("name")} ◹
+            </div>
+            <div>
+              <Indicator
+                selectIndicator={selectIndicator}
+                selectedIndicators={selectedIndicators}
+                indicators={sub.get("indicators")}
+              />
+            </div>
+          </div>
+        : <div key={i}>
+            <div
+              onClick={() => {
+                collapseSubcategory(sub.get("name"));
+              }}
+              className={
+                openSubcategory === sub.get("name")
+                  ? "Wizard__menu-column-row-body-list"
+                  : "Wizard__menu-column-row-body-list"
+              }
+            >
+              {sub.get("name")} ◹
+            </div>
+            <div>
+              <Indicator
+                selectIndicator={selectIndicator}
+                selectedIndicators={selectedIndicators}
+                indicators={sub.get("indicators")}
+              />
+            </div>
+          </div>
+    )}
+  </div>
+);
+*/
 class RegionList extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      openCategory: "",
+      openSubcategory: "",
       selectedRegions: props.selectedRegions.map((r, i) => {
         return {
           region: r,
           clickState: 0
         };
-      })
+      }),
     };
+  }
+
+  collapseCategory(cat) {
+    if (this.state.openCategory !== cat) {
+      this.setState({
+        openCategory: cat
+      });
+    } else {
+      this.setState({
+        openCategory: ""
+      });
+    }
+  }
+
+  collapseSubcategory(sub) {
+    if (this.state.openSubcategory !== sub) {
+      this.setState({
+        openSubcategory: sub
+      });
+    } else {
+      this.setState({
+        openSubcategory: ""
+      });
+    }
   }
 
   // region name, type of region (like continent)
@@ -32,11 +138,16 @@ class RegionList extends Component {
       this.props.selectRegion(reg, type);
       // select all countries
       this.props.selectAllFromRegion(reg, type);
-    } else {
+    } else if (copy.get(dex).clickState !== -1) {
       // its been clicked multiple times now, reset it
-      copy = copy.set(copy.get(dex), {});
+      copy = copy.set(copy.get(dex), copy.get(dex).clickState = -1);
       // toggled all selected this point
       this.props.selectAllFromRegion(reg, type);
+    } else { //a pass where the region has been reset previously
+      // toggle the individual selection
+      this.props.selectRegion(reg, type);
+      // iterate the clickState
+      copy = copy.set(copy.get(dex), copy.get(dex).clickState += 1);
     }
 
     this.setState({
@@ -59,14 +170,18 @@ class RegionList extends Component {
   render() {
     const {
       countryList,
+      subcategories,
       selectedCountries,
       selectCountry,
       selectAllCountries
     } = this.props;
 
+    const { selectIndicator } = this.props;
+    const { openSubcategory, openCategory } = this.state;
+
     return (
       <div className="Wizard__menu-column-row-body">
-        {this.props.type === "All" &&
+        {this.props.type === "By Country Name" &&
           <div>
             <div className="bld-options">
               <span
@@ -98,7 +213,7 @@ class RegionList extends Component {
               ))}
             </div>
           </div>}
-        {this.props.type !== "All" &&
+        {this.props.type !== "By Country Name" && this.props.type !== "By Agency Classification" &&
           <div>
             <div className="Wizard__menu-column-row-body-list">
               {countryList.map((region, i) => (
@@ -123,6 +238,32 @@ class RegionList extends Component {
               </p>
             </div>
           </div>}
+
+        {/*this.props.type === "By Agency Classification" &&
+          <div>
+
+            <div className="Wizard__menu-column-row-body-list">
+
+                  <Subcategory
+                    subcategories={subcategories.get("list")}
+                    openSubcategory={openSubcategory}
+                    collapseSubcategory={this.collapseSubcategory.bind(
+                      this
+                    )}
+                    selectIndicator={selectIndicator}
+                    {...this.props}
+                  />
+                
+            </div>
+
+            <div className="Wizard__menu-column-row-body-float">
+              <i>Double-click on a collection to show the countries
+                comprising your selection. These countries will appear
+                in the Selection Box</i>
+            </div>
+
+          </div>*/}
+
       </div>
     );
   }
@@ -187,6 +328,7 @@ class CountrySelect extends Component {
                     <RegionList
                       type={region.get("name")}
                       countryList={region.get("list")}
+                      subcategories={region.get("subcategories")}
                       selectedRegions={selectedRegions}
                       selectedCountries={selectedCountries}
                       selectCountry={selectCountry}
@@ -209,7 +351,6 @@ class CountrySelect extends Component {
                   {category.get("name")}
                 </p>
               </div>
-
               {openCategory !== category.get("name")
                 ? <span />
                 : <div key={i}>
@@ -221,7 +362,6 @@ class CountrySelect extends Component {
                       {...this.props}
                     />
                   </div>}
-
             </div>
           ))*/
           }
