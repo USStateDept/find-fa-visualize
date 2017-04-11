@@ -36,10 +36,14 @@ export const REQUEST_GEOJSON = "REQUEST_GEOJSON";
 export const REQUEST_GEOJSON_SUCCESS = "REQUEST_GEOJSON_SUCCESS";
 // chart actions
 export const CHART_SET_YEAR = "CHART_SET_YEAR";
+export const SET_BUILD_CHART = 'SET_BUILD_CHART';
 export const CHART_SET_SELECTED_YEAR_RANGE = "CHART_SET_SELECTED_YEAR_RANGE";
 export const CHART_SET_ORIGINAL_YEAR_RANGE = "CHART_SET_ORIGINAL_YEAR_RANGE";
 // overall state
 export const TOTAL_UNBUILD = "TOTAL_UNBUILD";
+// data actions
+export const REQUEST_DATA = 'REQUEST_DATA';
+export const REQUEST_DATA_SUCCESS = 'REQUEST_DATA_SUCCESS';
 
 //
 // Action Creators Dispatchers
@@ -49,6 +53,30 @@ export const TOTAL_UNBUILD = "TOTAL_UNBUILD";
 //
 
 // actions to be dispatched to reducer
+// Create our Action Types
+
+// actions to be dispatched
+function requestData() {
+  return {
+    type: REQUEST_DATA
+  };
+}
+
+function receiveData(data, original) {
+  return {
+    type: REQUEST_DATA_SUCCESS,
+    data: data,
+    dataResults: original
+  };
+}
+
+function setBuildChart(chart) {
+  return {
+    type: SET_BUILD_CHART,
+    chart: chart
+  };
+}
+
 function dispatchRequestWizardSetup() {
   return {
     type: REQUEST_SETUP
@@ -184,18 +212,18 @@ function dispatchSetVisualizeYear(year) {
 }
 
 function dispatchSetSelectedYearRange(range) {
-  return {
-    type: CHART_SET_SELECTED_YEAR_RANGE,
-    range: range // array of years as integers [1990, 1991, 1992]
-  };
-}
-
-function dispatchSetOriginalYearRange(range) {
-  return {
-    type: CHART_SET_ORIGINAL_YEAR_RANGE,
-    range: range // array of years as integers [1990, 1991, 1992]
-  };
-}
+   return {
+     type: CHART_SET_SELECTED_YEAR_RANGE,
+     range: range // array of years as integers [1990, 1991, 1992]
+   };
+ }
+ 
+ function dispatchSetOriginalYearRange(range) {
+   return {
+     type: CHART_SET_ORIGINAL_YEAR_RANGE,
+     range: range // array of years as integers [1990, 1991, 1992]
+   };
+ }
 
 //
 // Action Creators
@@ -434,7 +462,7 @@ function selectAllForSavedViz(setup) {
 
     // finally after all selection, dispatch build ready
     dispatch(
-       dispatchWizardTryEnableBuild(BuildGate.checkBuildReady(getState().visualize))
+      dispatchWizardTryEnableBuild(BuildGate.checkBuildReady(getState().visualize))
     );
   };
 }
@@ -473,7 +501,6 @@ export function chartRequestData(newYearRange) {
     })
       .then(response => response.json())
       .then(json => {
-        console.log(json);
         var data = json[0];
         let parse = new Parse(data);
         let nullData = parse.nullValuesDataCheck();
@@ -507,28 +534,78 @@ export function chartRequestData(newYearRange) {
   };
 }
 
-//action functionality/creator/performer
-/* export function buildVizFromSavedID(id) {
-   return dispatch => {
-     // query for id and get build chart
-     fetch("api/visualize/save/" + id)
-       .then(response => response.json())
-       .then(json => {
-         // if completed, we need to just build the chart
-         if (json.complete) {
-           dispatch(selectAllForSavedViz(json.viz_setup));
-           let { chart, indicators, regions, countries } = json.viz_setup;
-           return dispatch(
-             requestChartData(indicators, countries, regions, chart)
-           );
-         } else {
-           // select all that apply to build
-           // but dont fetch data
-           dispatch(selectAllForSavedViz(json.viz_setup));
-         }
-       });
-   };
- }*/
+
+ // action functionality/creator/performer
+export function buildVizFromSavedID(id) {
+  return dispatch => {
+    // query for id and get build chart
+    fetch(`${APIURL}/visualize/save/` + id, {
+      method: 'REPORT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }})
+      .then(response => response.json())
+      .then(json => {
+        // if completed, we need to just build the chart
+        if (json.complete) {
+          dispatch(selectAllForSavedViz(json.viz_setup));
+          let { chart, indicators, regions, countries } = json.viz_setup;
+          return dispatch(
+            fetchData(indicators, countries, regions, chart)
+          );
+        } else {
+          // select all that apply to build
+          // but dont fetch data
+          dispatch(selectAllForSavedViz(json.viz_setup));
+        }
+      });
+  };
+}
+
+// action functionality/creator/performer
+function fetchData(ind, cty, reg, cht ) {
+  // thunk middleware knows how to handle functions
+  return dispatch => {
+    // let component know we are requesting data
+    dispatch(requestData());
+    // here is where we set our chart to build
+    // the build chart
+    dispatch(setBuildChart(cht));
+
+    // Return a promise to wait for
+    return fetch(`${APIURL}/visualize/data`, {
+      method: 'REPORT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        indicators: ind,
+        countries: cty,
+        regions: reg,
+        chart: cht
+      })
+    })
+        .then(response => response.json() )
+        .then(json => {
+          var data = json[0];
+          let parse = new Parse(data);
+          let nullData = parse.nullValuesDataCheck();
+          let chartObjects;
+          if(!nullData) {
+            chartObjects = ( 
+              data.indicators.length == 1 ? parse.parseForOne() : 
+              data.indicators.length == 2 ? parse.parseForTwo() : parse.parseForThree()
+            );
+          } else {
+            chartObjects = false;
+          }
+         
+          dispatch(receiveData(chartObjects, data));
+        });
+  };
+}
 
 export function setAverergeData(type) {
   return (dispatch, getState) => {

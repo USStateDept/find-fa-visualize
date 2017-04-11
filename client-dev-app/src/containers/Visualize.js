@@ -18,7 +18,6 @@ class Visualize extends Component {
 
     if(process.browser){
       let params  = this.props.location.query;
-      console.log(params.id);
       if (params.id != undefined){
         this.setupLoadViz(params.id);
         this.props.buildVizFromSavedID(params.id);
@@ -26,7 +25,6 @@ class Visualize extends Component {
           currentView: "chart"
         };
       } else {
-        console.log(props.chartDataLoaded);
         this.state = {
           currentView: (
             !props.chartDataLoading && !props.chartDataLoaded ? "wizard" : "chart"
@@ -107,6 +105,8 @@ class Visualize extends Component {
       selectedCountries,
       selectedRegions,
       selectedChart,
+      selectedYearRange,
+      originalYearRange,
       wizardBuildAllowed,
 
       // chart
@@ -149,9 +149,12 @@ class Visualize extends Component {
             selectedChart={selectedChart}
             selectedCountries={selectedCountries}
             selectedRegions={selectedRegions}
+            selectedYearRange={selectedYearRange}
             selectionsMessage={wizardSelectionsMessage}
             buildAllowed={wizardBuildAllowed}
             requestData={chartRequestData}
+            selectedYearRange={selectedYearRange}
+            originalYearRange={originalYearRange}
           />}
         {currentView === "chart" &&
           <ChartView
@@ -189,6 +192,8 @@ function mapStateToProps(state) {
   const selectedRegions = visualize.get("selectedRegions");
   const selectedChart = visualize.get("selectedChart");
   const selectedViewChart = visualize.get("selectedViewChart");
+  const selectedYearRange = visualize.get("selectedYearRange");
+  const originalYearRange = visualize.get("originalYearRange");
   const geoIsLoading = visualize.get("geoIsLoading");
   const geoLoaded = visualize.get("geoLoaded");
   const geoJson = visualize.get("geoJson");
@@ -216,6 +221,8 @@ function mapStateToProps(state) {
     selectedRegions,
     selectedChart,
     selectedViewChart,
+    selectedYearRange,
+    originalYearRange,
     geoIsLoading,
     geoLoaded,
     geoJson,

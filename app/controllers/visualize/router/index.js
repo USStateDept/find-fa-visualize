@@ -112,7 +112,6 @@ async function queryIndicatorData(_setup) {
   let meta;
   let nullCheck;
   let nullAvailibility;
-
   // query params
   let indIds = _setup.indicators.map(ind => {
     return ind.id;
@@ -120,22 +119,35 @@ async function queryIndicatorData(_setup) {
   let ctyIds = _setup.countries.map(cty => {
     return cty.Country_ID;
   });
-  if(_setup.regions){
+  /*if (_setup.regions != undefined) {
     let regIds = _setup.regions.map(reg => {
       return reg.Region_ID;
     });
-  }
+  }*/
   try {
     if (ctyIds.length > 0) {
-      ctyDataSet = await Data.findAll({
-        where: {
-          Indicator_ID: indIds,
-          Country_ID: ctyIds
-        },
-        order: '"Date" ASC'
-      });
+      if(_setup.yearRange != undefined) {
+        if (_setup.yearRange.length > 0) {
+          ctyDataSet = await Data.findAll({
+            where: {
+              Indicator_ID: indIds,
+              Country_ID: ctyIds,
+              Date: _setup.yearRange
+            },
+            order: '"Date" ASC'
+          });
+        } else {
+          ctyDataSet = await Data.findAll({
+            where: {
+              Indicator_ID: indIds,
+              Country_ID: ctyIds
+            },
+            order: '"Date" ASC'
+          });
+        }
+      }
     }
-    if (_setup.regions) {
+    /*if (regIds != undefined) {
        if (regIds.length > 0) {
         regDataSet = await RegionData.findAll({
           where: {
@@ -145,7 +157,7 @@ async function queryIndicatorData(_setup) {
           order: '"Year" ASC'
         });
       }
-    }
+    }*/
     // concat data sets
     dataSet = dataSetFormation(ctyDataSet, regDataSet);
     // country checks
@@ -161,7 +173,7 @@ async function queryIndicatorData(_setup) {
       }
     });
     // region checks
-    _.each(_setup.regions, reg => {
+    /*_.each(_setup.regions, reg => {
       // make sure there is data in response object
       let exists = _.findIndex(dataSet, o => {
         return o.Location_ID === reg.Region_ID;
@@ -171,7 +183,7 @@ async function queryIndicatorData(_setup) {
       } else {
         removedLocations.push(reg.Name);
       }
-    });
+    });*/
     meta = await model.Indicator.findAll({
       attributes: [
         "Indicator_Name",
@@ -289,7 +301,7 @@ async function performAvailibiltyCheck(_setup) {
         }
       );
     }
-    if(_setup.regions) {
+    /*if(_setup.regions != undefined) {
       if (regIds.length !== 0) {
         regAvil = await model.sequelize.query(
           `
@@ -311,7 +323,7 @@ async function performAvailibiltyCheck(_setup) {
           }
         );
       }
-    }
+    }*/
     //results = ctyAvil.concat(regAvil);
     _.each(ctyAvil, (obj, i) => {
       if (_.isUndefined(parsed[obj.Date])) {
@@ -369,14 +381,14 @@ async function performAvailibiltyCheck(_setup) {
         }
       }
       // country check
-      _.each(regIds, id => {
+      /*_.each(regIds, id => {
         if (obj.regions_without.indexOf(id) != -1) {
           let i = _.findIndex(_setup.regions, r => {
             return r.Region_ID === id;
           });
           parsed[obj.Year].locations_no_data.push(" " + _setup.regions[i].Name);
         }
-      });
+      });*/
       parsed[obj.Year].missingpoints = parsed[
         obj.Year
       ].locations_no_data.length;
