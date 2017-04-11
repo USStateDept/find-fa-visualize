@@ -564,6 +564,7 @@ export function buildVizFromSavedID(id) {
 }
 
 // action functionality/creator/performer
+// action functionality/creator/performer
 function fetchData(ind, cty, reg, cht ) {
   // thunk middleware knows how to handle functions
   return dispatch => {

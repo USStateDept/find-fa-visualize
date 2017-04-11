@@ -112,6 +112,7 @@ async function queryIndicatorData(_setup) {
   let meta;
   let nullCheck;
   let nullAvailibility;
+
   // query params
   let indIds = _setup.indicators.map(ind => {
     return ind.id;
@@ -119,35 +120,22 @@ async function queryIndicatorData(_setup) {
   let ctyIds = _setup.countries.map(cty => {
     return cty.Country_ID;
   });
-  /*if (_setup.regions != undefined) {
+  if(_setup.regions && _setup.regions.length != 0) {
     let regIds = _setup.regions.map(reg => {
       return reg.Region_ID;
     });
-  }*/
+  }
   try {
     if (ctyIds.length > 0) {
-      // if(_setup.yearRange != undefined) {
-        if (_setup.yearRange.length > 0) {
-          ctyDataSet = await Data.findAll({
-            where: {
-              Indicator_ID: indIds,
-              Country_ID: ctyIds,
-              Date: _setup.yearRange
-            },
-            order: '"Date" ASC'
-          });
-        } else {
-          ctyDataSet = await Data.findAll({
-            where: {
-              Indicator_ID: indIds,
-              Country_ID: ctyIds
-            },
-            order: '"Date" ASC'
-          });
-        }
-      // }
+      ctyDataSet = await Data.findAll({
+        where: {
+          Indicator_ID: indIds,
+          Country_ID: ctyIds
+        },
+        order: '"Date" ASC'
+      });
     }
-    /*if (regIds != undefined) {
+    if (_setup.regions && _setup.regions.length != 0) {
        if (regIds.length > 0) {
         regDataSet = await RegionData.findAll({
           where: {
@@ -157,7 +145,7 @@ async function queryIndicatorData(_setup) {
           order: '"Year" ASC'
         });
       }
-    }*/
+    }
     // concat data sets
     dataSet = dataSetFormation(ctyDataSet, regDataSet);
     // country checks
@@ -173,7 +161,7 @@ async function queryIndicatorData(_setup) {
       }
     });
     // region checks
-    /*_.each(_setup.regions, reg => {
+    _.each(_setup.regions, reg => {
       // make sure there is data in response object
       let exists = _.findIndex(dataSet, o => {
         return o.Location_ID === reg.Region_ID;
@@ -183,7 +171,7 @@ async function queryIndicatorData(_setup) {
       } else {
         removedLocations.push(reg.Name);
       }
-    });*/
+    });
     meta = await model.Indicator.findAll({
       attributes: [
         "Indicator_Name",
@@ -265,7 +253,7 @@ async function performAvailibiltyCheck(_setup) {
   let ctyIds = _setup.countries.map(cty => {
     return cty.Country_ID;
   });
-  if(_setup.regions){
+  if(_setup.regions && _setup.regions.length != 0){
     let regIds = _setup.regions.map(reg => {
       return reg.Region_ID;
     });

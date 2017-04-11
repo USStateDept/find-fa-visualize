@@ -18,7 +18,7 @@ class Visualize extends Component {
 
     if(process.browser){
       let params  = this.props.location.query;
-      if (params.id != undefined){
+      if (params.id != undefined) {
         this.setupLoadViz(params.id);
         this.props.buildVizFromSavedID(params.id);
         this.state = {
