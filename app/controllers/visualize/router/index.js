@@ -7,6 +7,7 @@ const model = models.getModel();
 const Data = model.Data;
 const RegionData = model.Region_Data;
 const Region = model.Region;
+const SV = model.saved_visualization;
 
 /**
  * reports data needed for visualizations. Given indicators and countries, the function will return
@@ -44,8 +45,47 @@ let reportAverages = (req, res) => {
       res.send(weights);
     })
     .catch(e => {
-      console.log(e);
+      res.send(e);
     });
+};
+
+/**
+ * @GET localhost/visualize/save/:id
+ */
+let getSavedViz = (req, res) => {
+    SV.findById(req.params.id)
+    .then( json => {
+        // -- response --
+        res.json(json)
+        // -- response --
+    }).catch( err => {
+        res.send(err);
+    })
+};
+
+ /**
+ * @POST localhost/visualize/save
+ */
+let postSavedViz = (req, res) => {
+    // response object
+    var resBody = {};
+    // lets check and see if email already exists first
+    // db will return null when not found
+    
+    var toSave = SV.build({
+        viz_setup: req.body.viz_setup,
+        viz_name: req.body.viz_name,
+        complete: req.body.complete,
+        user_id: req.body.user_id
+    })
+    toSave.save().then( sv => {
+        resBody = {saved:true, id: sv.saved_id}
+        // -- response --
+        res.json(resBody)
+        // -- response --
+    }).catch( err =>  {
+        res.send(err);
+    })
 };
 
 async function getIndicatorData(dataWantedSetup) {
@@ -72,6 +112,7 @@ async function queryIndicatorData(_setup) {
   let meta;
   let nullCheck;
   let nullAvailibility;
+
   // query params
   let indIds = _setup.indicators.map(ind => {
     return ind.id;
@@ -79,38 +120,31 @@ async function queryIndicatorData(_setup) {
   let ctyIds = _setup.countries.map(cty => {
     return cty.Country_ID;
   });
-  let regIds = _setup.regions.map(reg => {
-    return reg.Region_ID;
-  });
+  if(_setup.regions){
+    let regIds = _setup.regions.map(reg => {
+      return reg.Region_ID;
+    });
+  }
   try {
     if (ctyIds.length > 0) {
-      if (_setup.yearRange.length > 0) {
-        ctyDataSet = await Data.findAll({
-          where: {
-            Indicator_ID: indIds,
-            Country_ID: ctyIds,
-            Date: _setup.yearRange
-          },
-          order: '"Date" ASC'
-        });
-      } else {
-        ctyDataSet = await Data.findAll({
-          where: {
-            Indicator_ID: indIds,
-            Country_ID: ctyIds
-          },
-          order: '"Date" ASC'
-        });
-      }
-    }
-    if (regIds.length > 0) {
-      regDataSet = await RegionData.findAll({
+      ctyDataSet = await Data.findAll({
         where: {
           Indicator_ID: indIds,
-          Region_ID: regIds
+          Country_ID: ctyIds
         },
-        order: '"Year" ASC'
+        order: '"Date" ASC'
       });
+    }
+    if (_setup.regions) {
+       if (regIds.length > 0) {
+        regDataSet = await RegionData.findAll({
+          where: {
+            Indicator_ID: indIds,
+            Region_ID: regIds
+          },
+          order: '"Year" ASC'
+        });
+      }
     }
     // concat data sets
     dataSet = dataSetFormation(ctyDataSet, regDataSet);
@@ -219,9 +253,11 @@ async function performAvailibiltyCheck(_setup) {
   let ctyIds = _setup.countries.map(cty => {
     return cty.Country_ID;
   });
-  let regIds = _setup.regions.map(reg => {
-    return reg.Region_ID;
-  });
+  if(_setup.regions){
+    let regIds = _setup.regions.map(reg => {
+      return reg.Region_ID;
+    });
+  }
   let ctyAvil = [];
   let regAvil = [];
   let results;
@@ -253,26 +289,28 @@ async function performAvailibiltyCheck(_setup) {
         }
       );
     }
-    if (regIds.length !== 0) {
-      regAvil = await model.sequelize.query(
-        `
-            SELECT "Year", "Indicator_ID", COUNT(*) as data_points, ARRAY
-                (
-                  SELECT UNNEST(ARRAY[:regs])
-                  EXCEPT
-                  SELECT UNNEST(array_agg("Region_ID"))
-                ) as regions_without
-            FROM "Region_Data"
-            WHERE "Region_ID" IN (:regs)
-            AND "Indicator_ID" IN (:inds)
-            GROUP BY "Year", "Indicator_ID"
-            ORDER BY "Year"
-          `,
-        {
-          replacements: { regs: regIds, inds: indIds },
-          type: model.sequelize.QueryTypes.SELECT
-        }
-      );
+    if(_setup.regions) {
+      if (regIds.length !== 0) {
+        regAvil = await model.sequelize.query(
+          `
+              SELECT "Year", "Indicator_ID", COUNT(*) as data_points, ARRAY
+                  (
+                    SELECT UNNEST(ARRAY[:regs])
+                    EXCEPT
+                    SELECT UNNEST(array_agg("Region_ID"))
+                  ) as regions_without
+              FROM "Region_Data"
+              WHERE "Region_ID" IN (:regs)
+              AND "Indicator_ID" IN (:inds)
+              GROUP BY "Year", "Indicator_ID"
+              ORDER BY "Year"
+            `,
+          {
+            replacements: { regs: regIds, inds: indIds },
+            type: model.sequelize.QueryTypes.SELECT
+          }
+        );
+      }
     }
     //results = ctyAvil.concat(regAvil);
     _.each(ctyAvil, (obj, i) => {
@@ -425,5 +463,7 @@ function getGdpWeight(countries) {
 
 export default {
   reportData,
-  reportAverages
+  reportAverages,
+  getSavedViz,
+  postSavedViz
 };
