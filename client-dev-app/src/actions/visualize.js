@@ -499,7 +499,6 @@ export function chartRequestData() {
   };
 }
 
-<<<<<<< HEAD
  // action functionality/creator/performer
 export function buildVizFromSavedID(id) {
   return dispatch => {
@@ -571,30 +570,6 @@ function fetchData(ind, cty, reg, cht ) {
         });
   };
 }
-=======
-//action functionality/creator/performer
-/* export function buildVizFromSavedID(id) {
-   return dispatch => {
-     // query for id and get build chart
-     fetch("api/visualize/save/" + id)
-       .then(response => response.json())
-       .then(json => {
-         // if completed, we need to just build the chart
-         if (json.complete) {
-           dispatch(selectAllForSavedViz(json.viz_setup));
-           let { chart, indicators, regions, countries } = json.viz_setup;
-           return dispatch(
-             requestChartData(indicators, countries, regions, chart)
-           );
-         } else {
-           // select all that apply to build
-           // but dont fetch data
-           dispatch(selectAllForSavedViz(json.viz_setup));
-         }
-       });
-   };
- }*/
->>>>>>> icons
 
 export function setAverergeData(type) {
   return (dispatch, getState) => {
