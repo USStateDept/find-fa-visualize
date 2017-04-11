@@ -165,6 +165,9 @@ class Visualize extends Component {
             liveChartTypeChange={chartLiveChartTypeChange}
             changeToWizardView={this.changeToWizardView.bind(this)}
             setCurrentViewYear={setCurrentViewYear}
+            requestData={chartRequestData}
+            selectedYearRange={selectedYearRange}
+            originalYearRange={originalYearRange}
           />}
       </div>
     );

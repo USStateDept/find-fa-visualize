@@ -126,7 +126,7 @@ async function queryIndicatorData(_setup) {
   }*/
   try {
     if (ctyIds.length > 0) {
-      if(_setup.yearRange != undefined) {
+      // if(_setup.yearRange != undefined) {
         if (_setup.yearRange.length > 0) {
           ctyDataSet = await Data.findAll({
             where: {
@@ -145,7 +145,7 @@ async function queryIndicatorData(_setup) {
             order: '"Date" ASC'
           });
         }
-      }
+      // }
     }
     /*if (regIds != undefined) {
        if (regIds.length > 0) {
