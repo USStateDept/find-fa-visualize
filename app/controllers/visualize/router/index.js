@@ -75,7 +75,7 @@ let postSavedViz = (req, res) => {
     var toSave = SV.build({
         viz_setup: req.body.viz_setup,
         viz_name: req.body.viz_name,
-        complete: req.body.complete,
+        complete: "t",
         user_id: req.body.user_id
     })
     toSave.save().then( sv => {

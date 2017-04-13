@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Modal } from 'react-bootstrap';
 
 import Visualize from "./Visualize";
 

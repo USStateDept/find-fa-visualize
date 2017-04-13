@@ -17,8 +17,10 @@ Plotly.register([
 class BaseChart extends Component {
   constructor(props) {
     super(props);
-
+    
     const {
+      saveViz,
+      closeSave,
       chartType,
       data: {
         shouldChartRender,
@@ -34,7 +36,7 @@ class BaseChart extends Component {
         yearRange,
         selectedYearRange,
         originalYearRange,
-        removedLocations
+        removedLocations,
       }
 
     } = props;
@@ -75,7 +77,8 @@ class BaseChart extends Component {
         yearRange: nextProps.yearRange || this.props.yearRange,
         selectedYearRange: nextProps.selectedYearRange || this.props.selectedYearRange,
         originalYearRange: nextProps.originalYearRange || this.props.originalYearRange,
-        removedLocations: nextProps.data.removedLocations || this.props.removedLocations
+        removedLocations: nextProps.data.removedLocations || this.props.removedLocations,
+        saveModal: false
       },
       () => {
         this.renderNewChart();
@@ -235,35 +238,35 @@ class BaseChart extends Component {
       displayModeBar: true,
       displaylogo: false,
        modeBarButtonsToAdd: [
-         {
-           name: "Show All",
-           click: gd => {
-             Plotly.restyle(gd, "visible", true);
-           },
-           icon: Plotly.Icons["zoom_plus"]
-         },
-         {
-           name: "Hide All",
-           click: gd => {
-             Plotly.restyle(gd, "visible", "legendonly");
-           },
-           icon: Plotly.Icons["zoom_minus"]
-         },
-         {
-           name: "Save",
-           click: gd => {
-             //Save function
-           },
-           icon: Plotly.Icons["disk"]
-         },
-         {
-           name: "Share",
-           click: gd => {
-             //Share function
-           },
-           icon: Plotly.Icons["tooltip_basic"]
-         }
-       ],
+        {
+          name: "Show All",
+          click: gd => {
+            Plotly.restyle(gd, "visible", true);
+          },
+          icon: Plotly.Icons["zoom_plus"]
+        },
+        {
+          name: "Hide All",
+          click: gd => {
+            Plotly.restyle(gd, "visible", "legendonly");
+          },
+          icon: Plotly.Icons["zoom_minus"]
+        },
+        {
+          name: "Save",
+          click: gd => {
+            this.props.initSave();
+          },
+          icon: Plotly.Icons["disk"]
+        },
+        {
+          name: "Share",
+          click: gd => {
+            this.props.autoSaveShare();
+          },
+          icon: Plotly.Icons["tooltip_basic"]
+        }
+      ],
       modeBarButtonsToRemove: [
         "zoom2d",
         "lasso2d",

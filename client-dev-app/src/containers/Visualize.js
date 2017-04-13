@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from "react";
+import { Modal } from 'react-bootstrap';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -6,6 +7,7 @@ import * as VisualizeActions from "../actions/visualize";
 
 import WizardView from "../components/visualize/wizardview";
 import ChartView from "../components/visualize/chartview";
+import SaveModal from '../components/visualize/chartview/SaveModal';
 
 /**
  * Container component incorporating the wizard build process and the chart viewing
@@ -15,6 +17,10 @@ import ChartView from "../components/visualize/chartview";
 class Visualize extends Component {
   constructor(props) {
     super(props);
+    
+    this.state = {
+      saveModal: false
+    };
 
     if(process.browser){
       let params  = this.props.location.query;
@@ -33,6 +39,36 @@ class Visualize extends Component {
       }
     }
 
+  }
+
+  setupLoadViz(id){
+    this.setState({
+      fromSavedID: id,
+      wizardSetupLoaded: true
+    });
+  }
+
+  closeSave() {
+    this.setState({
+      saveModal: false
+    });
+  }
+
+  initSave() {
+    this.setState({
+      saveModal: true
+    });
+  }
+
+  autoSaveShare() {
+    this.props.saveVisualization("SHARED URL - NO NAME")
+      .then(() => {
+        this.setState({saveModal: true});
+      });
+  }
+
+  saveViz(name) {
+    this.props.saveVisualization(name);
   }
 
   componentWillMount() {
@@ -63,36 +99,6 @@ class Visualize extends Component {
     this.setState({ currentView: "wizard" });
   }
 
-  setupLoadViz(id){
-    this.setState({
-      fromSavedID: id,
-      wizardSetupLoaded: true
-    });
-  }
-
-  closeSave(){
-    this.setState({
-      saveModal: false
-    });
-  }
-
-  initSave(){
-    this.setState({
-      saveModal: true
-    });
-  }
-
-  autoSaveShare() {
-    this.props.saveVisualization("SHARED URL - NO NAME")
-      .then(() => {
-        this.setState({saveModal: true});
-      });
-  }
-
-  saveViz(name){
-    this.props.saveVisualization(name);
-  }
-
   render() {
     const {
       // wizard
@@ -114,6 +120,9 @@ class Visualize extends Component {
       chartDataLoaded,
       chartDataLoading,
       selectedViewChart,
+      savingViz,
+      vizSaved,
+      savedVizID,
 
       // actions
       wizardClickSelectIndicator,
@@ -128,7 +137,8 @@ class Visualize extends Component {
     } = this.props;
 
     const {
-      currentView
+      currentView,
+      saveModal
     } = this.state;
 
     return (
@@ -168,7 +178,21 @@ class Visualize extends Component {
             requestData={chartRequestData}
             selectedYearRange={selectedYearRange}
             originalYearRange={originalYearRange}
+            saveViz={this.saveViz.bind(this)}
+            closeSave={this.closeSave.bind(this)}
+            initSave={this.initSave.bind(this)}
+            autoSaveShare={this.autoSaveShare.bind(this)}
           />}
+        {saveModal === true &&
+          <SaveModal
+              className="save-modal"
+              saveViz={this.saveViz.bind(this)}
+              closeSave={this.closeSave.bind(this)}
+              initSave={this.initSave.bind(this)}
+              saveModal={saveModal}
+              {...this.props}
+          /> }
+
       </div>
     );
   }
@@ -204,6 +228,9 @@ function mapStateToProps(state) {
   const averagesLoaded = visualize.get("averagesLoaded");
   const averagesData = visualize.get("averagesData");
   const mapType = visualize.get("mapType");
+  const savingViz = visualize.get("savingViz");
+  const vizSaved = visualize.get("vizSaved");
+  const savedVizID = visualize.get("savedVizID");
 
   return {
     wizardSetupLoaded,
@@ -232,7 +259,10 @@ function mapStateToProps(state) {
     averagesLoading,
     averagesLoaded,
     averagesData,
-    mapType
+    mapType,
+    savingViz,
+    vizSaved,
+    savedVizID 
   };
 }
 

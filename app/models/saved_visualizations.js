@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.JSON
     },
     complete: {
-      type: DataTypes.BOOLEAN
+      type: DataTypes.BOOLEAN,
     }
   });
   

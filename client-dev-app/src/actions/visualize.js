@@ -44,6 +44,9 @@ export const TOTAL_UNBUILD = "TOTAL_UNBUILD";
 // data actions
 export const REQUEST_DATA = 'REQUEST_DATA';
 export const REQUEST_DATA_SUCCESS = 'REQUEST_DATA_SUCCESS';
+// data save actions
+export const SAVE_VIZ = 'SAVE_VIZ';
+export const SAVE_VIZ_COMPLETE = 'SAVE_VIZ_COMPLETE';
 
 //
 // Action Creators Dispatchers
@@ -74,6 +77,19 @@ function setBuildChart(chart) {
   return {
     type: SET_BUILD_CHART,
     chart: chart
+  };
+}
+
+function saveViz() {
+  return {
+    type: SAVE_VIZ
+  };
+}
+
+function saveVizComplete(id) {
+  return {
+    type: SAVE_VIZ_COMPLETE,
+    id: id
   };
 }
 
@@ -372,6 +388,57 @@ export function resetAllFields() {
     dispatch(
       dispatchWizardTryEnableBuild(BuildGate.checkBuildReady(getState().visualize))
     );
+  };
+}
+
+// save a visualization
+export function saveVisualization(vname) {
+  // thunk middleware knows how to handle functions
+  return (dispatch, getState) => {
+    // let component know we are requesting data
+    dispatch(saveViz());
+    
+    // we build the save object from the global state
+    /*const {
+      selectedChart, selectedCountries, selectedRegions, selectedIndicators, buildReady
+    } = getState().visualize;*/
+
+    const state = getState().visualize;
+    const buildReady = state.get("buildReady");
+    const selectedIndicators = state.get("selectedIndicators");
+    const selectedCountries = state.get("selectedCountries");
+    const selectedRegions = state.get("selectedRegions");
+    const selectedChart = state.get("selectedChart");
+
+    let complete = buildReady;
+    let vizSetup = {
+      indicators: selectedIndicators,
+      countries: selectedCountries,
+      regions: selectedRegions,
+      chart: selectedChart
+    };
+
+    // No users in this version of FIND
+    //let userID = getState().auth.present.user.User_ID;
+
+    // Return a promise to wait for
+    return fetch(`${APIURL}/visualize/save`, {
+      method: 'REPORT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        viz_name: vname,
+        viz_setup: vizSetup,
+        complete: complete,
+        user_id: 1
+      })
+    })
+        .then(response => response.json() )
+        .then(json => {
+          dispatch(saveVizComplete(json.id));
+        });
   };
 }
 
