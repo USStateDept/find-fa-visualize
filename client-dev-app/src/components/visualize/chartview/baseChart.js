@@ -346,11 +346,12 @@ class BaseChart extends Component {
 
           <div className="Chart__removedLocations">
             <p><b>Countries/Regions in this selection with no data:</b></p>
-              {this.state.removedLocations.map(function(location, i){
-                return <span key={i}>{location}, </span>})
-              }
+              {this.state.removedLocations
+                .map(location => <span>{location}</span>)
+                .reduce((accu, elem) => { 
+                  return accu === null ? [elem] : [...accu, ', ', elem]
+                }, null)}
           </div>
-
         </div>
       : <div>
           <br /><br /><br /><br /><br />
