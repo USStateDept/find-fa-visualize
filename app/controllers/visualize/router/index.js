@@ -112,7 +112,6 @@ async function queryIndicatorData(_setup) {
   let meta;
   let nullCheck;
   let nullAvailibility;
-
   // query params
   let indIds = _setup.indicators.map(ind => {
     return ind.id;
@@ -120,31 +119,41 @@ async function queryIndicatorData(_setup) {
   let ctyIds = _setup.countries.map(cty => {
     return cty.Country_ID;
   });
-  if(_setup.regions && _setup.regions.length != 0) {
-    let regIds = _setup.regions.map(reg => {
-      return reg.Region_ID;
-    });
-  }
+  let regIds = _setup.regions.map(reg => {
+    return reg.Region_ID;
+  });
   try {
     if (ctyIds.length > 0) {
-      ctyDataSet = await Data.findAll({
-        where: {
-          Indicator_ID: indIds,
-          Country_ID: ctyIds
-        },
-        order: '"Date" ASC'
-      });
-    }
-    if (_setup.regions && _setup.regions.length != 0) {
-       if (regIds.length > 0) {
-        regDataSet = await RegionData.findAll({
+      if(_setup.yearRange == undefined) {
+        _setup.yearRange = [];
+      }
+      if (_setup.yearRange.length > 0) {
+        ctyDataSet = await Data.findAll({
           where: {
             Indicator_ID: indIds,
-            Region_ID: regIds
+            Country_ID: ctyIds,
+            Date: _setup.yearRange
           },
-          order: '"Year" ASC'
+          order: '"Date" ASC'
+        });
+      } else {
+        ctyDataSet = await Data.findAll({
+          where: {
+            Indicator_ID: indIds,
+            Country_ID: ctyIds
+          },
+          order: '"Date" ASC'
         });
       }
+    }
+    if (regIds.length > 0) {
+      regDataSet = await RegionData.findAll({
+        where: {
+          Indicator_ID: indIds,
+          Region_ID: regIds
+        },
+        order: '"Year" ASC'
+      });
     }
     // concat data sets
     dataSet = dataSetFormation(ctyDataSet, regDataSet);
