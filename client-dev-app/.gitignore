@@ -6,6 +6,10 @@
 /node_modules/*
 !/node_modules/plotly.js
 /node_modules/plotly.js/*
+
+/*
+!/node_modules
+/node_modules/*
 !/node_modules/plotly.js-add-custom-icons
 /node_modules/plotly.js-add-custom-icons/*
 
