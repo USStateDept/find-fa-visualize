@@ -6,14 +6,8 @@
 /node_modules/*
 !/node_modules/plotly.js
 /node_modules/plotly.js/*
-!node_modules/plotly.js/src
-/node_modules/plotly.js/src/*
-!node_modules/plotly.js/src/components
-/node_modules/plotly.js/src/components/*
-!/node_modules/plotly.js/src/components/modebar
-/node_modules/plotly.js/src/components/modebar/*
-!node_modules/plotly.js/src/components/modebar/buttons.js
-
+!/node_modules/plotly.js-add-custom-icons
+/node_modules/plotly.js-add-custom-icons/*
 
 # testing
 coverage

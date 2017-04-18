@@ -253,18 +253,11 @@ class BaseChart extends Component {
           icon: Plotly.Icons["zoom_minus"]
         },
         {
-          name: "Save",
-          click: gd => {
-            this.props.initSave();
-          },
-          icon: Plotly.Icons["disk"]
-        },
-        {
           name: "Share",
           click: gd => {
             this.props.autoSaveShare();
           },
-          icon: Plotly.Icons["tooltip_basic"]
+          icon: Plotly.Icons["share"]
         }
       ],
       modeBarButtonsToRemove: [
@@ -277,8 +270,7 @@ class BaseChart extends Component {
         "pan2d",
         "resetGeo",
         "hoverCompareCartesian",
-        "hoverClosestCartesian",
-        "toImage"
+        "hoverClosestCartesian"
       ]
     };
 
