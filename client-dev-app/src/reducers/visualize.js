@@ -122,7 +122,11 @@ export default function visualize(state = initialState, action) {
         );
       }
       if (action.setType === "chart") {
-        return state.set("selectedChart", action.name);
+        return state.withMutations(s => {
+          s
+            .set("selectedChart", action.name)
+            .set("selectedViewChart", action.name);
+        })
       }
     }
     case WIZARD_DESELECT_SETUP: {

@@ -60,6 +60,9 @@ class BaseChart extends Component {
       removedLocations: removedLocations,
       chartID: `plotly-chart-${props.uid}`
     };
+
+    console.log("Props: ", this.props);
+    console.log("State: ", this.state);
   }
 
   componentWillReceiveProps(nextProps) {
