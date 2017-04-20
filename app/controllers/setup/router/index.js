@@ -1,5 +1,6 @@
-import _ from "lodash";
+import _      from "lodash";
 import models from "../../../models";
+import path   from 'path';
 
 let model = models.getModel();
 
@@ -49,7 +50,7 @@ let getIngestMenuSetup = (req, res) => {
 let getGeojson = (req, res) => {
   let mapType = req.params.type;
   res.sendFile(
-    path.resolve(__dirname + "/../../public/geo/" + mapType + "_map.geojson")
+    path.resolve(__dirname + "/../../../public/geo/" + mapType + "_map.geojson")
   );
 };
 

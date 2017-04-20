@@ -1,3 +1,82 @@
+/* Leaflet */
+.leaflet-bottom.leaflet-left {
+  width: 25%;
+}
+.leaflet-bottom.leaflet-left > .leaflet-control {
+  width: 100%;
+  padding: 6px 8px;
+  font: 14px/16px Arial, Helvetica, sans-serif;
+  background: rgba(255,255,255,0.8);
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  border-radius: 5px;
+  margin:5px 5px 10px 10px !important;
+  text-align: left;
+}
+.leaflet-bottom.leaflet-left > .leaflet-control > .viz-year-settings {
+  width: 100%;
+}
+
+#map1{
+  height: 75vh;
+}
+
+.info{
+  width: 325px;
+}
+.info{
+  padding: 6px 8px;
+  font: 14px/16px Arial, Helvetica, sans-serif;
+  background: rgba(255,255,255,0.8);
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  border-radius: 5px;
+  margin:5px 5px 10px 10px !important;
+  text-align: left;
+}
+.info h4{
+  margin: 0 0 5px;
+  color: #777;
+}
+
+/**
+.legend{
+  float:right;
+  left:170px;
+  width:135px;
+
+  z-index: 999;
+  top: -161px;
+  line-height: 16px !important;
+}
+*/
+.legend{
+    line-height: 14.5px;
+    color: #555;
+    font-size: .90em;
+}
+.legend i{
+    width: 13px;
+    height: 13px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}
+
+.leaflet-control-attribution {
+  display: none;
+}
+
+.lite-slider > .noUi-target {
+  position: relative;
+  direction: ltr;
+  margin-left: 0px !important;
+  margin-top: 1em;
+  margin-bottom: 1.5em;
+}
+
+.lite-slider > .viz-play-years {
+  margin-left: 0px !important;
+}
+
 .modal-dialog  {
   width: 101%;
   margin-top: .5em;

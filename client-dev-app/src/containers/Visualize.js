@@ -41,7 +41,11 @@ class Visualize extends Component {
 
   }
 
-  setupLoadViz(id){
+  fetchGeoJson(type) {
+    this.props.fetchGeoJson(type);
+  }
+
+  setupLoadViz(id) {
     this.setState({
       fromSavedID: id,
       wizardSetupLoaded: true
@@ -123,6 +127,9 @@ class Visualize extends Component {
       savingViz,
       vizSaved,
       savedVizID,
+      geoIsLoading,
+      geoLoaded,
+      geoJson,
 
       // actions
       wizardClickSelectIndicator,
@@ -178,6 +185,10 @@ class Visualize extends Component {
             requestData={chartRequestData}
             selectedYearRange={selectedYearRange}
             originalYearRange={originalYearRange}
+            geoIsLoading={geoIsLoading}
+            geoLoaded={geoLoaded}
+            geoJson={geoJson}
+            fetchGeoJson={this.fetchGeoJson.bind(this)}
             saveViz={this.saveViz.bind(this)}
             closeSave={this.closeSave.bind(this)}
             initSave={this.initSave.bind(this)}

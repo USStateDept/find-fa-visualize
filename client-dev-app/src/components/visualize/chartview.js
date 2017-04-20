@@ -5,6 +5,7 @@ import ChartData from "./chartview/chartData";
 // import Metadata from "./chartview/Metadata";
 import BaseChart from "./chartview/baseChart";
 import ChartSource from "./chartview/chartSource";
+import MapChart from './chartview/map';
 
 class ChartView extends Component {
   constructor(props) {
@@ -35,8 +36,13 @@ class ChartView extends Component {
       requestData,
       selectedYearRange,
       originalYearRange,
-      saveViz
+      saveViz,
+      geoIsLoading,
+      geoLoaded,
+      geoJson
     } = this.props;
+
+    //{console.log(this.props)}
 
     const {
       currentTab,
@@ -68,6 +74,18 @@ class ChartView extends Component {
             saveViz={saveViz}
             initSave={this.props.initSave}
             autoSaveShare={this.props.autoSaveShare}
+          />}
+          {dataLoaded && 
+            selectedViewChart == 'Map' &&
+            currentTab == "Chart" &&
+            <MapChart
+                data={data}
+                chartType={selectedViewChart}
+                geoIsLoading={geoIsLoading}
+                geoLoaded={geoLoaded}
+                geoJson={geoJson}
+                fetchGeoJson={this.props.fetchGeoJson}
+                {...this.props}
           />}
         {dataLoaded && currentTab == "Data Table" && <ChartData data={data} />}
         {dataLoaded && currentTab == "Meta Data" && <ChartSource data={data} />}

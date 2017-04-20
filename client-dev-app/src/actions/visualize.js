@@ -478,7 +478,7 @@ export function fetchGeoJson(type) {
   return (dispatch, getState) => {
     dispatch(dispatchRequestGeojson());
     // Return a promise to wait for
-    return fetch(`api/setup/geojson/${type}`)
+    return fetch(`${APIURL}/setup/geojson/${type}`)
       .then(response => response.json())
       .then(json => {
         dispatch(dispatchRequestGeojsonSuccess(json));
