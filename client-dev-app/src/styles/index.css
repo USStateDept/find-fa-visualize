@@ -40,7 +40,25 @@
 .leaflet-bottom.leaflet-left > .leaflet-control > .viz-year-settings {
   width: 100%;
 }
-    
+
+.info.map-info.leaflet-control{
+  position: absolute;
+  bottom: 625px;
+  right: 0px;
+}
+
+.info.legend.leaflet-control{
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+}
+
+.leaflet-control-zoom.leaflet-bar.leaflet-control{
+  position: absolute;
+  top: 0px;
+  left: 0px; 
+}
+
 #map1{
   height: 75vh;
 }
