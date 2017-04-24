@@ -36,6 +36,12 @@
 
 #map1{
   height: 75vh;
+  overflow: hidden;
+}
+
+
+.leaflet-map-pane {
+  padding-top: 25px;
 }
 
 .info{
