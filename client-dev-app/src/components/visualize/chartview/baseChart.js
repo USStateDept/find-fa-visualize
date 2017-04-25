@@ -168,6 +168,7 @@ class BaseChart extends Component {
           trace.mode = "markers";
           trace.marker.sizemode = "area";
           trace.marker.sizemin = 10;
+          trace.marker.sizeref = 0.1;
           trace.marker.size = trace.marker.protoSize;
         });
         layout.xaxis = Object.assign({}, layout.xaxis, {
