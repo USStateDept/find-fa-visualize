@@ -254,6 +254,18 @@ class BaseChart extends Component {
           icon: Plotly.Icons["zoom_minus"]
         },
         {
+          name: "Save",
+          click: gd => {
+            Plotly.downloadImage(gd, {
+              format: "png",
+              width: 800,
+              height: 600,
+              filename: "newplot"}
+            )
+          },
+          icon: Plotly.Icons["disk"]
+        },
+        {
           name: "Share",
           click: gd => {
             this.props.autoSaveShare();
@@ -271,7 +283,8 @@ class BaseChart extends Component {
         "pan2d",
         "resetGeo",
         "hoverCompareCartesian",
-        "hoverClosestCartesian"
+        "hoverClosestCartesian",
+        "toImage"
       ]
     };
 
