@@ -22,9 +22,13 @@ This is a separate application and for production deployments can be injected in
 2. Create a app/config/config.json file from app/config/config.sample.json . You can do this from the top-level directory of the repo with `cp app/config/config.sample.json app/config/config.json`.
 3. Add your development database credentials to the config.json file you just created
 4. Under client-dev-app, `npm install`
-5. Once npm is finished installing the packages, run `npm run build`. This will create a client-dev-app/build directory.
-5. Copy the client-dev-app/build directory to app/.build . Note that the directory under app is a hidden directory. You can do this from the top-level directory of the repo with `cp -r client-dev-app/build app/.build`.
-6. While in the top-level directory, run the server `node app/server.js`
+5. Compile custom plotly.js icons into a custom plotly.js bundle
+  cd into node_modules/plotly.js/
+  Run npm i
+  Run npm run build
+6. Run `npm run build` in /client-dev-app. This will create a client-dev-app/build directory.
+7. Copy the client-dev-app/build directory to app/.build . Note that the directory under app is a hidden directory. You can do this from the top-level directory of the repo with `cp -r client-dev-app/build app/.build`.
+8. While in the top-level directory, run the server `node app/server.js`
 
 #### Majorly Powered By:
 
