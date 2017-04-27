@@ -167,7 +167,7 @@ class BaseChart extends Component {
         _.forEach(dataSet, trace => {
           trace.mode = "markers";
           trace.marker.sizemode = "area";
-          trace.marker.sizemin = 10;
+          trace.marker.sizemin = 1;
           trace.marker.sizeref = 0.1;
           trace.marker.size = trace.marker.protoSize;
         });
