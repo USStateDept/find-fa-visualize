@@ -24,8 +24,8 @@ This is a separate application and for production deployments can be injected in
 4. Under client-dev-app, `npm install`
 5. Compile custom plotly.js icons into a custom plotly.js bundle
   cd into node_modules/plotly.js/
-  Run npm i
-  Run npm run build
+  Run `npm i`
+  Run `npm run build`
 6. Run `npm run build` in /client-dev-app. This will create a client-dev-app/build directory.
 7. Copy the client-dev-app/build directory to app/.build . Note that the directory under app is a hidden directory. You can do this from the top-level directory of the repo with `cp -r client-dev-app/build app/.build`.
 8. While in the top-level directory, run the server `node app/server.js`
