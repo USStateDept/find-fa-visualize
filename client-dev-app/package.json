@@ -8,15 +8,22 @@
     "redux-logger": "^2.8.1"
   },
   "dependencies": {
+    "history": "1.17.0",
     "immutable": "^3.8.1",
-    "jquery": "^3.1.1",
+    "jquery": "^3.2.1",
+    "leaflet": "^0.7.7",
     "lodash": "^4.17.4",
-    "plotly.js": "^1.23.1",
+    "plotly.js": "1.23.1",
     "react": "^15.4.2",
+    "react-bootstrap": "^0.30.8",
     "react-dom": "^15.4.2",
+    "react-leaflet": "^0.10.2",
+    "react-nouislider": "^2.0.0",
     "react-redux": "^5.0.2",
+    "react-router": "^1.0.3",
     "react-toastr": "^2.8.2",
     "redux": "^3.6.0",
+    "redux-router": "^1.0.0-beta5",
     "redux-thunk": "^2.2.0"
   },
   "scripts": {

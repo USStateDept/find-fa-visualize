@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from "react";
+import { Modal } from 'react-bootstrap';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -6,6 +7,7 @@ import * as VisualizeActions from "../actions/visualize";
 
 import WizardView from "../components/visualize/wizardview";
 import ChartView from "../components/visualize/chartview";
+import SaveModal from '../components/visualize/chartview/SaveModal';
 
 /**
  * Container component incorporating the wizard build process and the chart viewing
@@ -15,22 +17,86 @@ import ChartView from "../components/visualize/chartview";
 class Visualize extends Component {
   constructor(props) {
     super(props);
-
+    
     this.state = {
-      currentView: (
-        !props.chartDataLoading && !props.chartDataLoaded ? "wizard" : "chart"
-      )
+      saveModal: false
     };
+
+    if(process.browser){
+      let params  = this.props.location.query;
+      if (params.id != undefined) {
+        this.setupLoadViz(params.id);
+        this.props.buildVizFromSavedID(params.id);
+        this.state = {
+          currentView: "chart"
+        };
+      } else {
+        this.state = {
+          currentView: (
+            !props.chartDataLoading && !props.chartDataLoaded ? "wizard" : "chart"
+          )
+        };
+      }
+    }
+
+  }
+
+  fetchGeoJson(type) {
+    this.props.fetchGeoJson(type);
+  }
+
+  setupLoadViz(id) {
+    this.setState({
+      fromSavedID: id,
+      wizardSetupLoaded: true
+    });
+  }
+
+  closeSave() {
+    this.setState({
+      saveModal: false
+    });
+  }
+
+  initSave() {
+    this.setState({
+      saveModal: true
+    });
+  }
+
+  autoSaveShare() {
+    this.props.saveVisualization("SHARED URL - NO NAME")
+      .then(() => {
+        this.setState({saveModal: true});
+      });
+  }
+
+  saveViz(name) {
+    this.props.saveVisualization(name);
   }
 
   componentWillMount() {
+
     this.props.requestWizardSetupIfNeeded();
+  }
+
+  componentDidMount(){
+    // if there was an id, we need to load
+    if(this.state.fromSavedID != undefined && this.state.fromSavedID != "") {
+      // we have an id and need load that saved viz
+      this.props.buildVizFromSavedID(this.state.fromSavedID);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.chartDataLoading) {
       this.setState({ currentView: "chart" });
     }
+  }
+
+  componentWillUnmount(){
+    this.props.resetAllFields();
+    this.props.removeLocaitonQuery();
   }
 
   changeToWizardView() {
@@ -49,6 +115,8 @@ class Visualize extends Component {
       selectedCountries,
       selectedRegions,
       selectedChart,
+      selectedYearRange,
+      originalYearRange,
       wizardBuildAllowed,
 
       // chart
@@ -56,6 +124,12 @@ class Visualize extends Component {
       chartDataLoaded,
       chartDataLoading,
       selectedViewChart,
+      savingViz,
+      vizSaved,
+      savedVizID,
+      geoIsLoading,
+      geoLoaded,
+      geoJson,
 
       // actions
       wizardClickSelectIndicator,
@@ -70,7 +144,8 @@ class Visualize extends Component {
     } = this.props;
 
     const {
-      currentView
+      currentView,
+      saveModal
     } = this.state;
 
     return (
@@ -91,9 +166,12 @@ class Visualize extends Component {
             selectedChart={selectedChart}
             selectedCountries={selectedCountries}
             selectedRegions={selectedRegions}
+            selectedYearRange={selectedYearRange}
             selectionsMessage={wizardSelectionsMessage}
             buildAllowed={wizardBuildAllowed}
             requestData={chartRequestData}
+            selectedYearRange={selectedYearRange}
+            originalYearRange={originalYearRange}
           />}
         {currentView === "chart" &&
           <ChartView
@@ -104,7 +182,28 @@ class Visualize extends Component {
             liveChartTypeChange={chartLiveChartTypeChange}
             changeToWizardView={this.changeToWizardView.bind(this)}
             setCurrentViewYear={setCurrentViewYear}
+            requestData={chartRequestData}
+            selectedYearRange={selectedYearRange}
+            originalYearRange={originalYearRange}
+            geoIsLoading={geoIsLoading}
+            geoLoaded={geoLoaded}
+            geoJson={geoJson}
+            fetchGeoJson={this.fetchGeoJson.bind(this)}
+            saveViz={this.saveViz.bind(this)}
+            closeSave={this.closeSave.bind(this)}
+            initSave={this.initSave.bind(this)}
+            autoSaveShare={this.autoSaveShare.bind(this)}
           />}
+        {saveModal === true &&
+          <SaveModal
+              className="save-modal"
+              saveViz={this.saveViz.bind(this)}
+              closeSave={this.closeSave.bind(this)}
+              initSave={this.initSave.bind(this)}
+              saveModal={saveModal}
+              {...this.props}
+          /> }
+
       </div>
     );
   }
@@ -131,6 +230,8 @@ function mapStateToProps(state) {
   const selectedRegions = visualize.get("selectedRegions");
   const selectedChart = visualize.get("selectedChart");
   const selectedViewChart = visualize.get("selectedViewChart");
+  const selectedYearRange = visualize.get("selectedYearRange");
+  const originalYearRange = visualize.get("originalYearRange");
   const geoIsLoading = visualize.get("geoIsLoading");
   const geoLoaded = visualize.get("geoLoaded");
   const geoJson = visualize.get("geoJson");
@@ -138,6 +239,9 @@ function mapStateToProps(state) {
   const averagesLoaded = visualize.get("averagesLoaded");
   const averagesData = visualize.get("averagesData");
   const mapType = visualize.get("mapType");
+  const savingViz = visualize.get("savingViz");
+  const vizSaved = visualize.get("vizSaved");
+  const savedVizID = visualize.get("savedVizID");
 
   return {
     wizardSetupLoaded,
@@ -158,13 +262,18 @@ function mapStateToProps(state) {
     selectedRegions,
     selectedChart,
     selectedViewChart,
+    selectedYearRange,
+    originalYearRange,
     geoIsLoading,
     geoLoaded,
     geoJson,
     averagesLoading,
     averagesLoaded,
     averagesData,
-    mapType
+    mapType,
+    savingViz,
+    vizSaved,
+    savedVizID 
   };
 }
 

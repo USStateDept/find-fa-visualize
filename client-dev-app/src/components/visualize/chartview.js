@@ -5,6 +5,7 @@ import ChartData from "./chartview/chartData";
 // import Metadata from "./chartview/Metadata";
 import BaseChart from "./chartview/baseChart";
 import ChartSource from "./chartview/chartSource";
+import MapChart from './chartview/map';
 
 class ChartView extends Component {
   constructor(props) {
@@ -23,30 +24,6 @@ class ChartView extends Component {
     });
   }
 
-  setupLoadViz(id) {
-    this.setState({
-      fromSavedID: id
-    });
-  }
-
-  closeSave() {
-    this.setState({
-      saveModal: false
-    });
-  }
-
-  initSave() {
-    this.setState({
-      saveModal: true
-    });
-  }
-
-  autoSaveShare() {
-    this.props.saveVisualization("SHARED URL - NO NAME").then(() => {
-      this.setState({ saveModal: true });
-    });
-  }
-
   render() {
     const {
       dataLoaded,
@@ -55,8 +32,17 @@ class ChartView extends Component {
       selectedViewChart,
       liveChartTypeChange,
       changeToWizardView,
-      setCurrentViewYear
+      setCurrentViewYear,
+      requestData,
+      selectedYearRange,
+      originalYearRange,
+      saveViz,
+      geoIsLoading,
+      geoLoaded,
+      geoJson
     } = this.props;
+
+    //{console.log(this.props)}
 
     const {
       currentTab,
@@ -74,9 +60,6 @@ class ChartView extends Component {
             changeToWizardView={changeToWizardView}
             changeTab={this.changeTab.bind(this)}
             data={data}
-            closeSave={this.closeSave.bind(this)}
-            initSave={this.initSave.bind(this)}
-            autoSaveShare={this.autoSaveShare.bind(this)}
           />}
         {dataLoaded &&
           selectedViewChart != "Map" &&
@@ -85,6 +68,24 @@ class ChartView extends Component {
             data={data}
             chartType={selectedViewChart}
             setCurrentViewYear={setCurrentViewYear}
+            requestData={requestData}
+            selectedYearRange={selectedYearRange}
+            originalYearRange={originalYearRange}
+            saveViz={saveViz}
+            initSave={this.props.initSave}
+            autoSaveShare={this.props.autoSaveShare}
+          />}
+          {dataLoaded && 
+            selectedViewChart == 'Map' &&
+            currentTab == "Chart" &&
+            <MapChart
+                data={data}
+                chartType={selectedViewChart}
+                geoIsLoading={geoIsLoading}
+                geoLoaded={geoLoaded}
+                geoJson={geoJson}
+                fetchGeoJson={this.props.fetchGeoJson}
+                {...this.props}
           />}
         {dataLoaded && currentTab == "Data Table" && <ChartData data={data} />}
         {dataLoaded && currentTab == "Meta Data" && <ChartSource data={data} />}

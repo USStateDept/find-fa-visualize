@@ -22,8 +22,14 @@ import {
   REQUEST_AVERAGES_FAILURE,
   REQUEST_GEOJSON,
   REQUEST_GEOJSON_SUCCESS,
+  REQUEST_DATA_SUCCESS,
   // chart actions
   CHART_SET_YEAR,
+  CHART_SET_SELECTED_YEAR_RANGE,
+  CHART_SET_ORIGINAL_YEAR_RANGE,
+  // save actions
+  SAVE_VIZ, 
+  SAVE_VIZ_COMPLETE,
   // state
   TOTAL_UNBUILD
 } from "../actions/visualize";
@@ -58,6 +64,11 @@ const initialState = Map({
   selectedRegions: List([]),
   selectedChart: "", // chosen in wizard menu
   selectedViewChart: "", // the chart being used for build & on the fly changes
+  selectedYearRange: [],
+  originalYearRange: [],
+  savingViz: false,
+  vizSaved: false,
+  savedVizID: undefined,
 
   geoIsLoading: false,
   geoLoaded: false,
@@ -111,7 +122,11 @@ export default function visualize(state = initialState, action) {
         );
       }
       if (action.setType === "chart") {
-        return state.set("selectedChart", action.name);
+        return state.withMutations(s => {
+          s
+            .set("selectedChart", action.name)
+            .set("selectedViewChart", action.name);
+        })
       }
     }
     case WIZARD_DESELECT_SETUP: {
@@ -172,8 +187,28 @@ export default function visualize(state = initialState, action) {
           .set("chartDataLoaded", false)
           .set("chartDataLoadError", true);
       });
+    case SAVE_VIZ:
+      return state.withMutations(s => {
+        s
+         .set("savingViz", true)
+         .set("vizSaved", false)
+         .set("savedVizID", undefined);
+      });
+    case SAVE_VIZ_COMPLETE:
+      return state.withMutations(s => {
+        s
+          .set("savingViz", false)
+          .set("vizSaved", true)
+          .set("savedVizID", action.id);
+      });
     case CHART_SET_YEAR:
       return state.set("currentYearView", action.year);
+
+    case CHART_SET_SELECTED_YEAR_RANGE:
+      return state.set("selectedYearRange", action.range);
+
+    case CHART_SET_ORIGINAL_YEAR_RANGE:
+      return state.set("originalYearRange", action.range);
 
     case REQUEST_GEOJSON:
       return state.set("geoIsLoading", true);
@@ -183,6 +218,19 @@ export default function visualize(state = initialState, action) {
           .set("geoIsLoading", false)
           .set("geoLoaded", true)
           .set("geoJson", action.geoJson);
+      });
+
+    case REQUEST_DATA_SUCCESS:
+      return state.withMutations(s => {
+        s
+          .set("chartDataLoading", false)
+          .set("chartDataLoaded", true)
+          .set("chartData", action.data)
+          .set("wizardBuildAllowed", true)
+          .set("wizardSetupLoaded", true)
+          .set("vizSaved", false) // data changed
+          .set("savedVizID", undefined)
+          // .set("chartchartDataInitial", action.chartDataInitial);
       });
 
     case REQUEST_AVERAGES:

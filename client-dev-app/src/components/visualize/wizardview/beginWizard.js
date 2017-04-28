@@ -2,9 +2,9 @@ import React, { Component, PropTypes } from "react";
 
 const BeginWizard = ({ initWizard }) => (
   <div className="Wizard__begin">
-    <h2>Let's get started</h2>
+    <h2>Let's get started.</h2>
     <br />
-    <h4>What are you interested in exploring first?</h4>
+    <h2>What are you interested in exploring first?</h2>
     <br />
     <br />
     <div className="Wizard__begin-buttons">
